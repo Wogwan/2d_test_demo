@@ -10,4 +10,4 @@ In this repo, we use
 
 Note that, please run *sosaddpath.m* and *toolbox/gpml/startup.m* at the beginning. 
 
-Run the 
+Run the *main_test_2d_demo.m* as main function.
