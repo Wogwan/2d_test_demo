@@ -8,4 +8,6 @@ In this repo, we use
 - GPML Toolbox: Expressed the Gaussian processes mean function of this unknown term $d(x)$ into the polynomial form,
 - SOSOPT/SOSTOOL/Mosek: To solve some sum-of-squares programmings in this learned polynomial system.
 
-Note that, please run sosaddpath.m and toolbox/gpml/startup.m at the beginning. 
+Note that, please run *sosaddpath.m* and *toolbox/gpml/startup.m* at the beginning. 
+
+Run the 
