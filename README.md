@@ -5,7 +5,7 @@ where $f(x)$ denotes the polynomial term, $g(x)$ denotes the non-polynomial term
 
 In this repo, we use
 - Chebfun Toolbox: To approximate nonlinear terms by Chebyshev Interpolants,
-- GPML Toolbox: Expressed the unknown term $d(x)$ above into the polynomial form,
+- GPML Toolbox: Expressed the Gaussian processes mean function of this unknown term $d(x)$ into the polynomial form,
 - SOSOPT/SOSTOOL/Mosek: To solve some sum-of-squares programmings in this learned polynomial system.
 
 Note that, please run sosaddpath.m and toolbox/gpml/startup.m at the beginning. 
