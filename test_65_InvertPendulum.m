@@ -6,9 +6,9 @@ format long
 %%
 syms x1 x2
 dttr = 0.01;                                               % Recording step size for taining data (default = 0.3)
-Ttr = 20;                                                 % Simulation time for training per starting point (default = 3)
+Ttr = 10;                                                 % Simulation time for training per starting point (default = 3)
 ntr = floor(Ttr/dttr);
-noise = 0.00001;                                             % Obervation noise
+noise = 0.01;                                             % Obervation noise
 sn = noise*[1 1]';                                        % Observation noise (default = 1e-1)
 it = 600;
 %     it = real(size(Xtr_1)/300*200);

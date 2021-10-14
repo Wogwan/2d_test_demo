@@ -21,7 +21,7 @@ m2 = {@meanConst}; hyp_m2 = 0;
 meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1]; 
 
 %% Cov function
-sf = 0.1; ell = 0.2; 
+sf = 1; ell = 2; 
 covfunc = {@covSEiso}; hyp.cov = log([ell;sf/2]); 
 %     covfunc = {'covRQard'}; hyp.cov = log([L;sf]); 
 %     covfunc = {'covMaterniso',3}; hyp.cov = log([ell;sf]); % Matern class d=3
@@ -86,7 +86,7 @@ plot((1:n)',ymu,'ko','LineWidth',2);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2\sigma^2GP','GP predict','real data');
-xlim([0 200]); ylim([-4 4])
+xlim([0 200]); ylim([-15 25])
 time1 = toc
 txt = ['GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse)];
 text(80,0,txt)
@@ -110,7 +110,7 @@ plot((1:n)',dXtr_3,'ko','LineWidth',2);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2\sigma^2GP','GP predict','real data');
-xlim([0 200]); ylim([-4 4])
+xlim([0 200]); ylim([-15 25])
 % time2 = toc
 txt = ['Polynomial mean GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse_poly)];
 text(40,0,txt)
