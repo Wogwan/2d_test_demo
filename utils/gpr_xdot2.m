@@ -86,7 +86,7 @@ plot((1:n)',ymu,'ko','LineWidth',2);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2\sigma^2GP','GP predict','real data');
-xlim([0 200]); ylim([-0.1 0.8])
+xlim([0 200]); ylim([-4 4])
 time1 = toc
 txt = ['GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse)];
 text(80,0,txt)
@@ -110,7 +110,7 @@ plot((1:n)',dXtr_3,'ko','LineWidth',2);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2\sigma^2GP','GP predict','real data');
-xlim([0 200]); ylim([-0.1 0.8])
+xlim([0 200]); ylim([-4 4])
 % time2 = toc
 txt = ['Polynomial mean GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse_poly)];
 text(40,0,txt)
