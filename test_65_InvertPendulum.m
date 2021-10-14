@@ -8,7 +8,7 @@ syms x1 x2
 dttr = 0.01;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 10;                                                 % Simulation time for training per starting point (default = 3)
 ntr = floor(Ttr/dttr);
-noise = 0.01;                                             % Obervation noise
+noise = 0.00001;                                             % Obervation noise
 sn = noise*[1 1]';                                        % Observation noise (default = 1e-1)
 it = 600;
 %     it = real(size(Xtr_1)/300*200);
@@ -135,7 +135,7 @@ figure(2); clf; syms x1 x2;
 y1 = double(subs(g_learn,{x1,x2},{xtest(:,1),xtest(:,2)}));
 plot3(xtest(:,1),xtest(:,2),y1(:,1),'b*'); hold on;
 y2 = double(subs(f2,{x1,x2},{xtest(:,1),xtest(:,2)}));
-plot3(xtest(:,1),xtest(:,2),y1(:,1),'ro'); hold on;
+plot3(xtest(:,1),xtest(:,2),y2(:,1),'ro'); hold on;
 
 % g_chen = x1^2*x2-0.000006835767242-0.499957335901158*x1-0.125778690105319*x1^2+0.219390279834309*x1^3+0.220632156887092*x1^4+0.716967859965359*x1^5;
 % g_chen = g_appro-0.000012375514062-0.500513008926802*x1+0.000542745343764*x2-0.119189589668064*x1^2-0.042173724594621*x1*x2+0.040714585039343*x2^2+0.305748528980397*x1^3+0.536554408293197*x1^2*x2+0.091448317009191*x1*x2^2-0.100083169093395*x2^3;
