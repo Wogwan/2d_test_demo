@@ -16,14 +16,7 @@ C1 = (x1-3)^2+(x2-1)^2-1;
 C2 = (x1+3)^2+(x2+4)^2-1;
 C3 = (x1+4)^2+(x2-5)^2-1;
 C4 = (x1-2)^2+(x2+6)^2-1;
-
-epsi = 1e-5;
-trace_Q1 = 1;
-trace_Q = 0;
-mm = 0;
-saved_BC = [];                                            % Set to store the learned Barrier Certificate function
-saved_u = [];                                            % Set to store the learned Barrier Certificate function
-solh_re = solh;
+epsi = 
 
 figure(11);clf;hold on;
 %     domain = [-8 8 -8 8];
@@ -38,12 +31,7 @@ axis(domain);
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-while abs(double(trace_Q)-double(trace_Q1))>=epsi
-    
-    mm = mm+1;
-    fprintf('The whole Iteration time is:  %d\n  ',mm);
-    
-    kk = 1;
+while abs(double(trace_Q1)-double(trace_Q))>epsi
     while kk == 1
     i = i + 1;
     fprintf('i=%6.0f\n',i);
@@ -53,16 +41,9 @@ while abs(double(trace_Q)-double(trace_Q1))>=epsi
     [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:k)); % L1 sos decision variables
     [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:k)); % L1 sos decision variables
     [u1,u1_Q] = polydecvar('u1_w',monomials(x,0:k)); % u1 sos decision variables
-    
-    if mm > 1
-        trace_Q1 = trace_Q;
-        hdot = jacobian(solh,x1)*x2 + jacobian(solh, x2)*(-x1 + u1);
-        Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + u1);
-    else
-        hdot = jacobian(solh,x1)*x2 + jacobian(solh, x2)*(-x1 + u1);
-%         Vdot = jacobian(-solh, x1)*x2 + jacobian(-solh, x2)*(-x1 + u1);
-        Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + u1);
-    end
+
+    hdot = jacobian(solh,x1)*x2 + jacobian(solh, x2)*(-x1 + u1);
+    Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + u1);
 
     % Constrain :
     %     sosconstr(1) = -Vdot >= L1*solh;
@@ -74,11 +55,7 @@ while abs(double(trace_Q)-double(trace_Q1))>=epsi
 
     sosconstr(1) = L1 >= 0;
     sosconstr(2) = L2 >= 0;
-    if mm == 1
-        sosconstr(3) = -Vdot >= L1*solh;
-    else
-        sosconstr(3) = hdot>= L1*solh;
-    end
+    sosconstr(3) = -Vdot >= L1*solh;
     sosconstr(4) = hdot+gamma*solh >=  L2*solh+htol;
 
     %     sosconstr(2) = hdot+gamma*solh >=  L2*solh;
@@ -198,13 +175,11 @@ while abs(double(trace_Q)-double(trace_Q1))>=epsi
     if info.feas
         solh = subs(h,dopt);
         Q = subs(-obj,dopt);
-        trace_Q = Q
+        traceQ = Q
         [~,~]=pcontour(solh,0,domain,'g'); hold on;             % Plot the original Lyapunov sublevel set
         refreshdata; drawnow;
     else
         kk = 0;
         fprintf('Barrier Certificate can not find.======\n');
     end
-    refreshdata; drawnow; 
     end
-end
