@@ -1,4 +1,4 @@
-clear;clc;clf;
+clear;clc;
 
 pvar x1 x2 u htol epsi;
 x = [x1;x2];
@@ -12,6 +12,7 @@ gamma = 1;
 kk = 1;
 i = 0;
 solh = C0 - V;
+V0 = solh;
 C1 = (x1-3)^2+(x2-1)^2-1;
 C2 = (x1+3)^2+(x2+4)^2-1;
 C3 = (x1+4)^2+(x2-5)^2-1;
@@ -27,9 +28,9 @@ saved_u = [];                                            % Set to store the lear
 solh_re = solh;
 
 figure(11);clf;hold on;
-%     domain = [-8 8 -8 8];
-domain = [-20 20 -20 20];
-xlim([-20 20]); ylim([-20 20]); hold on;   
+domain = [-8 8 -8 8];
+% domain = [-20 20 -20 20];
+xlim([-8 8]); ylim([-8 8]); hold on;   
 [~,~]=pcontour(solh,0,domain,'c'); hold on;             % Plot the original Lyapunov sublevel set
 [~,~]=pcontour(C1,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
 [~,~]=pcontour(C2,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
@@ -39,18 +40,27 @@ axis(domain);
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-while abs(double(trace_Q)-double(trace_Q1))>=epsi
+% while abs(double(trace_Q)-double(trace_Q1))>=epsi
+while 1
     
     mm = mm+1; kk = 1;
     fprintf('The whole Iteration time is:  %d\n  ',mm);
 
     while kk == 1
-    i = i + 1;
-    fprintf('i=%6.0f\n',i);
-    
-    [SOLu,SOL1,SOL2] = sos_function_1(k,solh,V,mm,gamma);
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    [solh, trace_Q, Q]=sos_function_2(k,SOLu,SOL1,SOL2,gamma,mm,V,C);
+        i = i + 1;
+        fprintf('i=%6.0f\n',i);
+
+        record = solh;
+        record_Q = trace_Q;
+        [SOLu,SOL1,SOL2] = sos_function_1(k,solh,V,mm,gamma);
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        [solh, trace_Q, Q, kk]=sos_function_2(k,SOLu,SOL1,SOL2,gamma,mm,V,C);
+        if kk == 0
+            solh = record;
+            trace_Q = record_Q;
+        end
+    %%%%%%%
     end
+    solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
     axis(domain)
 end

@@ -76,5 +76,6 @@ end
     hold on;
     hs = char(sdisplay(solh));
     xran=[-8 8 -8 8];
+    figure(1);hold on;
     smrplot(hs,0,xran,[300 50],'b-');
     axis(xran)

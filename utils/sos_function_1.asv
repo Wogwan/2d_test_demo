@@ -1,5 +1,4 @@
 function [SOLu,SOL1,SOL2, kk] = sos_function_1(k,solh,V,mm,gamma)
-     
     pvar x1 x2 u htol epsi;
     x = [x1;x2];
     % Create corresponding decision variable
@@ -62,7 +61,6 @@ function [SOLu,SOL1,SOL2, kk] = sos_function_1(k,solh,V,mm,gamma)
         SOL1 = subs(L1,dopt);
         SOL2 = subs(L2,dopt);
         SOLu = subs(u1,dopt);
-        kk = 1;   
     else
         kk = 0;
         fprintf('L can not find.====== ');

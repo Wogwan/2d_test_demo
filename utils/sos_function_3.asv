@@ -1,0 +1,56 @@
+function [solh, trace_Q, Q]=sos_function_3(k,h,gamma,mm,V,C,V0)
+    domain = [-8 8 -8 8];   
+    pvar x1 x2;   
+    x = [x1;x2];
+    [u,uc] = sosdecvar('u_w',monomials(x,0:k/2)); % L1 sos decision variables
+
+    [L7,L7_Q] = sosdecvar('L7_w',monomials(x,0:k)); % L1 sos decision variables
+    [L8,L8_Q] = sosdecvar('L8_w',monomials(x,0:k)); % L1 sos decision variables
+    [L9,L9_Q] = sosdecvar('L9_w',monomials(x,0:k)); % L1 sos decision variables
+    [L10,L10_Q] = sosdecvar('L10_w',monomials(x,0:k)); % L1 sos decision variables
+
+    hdot = jacobian(h,x1)*x2 + jacobian(h, x2)*(-x1 + u);
+    
+    if mm > 1
+%         Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + u1);
+        Vdot = jacobian(solh, x1)*x2 + jacobian(solh, x2)*(-x1 + SOLu);
+    else
+        Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + SOLu);
+    end
+    
+%% Constraint:
+%         L7 >= 0
+         
+        pconstr(1) = h >= 0;
+        pconstr(2) = hdot+gamma*h >= 0;
+        
+
+%% Set objection
+    obj = sum(diag(uc));
+
+%% Solve feasibility problem
+    opts = sosoptions;
+    opts.form = 'kernel';
+    opts.solver = 'mosek';
+%     opts.solver = 'sedumi';
+%     opts.solver = 'sdpam';
+    %     [info,dopt] = sosopt(pconstr,[x1;x2],obj,opts);
+    [info,dopt] = sosopt(pconstr,[x1;x2],obj,opts);
+    % [info,dopt] = sosopt(pconstr,x,obj);
+    
+    figure(11);hold on;
+    % Create output
+    if info.feas
+        solu = subs(u,dopt);
+        record = solu
+        U = subs(-obj,dopt);
+        trace_U = U
+        [~,~]=pcontour(solh,0,domain,'g'); hold on;             % Plot the original Lyapunov sublevel set
+        refreshdata; drawnow;
+    else
+        kk = 0;
+        solu = record;
+        fprintf('Controller is found.======\n');
+        return;
+    end
+end
