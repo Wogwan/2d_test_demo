@@ -1,4 +1,4 @@
-function [SOLu,SOL1,SOL2, kk] = sos_function_1(k,solh,V,mm,gamma)
+function [SOLu,SOL1,SOL2, kk] = sos_function_4(k,solh,V,mm,gamma)
      
     pvar x1 x2 u htol epsi;
     x = [x1;x2];
@@ -12,6 +12,7 @@ function [SOLu,SOL1,SOL2, kk] = sos_function_1(k,solh,V,mm,gamma)
     figure(11); hold on; domain = [-8 8 -8 8];
     if mm > 1
         [~,~]=pcontour(solh,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
+        trace_Q1 = trace_Q;
         hdot = jacobian(solh,x1)*x2 + jacobian(solh, x2)*(-x1 + u1);
 %         Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + u1);
         Vdot = jacobian(-solh, x1)*x2 + jacobian(-solh, x2)*(-x1 + u1);

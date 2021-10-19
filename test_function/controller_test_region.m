@@ -12,7 +12,7 @@ C0 = 5.8628;
 k = 2;
 gamma = 1;
 kk = 1;
-i = 0;
+i = 0; j = 0;
 solh = C0 - V;
 V0 = solh;
 C1 = (x1-3)^2+(x2-1)^2-1;
@@ -64,5 +64,25 @@ while 1
     %%%%%%%
     end
     solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
+%%
     axis(domain)
+    kk = 1;
+    while kk == 1
+        j = j + 1;
+        fprintf('j=%6.0f\n',j);
+
+        record = solh;
+        record_Q = trace_Q;
+        [SOLu,SOL1,SOL2] = sos_function_4(k,solh,V,mm,gamma);
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        [solh, trace_Q, Q, kk]=sos_function_5(k,SOLu,SOL1,SOL2,gamma,mm,V,C);
+        if kk == 0
+            solh = record;
+            trace_Q = record_Q;
+        end
+    %%%%%%%
+    end
+    
+    fprintf('The second round is end.====== \');
+%%
 end
