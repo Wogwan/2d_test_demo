@@ -27,8 +27,8 @@ solh_re = solh;
 
 figure(11);clf;hold on;
 %     domain = [-8 8 -8 8];
-domain = [-25 20 -20 20];
-xlim([-25 20]); ylim([-20 20]); hold on;   
+domain = [-20 20 -20 20];
+xlim([-20 20]); ylim([-20 20]); hold on;   
 [~,~]=pcontour(solh,0,domain,'c'); hold on;             % Plot the original Lyapunov sublevel set
 [~,~]=pcontour(C1,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
 [~,~]=pcontour(C2,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
@@ -245,4 +245,5 @@ while abs(double(trace_Q)-double(trace_Q1))>=epsi
     end
     refreshdata; drawnow; 
     end
+    axis(domain)
 end
