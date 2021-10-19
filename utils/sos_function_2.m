@@ -44,10 +44,10 @@ function [solh, trace_Q, Q, kk]=sos_function_2(k,SOLu,SOL1,SOL2,gamma,mm,V,C)
         end
         pconstr(3) = h <= C(1)*L3;
         pconstr(4) = h <= C(2)*L4;
-%         pconstr(5) = h <= C(3)*L5;
-        pconstr(5) = L3 >= 0;
-        pconstr(6) = L4 >= 0;
-%         pconstr(8) = L5 >= 0;
+        pconstr(5) = h <= C(3)*L5;
+        pconstr(6) = L3 >= 0;
+        pconstr(7) = L4 >= 0;
+        pconstr(8) = L5 >= 0;
 
 %%
     %     pconstr(1) = L3 >= 0;
