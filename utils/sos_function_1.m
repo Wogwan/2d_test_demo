@@ -29,16 +29,17 @@ function [SOLu,SOL1,SOL2, kk] = sos_function_1(k,solh,V,mm,gamma)
     %     sosconstr(4) = L1 >= 0;
     %     sosconstr(5) = L2 >= 0;
 
-    sosconstr(1) = L1 >= 0;
-    sosconstr(2) = L2 >= 0;
+    sosconstr_1 = L1 >= 0;
+    sosconstr_2 = L2 >= 0;
     if mm == 1
-        sosconstr(3) = -Vdot>= L1*solh;
-        sosconstr(4) = hdot+gamma*solh >=  L2*solh+htol;
+        sosconstr_3 = -Vdot>= L1*solh;
+        sosconstr_4 = hdot+gamma*solh >=  L2*solh+htol;
     else
-        sosconstr(3) = -Vdot >= L1*solh;
-        sosconstr(4) = hdot+gamma*solh >=  L2*solh+htol;    
+        sosconstr_3 = -Vdot >= L1*solh;
+        sosconstr_4 = hdot+gamma*solh >=  L2*solh+htol;    
     end
 
+    sosconstr = [sosconstr_1;sosconstr_2;sosconstr_3;sosconstr_4];
 
     %     sosconstr(2) = hdot+gamma*solh >=  L2*solh;
     %     sosconstr(3) = L1 >= 0;
