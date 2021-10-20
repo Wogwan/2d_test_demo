@@ -36,8 +36,8 @@ c6 =(x1+0.5)^2+(x2+3.25)^2-1;
 %     smrplot(c1s,0,xran,[300 50],'r-');
 %     smrplot(c2s,0,xran,[300 50],'r-');
 %     smrplot(c3s,0,xran,[300 50],'r-');
-    %smrplot(c4s,0,xran,[300 50],'r-');
-    smrplot(c5s,0,xran,[1000 400],'r-');
+    smrplot(c4s,0,xran,[300 50],'r-');
+%     smrplot(c5s,0,xran,[1000 400],'r-');
     smrplot(c6s,0,xran,[1000 400],'r-');
     smrplot(hinit,0,xran,[1000 400],'c-');
     axis(xran)
@@ -51,8 +51,8 @@ sdpvar htol
 [L1 L1c L1v] = polynomial([x1 x2], 2, 0);
 [L2 L2c L2v] = polynomial([x1 x2], 2, 0);
 
-hdot = jacobian(solh, x1)*f(1) + jacobian(solh, x2)*f(2);
-Vdot = jacobian(v, x1)*f(1) + jacobian(v, x2)*f(2);
+hdot = jacobian(solh, x1)*(0.1*x1^2+1*x2) + jacobian(solh, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
+Vdot = jacobian(v, x1)*(0.1*x1^2+1*x2) + jacobian(v, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
 F = [sos(L1), sos(L2), sos(-Vdot + L1*(-solh)), sos(hdot + gamma*solh + L2*(-solh)-htol), htol>=0];
 [sol,vv,QQ] = solvesos(F,-htol,[],[L1c;L2c;uc]);
 %solL1 = clean(value(L1c)'*L1v,1e-6);
@@ -70,23 +70,23 @@ sdisplay(solu)
 %[h] = sossearch_h(solu, solL1, solL2)
 [h hc hv] = polynomial([x1 x2], 2, 0);
 % [L3 L3c L3v] = polynomial([x1 x2], 2, 0);
-% [L4 L4c L4v] = polynomial([x1 x2], 2, 0);
-[L5 L5c L5v] = polynomial([x1 x2], 2, 0);
+[L4 L4c L4v] = polynomial([x1 x2], 2, 0);
+% [L5 L5c L5v] = polynomial([x1 x2], 2, 0);
 [L6 L6c L6v] = polynomial([x1 x2], 2, 0);
 
-hdot = jacobian(h, x1)*x2 + jacobian(h, x2)*(-x1 + solu);
-Vdot = jacobian(v, x1)*x2 + jacobian(v, x2)*(-x1 + solu);
+hdot = jacobian(h, x1)*(0.1*x1^2+1*x2)+ jacobian(h, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*solu);
+Vdot = jacobian(v, x1)*(0.1*x1^2+1*x2) + jacobian(v, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*solu);
 % F = [sos(L3), sos(L4), sos(L5), sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c1*L3), sos(-h+c2*L4), sos(-h+c3*L5)];
 % [sol,vv,QQ] = solvesos(F,-hc(1)-hc(4)-hc(6),[],[L3c;L4c;L5c; hc]);
-F = [sos(L5), sos(L6), sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c5*L5), sos(-h+c6*L6)];
-[sol,vv,QQ] = solvesos(F,-hc(1)-hc(4)-hc(6),[],[L5c;L6c;hc]);
+F = [sos(L4), sos(L6), sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c4*L4), sos(-h+c6*L6)];
+[sol,vv,QQ] = solvesos(F,-hc(1)-hc(4)-hc(6),[],[L4c;L6c;hc]);
 %-hc(1)-hc(4)-hc(6)-hc(11)-hc(13)-hc(15)
 %solL3 = clean(value(L3c)'*L3v,1e-6);
 %solL4 = clean(value(L4c)'*L4v,1e-6);
 %solh = clean(value(hc)'*hv,1e-6);
 % solL3 = value(L3c)'*L3v;
-% solL4 = value(L4c)'*L4v;
-solL5 = value(L5c)'*L5v;
+solL4 = value(L4c)'*L4v;
+% solL5 = value(L5c)'*L5v;
 solL6 = value(L6c)'*L6v;
 solh = value(hc)'*hv;
 % sdisplay(solL3)
