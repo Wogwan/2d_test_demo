@@ -2,18 +2,15 @@ clc
 clear
 close all
 
-sdpvar x1 x2 u
+sdpvar x1 x2
 % f = [-x2-3/2*x1^2-1/2*x1^3; x1 - u];
 % v = x1^2+x2^2+1*x1*x2;
 
-f = [0.1*x1^2+1*x2; 0.1*x1*x2-0.2*x1+(1+x1^2)*u];
+% f = [0.1*x1^2+1*x2; 0.1*x1*x2-0.2*x1+(1+x1^2)*u];
 v = 1*x1^2+1*x2^2+1*x1*x2;
 c = 5.67547012045;
 
-e = [0;0];
-
 gamma = 1;
-
 % init h with CLF
 solh = c - v;
 % safety constraints

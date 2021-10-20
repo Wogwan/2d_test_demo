@@ -16,7 +16,7 @@ v = 1*x1^2+1*x2^2+1*x1*x2;
 %%
 e = [0;0];
 cc = 2;
-gamma = 0;
+gamma = 1;
 dom = 20;
 
 % init h with CLF
