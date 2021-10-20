@@ -6,8 +6,10 @@ x = [x1;x2];
 % f = [x2; -x1 + u];
 % V = x1^2+x2^2+x1*x2;
 f = [-x2-3/2*x1^2-1/2*x1^3; x1 - u];
-V = 2*x1^2+2*x2^2+1*x1*x2;
-C0 = 10;
+V = x1^2+x2^2+2*x1*x2;
+C0 = 2;
+% V = 3*x1^2+2*x2^2+1*x1*x2;
+% C0 = 2;
 %     C0 = 0.1;
 k = 2;
 gamma = 1;
@@ -18,8 +20,12 @@ V0 = solh;
 C1 = (x1-3)^2+(x2-1)^2-1;
 C2 = (x1+3)^2+(x2+4)^2-1;
 C3 = (x1+4)^2+(x2-5)^2-1;
-C4 = (x1-2)^2+(x2+6)^2-1;
-C = [C1;C2;C3;C4];
+C4 = (x1+0.5)^2+(x2+3.25)^2-1;
+C5 = -x2+2;
+C6 = -x2+2.5;
+C7 = -x2 - 4;
+C8 = -x1 + 1;
+C = [C1;C2;C3;C4;C5;C6;C7;C8];
 
 epsi = 1e-5;
 trace_Q1 = 1;
@@ -30,15 +36,16 @@ saved_u = [];                                            % Set to store the lear
 solh_re = solh;
 
 figure(11);clf;hold on;
-dom = 20;
+dom = 4;
 domain = [-dom dom -dom dom];
 % domain = [-20 20 -20 20];
 xlim([-dom dom]); ylim([-dom dom]); hold on;   
-[~,~]=pcontour(solh,0,domain,'c'); hold on;             % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(-solh,0,domain,'c'); hold on;             % Plot the original Lyapunov sublevel set
 [~,~]=pcontour(C1,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
-[~,~]=pcontour(C2,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
-[~,~]=pcontour(C3,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
-[~,~]=pcontour(C4,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(C2,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(C3,0,domain,'b'); hold on;             % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(C4,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
+
 axis(domain);
 
 %%%%%%%%%%%%%%%%%%%%%%%%
