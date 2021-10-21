@@ -44,7 +44,7 @@ saved_u = [];                                            % Set to store the lear
 solh_re = solh;
 
 figure(11);clf;hold on;
-dom = 25;
+dom = 20;
 domain = [-dom dom -dom dom];
 % domain = [-20 20 -20 20];
 xlim([-dom dom]); ylim([-dom dom]); hold on;   
@@ -81,7 +81,7 @@ axis(domain);
         end
     %%%%%%%
     end
-    solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
+%     solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
 %%
 %     axis(domain)
 %     kk = 1;
