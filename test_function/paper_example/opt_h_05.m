@@ -50,15 +50,24 @@ sdpvar htol
 
 hdot = jacobian(solh, x1)*(0.1*x1^2+1*x2) + jacobian(solh, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
 Vdot = jacobian(v, x1)*(0.1*x1^2+1*x2) + jacobian(v, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
+%%
 F = [sos(L1), sos(L2), sos(-Vdot + L1*(-solh)), sos(hdot + gamma*solh + L2*(-solh)-htol), htol>=0];
 [sol,vv,QQ] = solvesos(F,-htol,[],[L1c;L2c;uc]);
+%%
+% F = [sos(L2), sos(hdot + gamma*solh + L2*(-solh)-htol), htol>=0];
+% [sol,vv,QQ] = solvesos(F,-htol,[],[L2c;uc]);
+%%
 %solL1 = clean(value(L1c)'*L1v,1e-6);
 %solL2 = clean(value(L2c)'*L2v,1e-6);
 %solu = clean(value(uc)'*uv,1e-6);
+%%
 solL1 = value(L1c)'*L1v;
+%%
 solL2 = value(L2c)'*L2v;
 solu = value(uc)'*uv;
+%%
 sdisplay(solL1)
+%%
 sdisplay(solL2)
 sdisplay(solu)
 %3.245998424e-05-0.1633*x1-2.0450*x2+0.0196*x1^2+0.0685*x1*x2+0.0689*x2^2
@@ -75,8 +84,13 @@ hdot = jacobian(h, x1)*(0.1*x1^2+1*x2)+ jacobian(h, x2)*(0.1*x1*x2-0.2*x1+(1+x1^
 Vdot = jacobian(v, x1)*(0.1*x1^2+1*x2) + jacobian(v, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*solu);
 % F = [sos(L3), sos(L4), sos(L5), sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c1*L3), sos(-h+c2*L4), sos(-h+c3*L5)];
 % [sol,vv,QQ] = solvesos(F,-hc(1)-hc(4)-hc(6),[],[L3c;L4c;L5c; hc]);
+%%
 F = [sos(L4), sos(L6), sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c4*L4), sos(-h+c6*L6)];
 [sol,vv,QQ] = solvesos(F,-hc(1)-hc(4)-hc(6),[],[L4c;L6c;hc]);
+%%
+% F = [sos(L4), sos(L6), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c4*L4), sos(-h+c6*L6)];
+% [sol,vv,QQ] = solvesos(F,-hc(1)-hc(4)-hc(6),[],[L4c;L6c;hc]);
+%%
 %-hc(1)-hc(4)-hc(6)-hc(11)-hc(13)-hc(15)
 %solL3 = clean(value(L3c)'*L3v,1e-6);
 %solL4 = clean(value(L4c)'*L4v,1e-6);
