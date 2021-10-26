@@ -7,18 +7,16 @@ format long
 syms x1 x2
 dttr = 0.1;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 20;                                                 % Simulation time for training per starting point (default = 3)
-ntr = floor(Ttr/dttr);
 noise = 0.01;                                             % Obervation noise
 sn = noise*[1 1]';                                        % Observation noise (default = 1e-1)
-it = 400;
-%     it = real(size(Xtr_1)/300*200);
-poly_deg = 6;
-X = [1];
 
 %% Chebyshev interpolants value
 tic
 sz = 3;
-deg = 6;
+deg = 4;
+poly_deg = 4;
+it = 400;
+
 %% The first dimension
 f1_p = -x1+x2;
 f1_np = 0.5*(exp(x1)-1);
@@ -86,7 +84,7 @@ end
 
 %%
 dxdt1 = 0;
-X = [];
+X = [1];
 [mean1,hyp1,delta1,rmse1] = gpr_xdot1(x,y1,xtest,y1_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
 pvar x1 x2
 X1 = p2s(monomials(x1,(0:poly_deg)));
@@ -100,7 +98,7 @@ end
 
 %%
 dxdt2 = 0;
-X = [];
+X = [1];
 [mean2,hyp2,delta2,rmse2] = gpr_xdot2(x,y2,xtest,y2_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
 pvar x1 x2
 X1 = p2s(monomials(x1,(0:poly_deg)));
@@ -133,6 +131,7 @@ plot3(xtest(:,1),xtest(:,2),y2_learn(:,1),'b*'); hold on;
 y2 = double(subs(f2,{x1,x2},{xtest(:,1),xtest(:,2)}));
 plot3(xtest(:,1),xtest(:,2),y2(:,1),'ro'); hold on; view(30,40)
 title(['rsme2 = ', num2str(rmse2)])
+f_output = [f1_learn;f2_learn];
 
 % g_chen = x1^2*x2-0.000006835767242-0.499957335901158*x1-0.125778690105319*x1^2+0.219390279834309*x1^3+0.220632156887092*x1^4+0.716967859965359*x1^5;
 % g_chen = g_appro-0.000012375514062-0.500513008926802*x1+0.000542745343764*x2-0.119189589668064*x1^2-0.042173724594621*x1*x2+0.040714585039343*x2^2+0.305748528980397*x1^3+0.536554408293197*x1^2*x2+0.091448317009191*x1*x2^2-0.100083169093395*x2^3;

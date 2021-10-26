@@ -1,4 +1,4 @@
-function [solu,solL,kk]=sos_function_v(f,k,V,cc,dom)
+function [solu,solL,kk]=sos_function_v(f,gg,k,V,cc,dom)
     kk = 1;
     domain = [-dom dom -dom dom];   
     pvar x1 x2 u;   
@@ -11,15 +11,8 @@ function [solu,solL,kk]=sos_function_v(f,k,V,cc,dom)
 %     [L5,L5_Q] = sosdecvar('L5_w',monomials(x,0:k/2)); % L1 sos decision variables
 %     [L6,L6_Q] = sosdecvar('L6_w',monomials(x,0:k/2)); % L1 sos decision variables
 
-    Vdot = jacobian(V, x1)*(0.1*x1^2+1*x2)+ jacobian(V, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
-%     hdot = jacobian(h,x1)*x2 + jacobian(h, x2)*(-x1 + SOLu);
-%     Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + SOLu);    
-%     if mm > 1
-% %         Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + u1);
-%         Vdot = jacobian(V, x1)*(0.1*x1^2+1*x2) + jacobian(V, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*SOLu);
-%     else
-%         Vdot = jacobian(V, x1)*(0.1*x1^2+1*x2) + jacobian(V, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*SOLu);
-%     end
+%     Vdot = jacobian(V, x1)*(0.1*x1^2+1*x2)+ jacobian(V, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
+    Vdot = jacobian(V, x1)*f(1)+ jacobian(V, x2)*(f(2)+gg*u);
     
 %% Constraint:
         pconstr_1 = L3 >= 0;
