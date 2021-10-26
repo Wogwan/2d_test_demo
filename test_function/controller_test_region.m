@@ -72,7 +72,7 @@ axis(domain);
         fprintf('i=%6.0f\n',i);
         record = solh;
         record_Q = trace_Q;
-        [SOLu,SOL1,SOL2] = sos_function_1(f,k,solh,V,mm,gamma,dom);
+        [SOLu,SOL1,SOL2] = sos_function_1(k,solh,V,mm,gamma,dom);
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom);
         if kk == 0
@@ -81,7 +81,7 @@ axis(domain);
         end
     %%%%%%%
     end
-    solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
+%     solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
 %%
 %     axis(domain)
 %     kk = 1;

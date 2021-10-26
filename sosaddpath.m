@@ -36,6 +36,9 @@ if cm(1) == 'M' ||  cm(1)=='G'
     
     % Add updates
     addpath([pwd '/update'])
+        
+    % Add test_function
+    addpath([pwd '/test_function'])
 
 elseif cm(1) == 'P'
 
@@ -69,6 +72,9 @@ elseif cm(1) == 'P'
             
 %     Add updates
     addpath([pwd '/update'])
+            
+    % Add test_function
+    addpath([pwd '/test_function'])
 
 end
     

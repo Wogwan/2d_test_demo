@@ -63,8 +63,8 @@ function [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,d
         pconstr_10 = -h+C(6)*L6 >= 0;     
 %         pconstr_11 = h <= C(4)*L6;
 %         pconstr_12 = L3 >= 0;
-%         pconstr_13 = L6 >= 0;    
-%         pconstr_14 = -h+(C0-V)*L6 >= 0;    
+        pconstr_13 = L6 >= 0;    
+        pconstr_14 = -h+(C0-V)*L6 >= 0;    
 %         pconstr = [pconstr_1;pconstr_2;pconstr_6;pconstr_7;pconstr_9;pconstr_8;pconstr_3;pconstr_4;pconstr_5;pconstr_55];  
 %         pconstr = [pconstr_1;pconstr_2;pconstr_6;pconstr_7;pconstr_8;pconstr_3;pconstr_4;pconstr_5];
 
@@ -74,7 +74,7 @@ function [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,d
 %         pconstr = [pconstr_1;pconstr_2;pconstr_7;pconstr_55;pconstr_9;pconstr_10];      
         pconstr = [pconstr_7;pconstr_9;pconstr_1;pconstr_2;pconstr_55;pconstr_10];      
 %         pconstr = [pconstr_1;pconstr_2];      
-%         pconstr = [pconstr_13;pconstr_1;pconstr_2;pconstr_14];   
+%         pconstr = [pconstr_13;pconstr_14;pconstr_1;pconstr_2];   
         
 %%
     %     pconstr(1) = L3 >= 0;

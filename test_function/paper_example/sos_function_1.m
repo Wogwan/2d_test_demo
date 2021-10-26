@@ -1,4 +1,4 @@
-function [SOLu,SOL1,SOL2, kk] = sos_function_1(f,k,solh,V,mm,gamma,dom)
+function [SOLu,SOL1,SOL2, kk] = sos_function_1(k,solh,V,mm,gamma,dom)
      
     pvar x1 x2 u htol epsi;
     x = [x1;x2];
