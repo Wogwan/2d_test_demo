@@ -35,11 +35,10 @@ if cm(1) == 'M' ||  cm(1)=='G'
     addpath([pwd '/utils'])
     
     % Add updates
-    addpath([pwd '/updates'])
+%     addpath([pwd '/update'])
         
     % Add test_function
     addpath([pwd '/test_function'])
-    addpath([pwd '/test_function/paper_example'])
 
 elseif cm(1) == 'P'
 
@@ -72,11 +71,10 @@ elseif cm(1) == 'P'
     addpath([pwd '/utils'])
             
 %     Add updates
-    addpath([pwd '/updates'])
+    addpath([pwd '/update'])
             
     % Add test_function
     addpath([pwd '/test_function'])
-    addpath([pwd '/test_function/paper_example'])
 
 end
     

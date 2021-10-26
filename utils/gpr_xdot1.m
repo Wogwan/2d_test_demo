@@ -1,4 +1,4 @@
-function [mean1,hyp1,delta,rmse] = gpr_xdot2(x,y,xtest,ytest,it,noise,poly_deg)
+function [mean1,hyp1,delta,rmse] = gpr_xdot1(x,y,xtest,ytest,it,noise,poly_deg)
 
 %%SOS_GP_CHECK_XDOT2 generates the xdot2 value [MEAN] to construct the polynomial function
 % In:
@@ -17,7 +17,7 @@ X = [1];
 %% Mean function
 m1 = {@meanPoly,poly_deg}; 
 hyp_m1 = zeros([2*poly_deg 1]);
-m2 = {@meanConst}; hyp_m2 = 0.4;
+m2 = {@meanConst}; hyp_m2 = 0.6;
 meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1]; 
 %%
 % deg = 3;
@@ -28,14 +28,17 @@ meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1];
 % meanfunc = mpo; hyp.mean = hyppo; 
 
 %% Cov function
-% sf = 0.4; ell = 0.1; 
+% sf = 1; ell = 2; 
 % cov1 = {@covSEiso}; hyp_cov1 = log([ell;sf/2]); 
-% cov2 = {@covConst}; hyp_cov2 = 0.1; 
+% cov2 = {@covConst}; hyp_cov2 = 0; 
 % covfunc = {'covSum',{cov1,cov2}}; hyp.cov = [hyp_cov1; hyp_cov2]; 
 %%
-sf = 0.4; ell = 0.1; 
+sf = 0.1; ell = 0.2; 
 cov1 = {@covSEiso}; hyp_cov1 = log([ell;sf/2]); 
 covfunc = cov1; hyp.cov = hyp_cov1; 
+
+%     covfunc = {'covRQard'}; hyp.cov = log([L;sf]); 
+%     covfunc = {'covMaterniso',3}; hyp.cov = log([ell;sf]); % Matern class d=3
 
 %% Lik function
 likfunc = @likGauss; sn = noise; hyp.lik = log(sn);
