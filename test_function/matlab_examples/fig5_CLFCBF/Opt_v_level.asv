@@ -57,11 +57,11 @@ sdpvar vc
 Vdot = jacobian(v, x1)*x2 + jacobian(v, x2)*(-x1 + u);
 %F = [sos(L2),sos(L3),sos(L4), sos(-Vdot - solL1*(vc - v)), sos(-(vc-v)+c1*L2), sos(-(vc-v)+c2*L3), sos(-(vc-v)+c2*L4), vc>0];
 %%
-F = [sos(L2),sos(L3),sos(L4), sos(-Vdot - solL1*(vc - v)), sos(-(vc-v)+c1*L2), sos(-(vc-v)+c2*L3), sos(-(vc-v)+c2*L4), vc>0];
-[sol,vv,QQ] = solvesos(F,-vc,[],[uc;L2c; L3c; L4c;vc]);
+% F = [sos(L2),sos(L3),sos(L4), sos(-Vdot - solL1*(vc - v)), sos(-(vc-v)+c1*L2), sos(-(vc-v)+c2*L3), sos(-(vc-v)+c2*L4), vc>0];
+% [sol,vv,QQ] = solvesos(F,-vc,[],[uc;L2c; L3c; L4c;vc]);
 %%
-% F = [sos(L2), sos(-Vdot - solL1*(vc - v)), sos(-(vc-v)+c3*L2), vc>0];
-% [sol,vv,QQ] = solvesos(F,-vc,[],[uc;L2c;vc]);
+F = [sos(L2), sos(-Vdot - solL1*(vc - v)), sos(-(vc-v)+c3*L2), vc>0];
+[sol,vv,QQ] = solvesos(F,-vc,[],[uc;L2c;vc]);
 %%
 %solu = clean(value(uc)'*uv,1e-6);
 solv = value(vc);

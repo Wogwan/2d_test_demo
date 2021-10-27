@@ -6,7 +6,7 @@ sdpvar x1 x2 u
 f = [x2; -x1 + u];
 v = x1^2+x1*x2+x2^2;
 e = [0;0];
-c = 0.1;
+c = 5.86283421282;
 gamma = 1;
 
 % init h with CLF
@@ -22,16 +22,18 @@ c4 = (x1-2)^2+(x2+6)^2-1;
     c3s = char(sdisplay(c3));
     c4s = char(sdisplay(c4));
     hinit = char(sdisplay(solh));
-    xran=[-8 8 -8 8];
-    smrplot(c1s,0,xran,[300 50],'r-');
-    smrplot(c2s,0,xran,[300 50],'r-');
-    smrplot(c3s,0,xran,[300 50],'r-');
-    %smrplot(c4s,0,xran,[300 50],'r-');
-    smrplot(hinit,0,xran,[300 50],'c-');
+    dom = 20
+    xran=[-dom dom -dom dom];
+    smrplot(c1s,0,xran,[1300 500],'r-');
+    smrplot(c2s,0,xran,[1300 500],'r-');
+    smrplot(c3s,0,xran,[1300 500],'r-');
+    %smrplot(c4s,0,xran,[1300 500],'r-');
+    smrplot(hinit,0,xran,[1300 500],'c-');
     axis(xran)
 
 
-for ii = 1:20
+% for ii = 1:20
+while 1
 sdpvar htol
 % fix h search for u, L1, L2
 %[u, L1, L2] = sossearch_u(solh)
@@ -81,8 +83,8 @@ sdisplay(solh)
     % smr variables
     hold on;
     hs = char(sdisplay(solh));
-    xran=[-8 8 -8 8];
-    smrplot(hs,0,xran,[300 50],'g-');
+    xran=[-dom dom -dom dom];
+    smrplot(hs,0,xran,[1300 500],'g-');
     axis(xran)
 % solu: 3.245998424e-05-0.1633*x1-2.0450*x2+0.0196*x1^2+0.0685*x1*x2+0.0689*x2^2
 end
@@ -91,5 +93,5 @@ end
     hold on;
     hs = char(sdisplay(solh));
     xran=[-8 8 -8 8];
-    smrplot(hs,0,xran,[300 50],'b-');
+    smrplot(hs,0,xran,[1300 500],'b-');
     axis(xran)
