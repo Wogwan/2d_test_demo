@@ -8,7 +8,7 @@ syms x1 x2
 dttr = 0.1;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 30;                                                 % Simulation time for training per starting point (default = 3)
 noise = 0.01;                                             % Obervation noise
-sn = noise*[1 1]';                                        % Observation noise (default = 1e-1)
+sn = noise*[0 1]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
 tic
@@ -150,4 +150,4 @@ plot3(xtest_initial(:,1),xtest_initial(:,2),y2_learn(:,1),'b*'); hold on;
 y2 = double(subs(f2,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
 plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1),'ro'); hold on; view(30,40)
 title(['rsme2 = ', num2str(rmse2)])
-f_output = [f1;f2_learn]
+f_output = [f1;f2_learn];
