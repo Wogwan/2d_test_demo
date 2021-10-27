@@ -17,7 +17,7 @@ X = [1];
 %% Mean function
 m1 = {@meanPoly,poly_deg}; 
 hyp_m1 = zeros([2*poly_deg 1]);
-m2 = {@meanConst}; hyp_m2 = 0.6;
+m2 = {@meanConst}; hyp_m2 = -0.15;
 meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1]; 
 %%
 % deg = 3;
@@ -33,7 +33,7 @@ meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1];
 % cov2 = {@covConst}; hyp_cov2 = 0; 
 % covfunc = {'covSum',{cov1,cov2}}; hyp.cov = [hyp_cov1; hyp_cov2]; 
 %%
-sf = 0.1; ell = 0.2; 
+sf = 0.05; ell = 0.2; 
 cov1 = {@covSEiso}; hyp_cov1 = log([ell;sf/2]); 
 covfunc = cov1; hyp.cov = hyp_cov1; 
 
@@ -96,10 +96,10 @@ figure(800);clf;
 Output = [ymu+2*sqrt(ys2);flipdim(ymu-2*sqrt(ys2),1)];
 error = abs(ytest-ymu);
 rmse = sqrt(sum(error.^2)/n) 
-
+subplot(211);hold on;
 fill([(1:n)'; flipdim((1:n)',1)], Output, [0 7 0]/8, 'EdgeColor', [0 7 0]/8);
 hold on
-plot((1:n)',ymu,'ko','LineWidth',2);
+plot((1:n)',ymu,'ko','LineWidth',1);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2\sigma^2GP','GP predict','real data');
@@ -109,7 +109,7 @@ txt = ['GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse)];
 text(40,-0.5,txt)
 
 % % Plot Method 3
-figure(801);clf;
+subplot(212);hold on;
 syms x1 x2
 dXtr_3 = [];
 for num = 1:length(xtest(:,1))
@@ -123,7 +123,7 @@ rmse_poly = sqrt(sum(error_2.^2)/n)
 
 fill([(1:n)'; flipdim((1:n)',1)], Output_2, [0 7 0]/8, 'EdgeColor', [0 7 0]/8);
 hold on
-plot((1:n)',dXtr_3,'ko','LineWidth',2);
+plot((1:n)',dXtr_3,'ko','LineWidth',1);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2\sigma^2GP','GP predict','real data');

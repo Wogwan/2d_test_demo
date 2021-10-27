@@ -42,13 +42,14 @@ f2_mid = vpa(T*c_deg);
 x_change = x1/sz;
 f2_appro_data = subs(f2_mid,x1,x_change);
 f2_appro = f2_appro_data + f2_p;
-f_input = [f1;f2_appro];
+f_input = [f1;f2_appro];  
+% the hyper-parameters in f2_appro is passing in dyn_controller_paper_1d.m
 
 %% Set parameters
 dXtr_0 = [];                                              % Collecting training model for learning the difference in real and approximated dynamic systems
 Xtr_0 = [];                                               % Collecting the Xtr_1 = [x1 x2] data by ode45 with setting
 x0tr = [-0.5 -0.4; 0.2 -0.4];
-ntr = floor(Ttr/dttr); 
+ntr = floor(Ttr/dttr);
 E = 2;                                                    % Dimensions of the state space
 dynt = @(t,x) dyn_controller_paper_1d(0,x);                                 % dynamical system to be learned
 dyn = @(x) dynt(0,x);                                     % time independent handle to dynamics
@@ -59,28 +60,28 @@ for i = 1:length(x0tr(1,:))
         [t,xtr] = ode45(dynt,0:dttr:Ttr,x0tr(:,i)'); xtr = xtr';                                     % obtain the trajectories from the ODE45 with given sample time and given sample time-step
         x_initial = xtr(:,1:end-1)';
         dtr_initial = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
-%%
+        %%
         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
         real_dtr = dtr_initial + noise_over_measurement;
-%         real_dtr = dtr; 
-%%
-%         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
-%         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
-%         y1 = dtr(1,:)'-d1_error;
-%         y2 = dtr(2,:)'-d2_error;
+        %         real_dtr = dtr;
+        %%
+        %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
+        %         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
+        %         y1 = dtr(1,:)'-d1_error;
+        %         y2 = dtr(2,:)'-d2_error;
     elseif i == 2
         [t,xtr] = ode45(dynt,0:dttr:Ttr,x0tr(:,i)'); xtr = xtr';
         xtest_initial = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
-%%
+        %%
         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
         real_dtr_test = dtr + noise_over_measurement;
-%         real_dtr = dtr; 
-%%
-%         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
-%         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
-%         y1_test = dtr(1,:)'-d1_error;
-%         y2_test = dtr(2,:)'-d2_error;
+        %         real_dtr = dtr;
+        %%
+        %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
+        %         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
+        %         y1_test = dtr(1,:)'-d1_error;
+        %         y2_test = dtr(2,:)'-d2_error;
     end
 end
 
@@ -88,7 +89,7 @@ dXtr_x_mid = [];
 dXtr_xtest_mid = [];
 f_origin = [f1,f2];
 for num = 1:length(x_initial(:,1))
-%         num_O = Odyn2D(Xtr_1(num,:)');                        % Collecting the original trajectories from the given dataset x=[x1,x2]
+    %         num_O = Odyn2D(Xtr_1(num,:)');                        % Collecting the original trajectories from the given dataset x=[x1,x2]
     dXtr_x_mid = [dXtr_x_mid; vpa(subs(f2,[x1,x2],[x_initial(num,1),x_initial(num,2)]))];
     dXtr_xtest_mid = [dXtr_xtest_mid; vpa(subs(f2,[x1,x2],[xtest_initial(num,1),xtest_initial(num,2)]))];
 end
@@ -128,9 +129,6 @@ end
 for i = 1:length(X)
     dxdt2 = vpa(dxdt2 + X(i)*mean2(i));
 end
-
-%%
-figure(3);clf;hold on;
 %%
 % subplot(211);hold on;
 % f1_learn = f1_appro + dxdt1;
@@ -140,9 +138,8 @@ figure(3);clf;hold on;
 % y1 = double(subs(f2,{x1,x2},{xtest(:,1),xtest(:,2)}));
 % plot3(xtest(:,1),xtest(:,2),y1(:,1),'ro'); hold on; view(30,40)
 % title(['rsme1 = ', num2str(rmse1)])
-
 %%
-% subplot(212);hold on;
+figure(3);clf;hold on;
 f2_learn = f2_appro + dxdt2;
 syms x1 x2;
 y2_learn = double(subs(f2_learn,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
