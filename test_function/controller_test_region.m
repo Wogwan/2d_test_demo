@@ -47,7 +47,7 @@ figure(11);clf;hold on;
 dom = 25;
 domain = [-dom dom -dom dom];
 % domain = [-20 20 -20 20];
-xlim([-dom dom]); ylim([-dom dom]); hold on;   
+xlim([-dom dom]); ylim([-dom dom]); hold on;
 [~,~]=pcontour(solh,0,domain,'c'); hold on;             % Plot the original Lyapunov sublevel set
 % [~,~]=pcontour(C1,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
 % [~,~]=pcontour(C2,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
@@ -63,24 +63,24 @@ axis(domain);
 
 % while abs(double(trace_Q)-double(trace_Q1))>=epsi
 % while 1
-%     
+%
 %     mm = mm+1; kk = 1;
 %     fprintf('The whole Iteration time is:  %d\n  ',mm);
 
-    while kk == 1
-        i = i + 1;
-        fprintf('i=%6.0f\n',i);
-        record = solh;
-        record_Q = trace_Q;
-        [SOLu,SOL1,SOL2] = sos_function_1(k,solh,V,mm,gamma,dom);
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom);
-        if kk == 0
-            solh = record;
-            trace_Q = record_Q;
-        end
-    %%%%%%%
+while kk == 1
+    i = i + 1;
+    fprintf('i=%6.0f\n',i);
+    record = solh;
+    record_Q = trace_Q;
+    [SOLu,SOL1,SOL2] = sos_function_1(k,solh,V,mm,gamma,dom);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom);
+    if kk == 0
+        solh = record;
+        trace_Q = record_Q;
     end
+    %%%%%%%
+end
 %     solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
 %%
 %     axis(domain)
@@ -88,7 +88,7 @@ axis(domain);
 %     while kk == 1
 %         j = j + 1;
 %         fprintf('j=%6.0f\n',j);
-% 
+%
 %         record = solh;
 %         record_Q = trace_Q;
 %         [SOLu,SOL1,SOL2] = sos_function_4(k,solh,V,mm,gamma);
@@ -100,7 +100,7 @@ axis(domain);
 %         end
 %     %%%%%%%
 %     end
-    
+
 %     fprintf('The second round is end.====== \');
 % %%
 % end

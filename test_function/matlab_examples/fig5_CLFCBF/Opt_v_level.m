@@ -1,7 +1,7 @@
 clc
 clear
 close all
-
+tic
 sdpvar x1 x2 u
 f = [x2; -x1 + u];
 v = x1^2+x1*x2+x2^2;
@@ -84,3 +84,4 @@ end
     figure(1);hold on;
     smrplot(hs,0,xran,[300 50],'b-');
     axis(xran)
+    toc
