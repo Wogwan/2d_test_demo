@@ -1,14 +1,11 @@
 function [cc,kk]=sos_function_v2(f,gg,k,V,C,dom,solL)
+
     kk = 1;
     domain = [-dom dom -dom dom];   
     pvar x1 x2 cc;   
     x = [x1;x2];
-
-%     [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables
-    
-    [u,uc] = polydecvar('u_w',monomials(x,0:k)); % L1 sos decision variables
+    [u,uc] = polydecvar('u_w',monomials(x,1:k)); % L1 sos decision variables
     [L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:k/2)); % L1 sos decision variables
-
 
     Vdot = jacobian(V, x1)*f(1) + jacobian(V, x2)*(f(2)+(x1+x2)*u);
  
@@ -25,13 +22,12 @@ function [cc,kk]=sos_function_v2(f,gg,k,V,C,dom,solL)
     %     pconstr(10) = L6 >= 0;
 
 %%
-%         pconstr_2 = L4 >= 0;
-        pconstr_1 = -Vdot-solL*(cc-V) >= 0;
-%         pconstr_3 = -(cc-V)+C(1)*L4 >= 0;
-        pconstr_4 = cc >= 0;
-    
-%         pconstr = [pconstr_2;pconstr_1;pconstr_3;pconstr_4];              
-        pconstr = [pconstr_1;pconstr_4];   
+    pconstr_2 = L4 >= 0;
+    pconstr_1 = -Vdot-solL*(cc-V) >= 0;
+    pconstr_3 = -(cc-V)+C(1)*L4 >= 0;
+    pconstr_4 = cc >= 0;
+    pconstr = [pconstr_2;pconstr_1;pconstr_3;pconstr_4];              
+%     pconstr = [pconstr_1;pconstr_4];   
         
 %% Set objection
     obj = -cc;
@@ -41,7 +37,6 @@ function [cc,kk]=sos_function_v2(f,gg,k,V,C,dom,solL)
     opts.form = 'kernel';
     opts.solver = 'mosek';
     [info,dopt] = sosopt(pconstr,[x1;x2],obj,opts);
-    % [info,dopt] = sosopt(pconstr,x,obj);
     
     figure(11);hold on;
     % Create output
