@@ -19,7 +19,7 @@ f = [x2-x1
     ];
 gg = 1;
 V = x1^2+x1*x2+x2^2;
-C0 = 100*8.109410321812767;
+C0 = 8.109410321812767;
 %%
 k = 4;
 gamma = 1;
@@ -43,20 +43,23 @@ mm = 0;
 saved_BC = [];                                            % Set to store the learned Barrier Certificate function
 saved_u = [];                                            % Set to store the learned Barrier Certificate function
 solh_re = solh;
-%%
-figure(12);clf;hold on;
-dom = 45;
+
+figure(11);clf;hold on;
+dom = 25;
 domain = [-dom dom -dom dom];
+% domain = [-20 20 -20 20];
 xlim([-dom dom]); ylim([-dom dom]); hold on;
-[~,~]=pcontour(V,C0,domain,'b'); hold on;             % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(solh,0,domain,'c'); hold on;             % Plot the original Lyapunov sublevel set
 % [~,~]=pcontour(C1,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
 % [~,~]=pcontour(C2,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
 % [~,~]=pcontour(C3,0,domain,'b'); hold on;             % Plot the original Lyapunov sublevel set
-% [~,~]=pcontour(C4,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(C4,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
 % [~,~]=pcontour(C5,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
-% [~,~]=pcontour(C6,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(C6,0,domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
 % line([-dom,dom],[2,2],'linestyle','--');
+
 axis(domain);
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 % while abs(double(trace_Q)-double(trace_Q1))>=epsi
@@ -70,7 +73,7 @@ while kk == 1
     fprintf('i=%6.0f\n',i);
     record = solh;
     record_Q = trace_Q;
-    [SOLu,SOL1,SOL2] = sos_function_1(f,k,solh,V,mm,gamma,dom);
+    [SOLu,SOL1,SOL2] = sos_function_1(k,solh,V,mm,gamma,dom);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom);
     if kk == 0

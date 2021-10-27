@@ -54,6 +54,8 @@ while abs(double(cc)-double(C0)) >= 1e-2
     v_c = [v_c; double(cc)];
     solU = [solU;solu]
     if kk == 0
+        figure(11);hold on;
+        [~,~]=pcontour(V,v_c(end-1),domain,'b');  
         break
     end
 end
