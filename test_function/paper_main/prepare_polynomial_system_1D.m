@@ -143,8 +143,22 @@ figure(3);clf;hold on;
 f2_learn = f2_appro + dxdt2;
 syms x1 x2;
 y2_learn = double(subs(f2_learn,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
-plot3(xtest_initial(:,1),xtest_initial(:,2),y2_learn(:,1),'b*'); hold on;
+a1 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2_learn(:,1),'b*'); hold on;
 y2 = double(subs(f2,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
-plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1),'ro'); hold on; view(30,40)
-title(['rsme2 = ', num2str(rmse2)])
+a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1)+noise_over_measurement(2,:)','ro'); hold on; view(30,40)
 f_output = [f1;f2_learn];
+legend([a1,a2],{'Learned Value','Exact Dynamics'}, 'Interpreter','latex','location','northeast');
+
+view(235, 25);hold on;
+title('');
+xlabel('$x_1$','Interpreter','latex','Fontsize',18);
+ylabel('$x_2$','Interpreter','latex','Fontsize',18);
+zlabel('$x_3$','Interpreter','latex','Fontsize',18);
+set(gca,'xtick',[-0.4,-0.2,0,0.2,0.4]);
+set(gca,'ytick',[-0.4,-0.2,0,0.2,0.4]);
+set(gca,'ztick',[0,0.2,0.4,0.6,0.8]);
+set(gca,'Box','on');
+ax = gca;
+ax.LineWidth = 1.2;
+xlim([-0.5 0.1]); ylim([-0.5 0.1]); zlim([-0.1 1]);hold on;
+set(gca,'FontSize',18,'Fontname','Times');

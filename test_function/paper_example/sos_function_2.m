@@ -1,12 +1,12 @@
-function [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom,gg)
+function [solh,trace_Q,kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom,gg,L_us)
 kk = 1;
 domain = [-dom dom -dom dom];
 pvar x1 x2 htol epsi;
 x = [x1;x2];
 [h,hc] = polydecvar('h_w',monomials(x,0:k)); % L1 sos decision variables
-[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k/2)); % L1 sos decision variables
-[L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:k/2)); % L1 sos decision variables
-[L5,L5_Q] = sosdecvar('L5_w',monomials(x,0:k/2)); % L1 sos decision variables
+[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:L_us/2)); % L1 sos decision variables
+[L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:L_us/2)); % L1 sos decision variables
+[L5,L5_Q] = sosdecvar('L5_w',monomials(x,0:L_us/2)); % L1 sos decision variables
 % [L6,L6_Q] = sosdecvar('L6_w',monomials(x,0:k/2)); % L1 sos decision variables
 if mm == 0
     hdot = jacobian(h, x1)*f(1) + jacobian(h, x2)*(f(2)+gg*SOLu);

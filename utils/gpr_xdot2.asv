@@ -15,7 +15,7 @@ X = [1];
 %% Mean function
 m1 = {@meanPoly,poly_deg}; 
 hyp_m1 = zeros([2*poly_deg 1]);
-m2 = {@meanConst}; hyp_m2 = -0.05;
+m2 = {@meanConst}; hyp_m2 = 0.01;
 meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1]; 
 %%
 % deg = 3;
@@ -78,17 +78,17 @@ rmse = sqrt(sum(error.^2)/n)
 subplot(211);hold on;
 fill([(1:n)'; flipdim((1:n)',1)], Output, [0 7 0]/8, 'EdgeColor', [0 7 0]/8);
 hold on
-plot((1:n)',ymu,'k.','LineWidth',1);
+plot((1:n)',ymu,'ko','LineWidth',1);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2$\sigma$','GP Predict','Real Data', 'Interpreter','latex','Orientation','horizon');
-xlim([0 length(x)]); ylim([-0.1 0.1])
+xlim([0 length(x)]); ylim([-0.15 0.15])
 time1 = toc
 txt = ['GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse)];
 text(40,0.1,txt)
 set(gca,'xtick',[0,100,200,300]);
-set(gca,'ytick',[-0.1,0,0.1]);
-set(gca,'FontSize',18,'Fontname','Times');
+set(gca,'ytick',[-0.15,0,0.15]);
+set(gca,'FontSize',20,'Fontname','Times');
 set(gca,'Box','on');
 ax = gca;
 ax.BoxStyle = 'full';
@@ -109,16 +109,16 @@ error_2 = abs(ytest-dXtr_3);
 rmse_poly = sqrt(sum(error_2.^2)/n) 
 fill([(1:n)'; flipdim((1:n)',1)], Output_2, [0 7 0]/8, 'EdgeColor', [0 7 0]/8);
 hold on
-plot((1:n)',dXtr_3,'k.','LineWidth',1);
+plot((1:n)',dXtr_3,'ko','LineWidth',1);
 plot((1:n)',ytest, 'r+', 'LineWidth',1);
 xlabel('x'); ylabel('y');
 legend('2$\sigma$','GP Predict','Real Data','Interpreter','latex','Orientation','horizon');
-xlim([0 length(x)]); ylim([-0.1 0.1])
+xlim([0 length(x)]); ylim([-0.15 0.15])
 txt = ['Polynomial mean GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse_poly)];
 text(40,0.1,txt)
 set(gca,'xtick',[0,100,200,300]);
-set(gca,'ytick',[-0.1,0,0.1]);
-set(gca,'FontSize',18,'Fontname','Times');
+set(gca,'ytick',[-0.15,0,0.15]);
+set(gca,'FontSize',20,'Fontname','Times');
 set(gca,'Box','on');
 ax = gca;
 ax.BoxStyle = 'full';

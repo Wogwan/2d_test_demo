@@ -11,8 +11,9 @@ sym = [x2-x1;
     ];
 % V = x1^2+x1*x2+x2^2; C0 = 5.862834287294065;
 % V = 1*x1^4+1*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; C0 = 5.862834287294065;
-V = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; C0 = 100*3.624181731384356;
+V = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; C0 = 19.962969754795161;
 gg = 1;
+dom = 5;
 %%
 % f = [-x2-3/2*x1^2-1/2*x1^3; x1 - u];
 % V = x1^2+x2^2+1*x1*x2;
@@ -30,18 +31,18 @@ gg = 1;
 % C0 = 100*8.109410321812767;
 %%
 k = 4;
-L_unsafe_factor = 4;
-L_auxilary = 4;
-gamma = 1;
+L_unsafe_factor = 2;
+L_auxilary = 6;
+gamma = 0.1;
 kk = 1;
 i = 0; j = 0;
 solh = C0 - V;
 %     C1 = (x1-3)^2+(x2-1)^2-1;
 %     C2 = (x1+3)^2+(x2+4)^2-1;
 %     C3 = (x1+4)^2+(x2-5)^2-1;
-C1 = (x1-0)^2+(x2-6)^2-3;
-C2 = (x1+3)^2+(x2+4)^2-1;
-C3 = (x1-3)^2+(x2+4)^2-1;
+C1 = (x1-0)^2+(x2-2.8)^2-1;
+C2 = (x1+3)^2+(x2+2)^2-1;
+C3 = (x1-3)^2+(x2+0)^2-1;
 C4 = (x1-2)^2+(x2-6)^2-1;
 C5 = -x2+2;
 C6 = (x1+0.5)^2+(x2+3.25)^2-1;
@@ -57,7 +58,6 @@ saved_u = [];                                            % Set to store the lear
 solh_re = solh;
 %%
 figure(12);clf;hold on;
-dom = 20;
 domain = [-dom dom -dom dom];
 xlim([-dom dom]); ylim([-dom dom]); hold on;
 [~,~]=pcontour(V,C0,domain,'b'); hold on;             % Plot the original Lyapunov sublevel set
@@ -70,24 +70,27 @@ xlim([-dom dom]); ylim([-dom dom]); hold on;
 % line([-dom,dom],[2,2],'linestyle','--');
 axis(domain);
 %%%%%%%%%%%%%%%%%%%%%%%%
-
+TRACE = [];
+Barrier = [];
 % while abs(double(trace_Q)-double(trace_Q1))>=epsi
 % while 1
 %
 %     mm = mm+1; kk = 1;
 %     fprintf('The whole Iteration time is:  %d\n  ',mm);
 
-while kk == 1
+for i = 1:16
     i = i + 1;
     fprintf('i=%6.0f\n',i);
     record = solh;
     record_Q = trace_Q;
-    [SOLu,SOL1,SOL2,kk] = sos_function_1(f,k,solh,V,mm,gamma,dom,gg);
+    [SOLu,SOL1,SOL2,kk] = sos_function_1(f,k,solh,V,mm,gamma,gg,L_auxilary);
     if kk == 0
         break
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    [solh, trace_Q, Q, kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom,gg);
+    [solh,trace_Q,kk]=sos_function_2(f,k,SOLu,SOL1,SOL2,gamma,mm,V,C,dom,gg,L_unsafe_factor);
+    TRACE = [TRACE; double(trace_Q)];
+    Barrier = [Barrier; solh];
     if kk == 0
         break
     end

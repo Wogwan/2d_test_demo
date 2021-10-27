@@ -19,14 +19,14 @@ V = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
 C0 = 0.1;
 cc = 1;
 k = 4;
-dom = 8;
+dom = 5;
 domain = [-dom dom -dom dom];
 % C1 = (x1-3)^2+(x2-1)^2-1;
 % C2 = (x1+3)^2+(x2+4)^2-1;
 % C3 = (x1+4)^2+(x2-5)^2-1;
-C1 = (x1-0)^2+(x2-6)^2-3;
-C2 = (x1+3)^2+(x2+4)^2-1;
-C3 = (x1-3)^2+(x2+4)^2-1;
+C1 = (x1-0)^2+(x2-2.8)^2-1;
+C2 = (x1+3)^2+(x2+2)^2-1;
+C3 = (x1-3)^2+(x2+0)^2-1;
 %%
 C4 = (x1-2)^2+(x2-6)^2-1;
 C5 = -x2+2;
@@ -45,14 +45,14 @@ solU = [];
 v_c = [];
 iter = 1;
 %%
-while abs(double(cc)-double(C0)) >= 1e-4
+while abs(double(cc)-double(C0)) >= 1e-3
     iter = iter + 1;
     if iter ~= 1
         C0 = cc;
     end
     [solu,solL,kk]= sos_function_v(f,gg,k,V,C0,dom);
     [cc,kk,solu] = sos_function_v2(f,gg,k,V,C,dom,solL);
-    v_c = [v_c; double(cc)];
+    v_c = [v_c; double(cc)]
     solU = [solU;solu];
     if kk == 0
         figure(11);hold on;
