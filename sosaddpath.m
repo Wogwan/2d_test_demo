@@ -37,6 +37,10 @@ if cm(1) == 'M' ||  cm(1)=='G'
     addpath([pwd '/demo_2D'])
     addpath([pwd '/demo_2D/paper_example'])
     
+    % Add demo_3D
+    addpath([pwd '/demo_3D'])
+    addpath([pwd '/demo_3D/paper_example'])
+    
 elseif cm(1) == 'P'
     
     % Add chebfun-master
@@ -69,6 +73,10 @@ elseif cm(1) == 'P'
     % Add demo_2D
     addpath([pwd '/demo_2D'])
     addpath([pwd '/demo_2D/paper_example'])
+    
+    % Add demo_3D
+    addpath([pwd '/demo_3D'])
+    addpath([pwd '/demo_3D/paper_example'])
 end
 
 
