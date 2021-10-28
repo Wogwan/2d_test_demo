@@ -20,7 +20,7 @@ pconstr_23 = L5 >= 0;
 pconstr_1 = -Vdot-solL*(cc-V) >= 0;
 pconstr_31 = -(cc-V)+C(1)*L3 >= 0;
 pconstr_32 = -(cc-V)+C(2)*L4 >= 0;
-pconstr_33 = -(cc-V)+C(3)*L4 >= 0;
+pconstr_33 = -(cc-V)+C(3)*L5 >= 0;
 pconstr_4 = cc >= 0;
 pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_4];
 % pconstr = [pconstr_1;pconstr_4];

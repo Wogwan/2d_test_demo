@@ -16,7 +16,8 @@ pconstr = [pconstr_1; pconstr_2];
 % pconstr_3 = sum([uc1;uc2])/length([uc1;uc2]) <= 100;
 input_con = [uc1;uc2];
 for i=1:length(input_con) 
-        con = input_con(i);
+        numb = eval('T',num2str(i),'='
+        con = peval(['T',num2str(i),'=',char(input_con(i)),';']);
         pconstr = [pconstr; con <= 100];
         pconstr = [pconstr; con >= -100];
 end

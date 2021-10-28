@@ -3,7 +3,7 @@ format long
 hold on;
 dom = 4;
 figure(21);clf;
-set(gcf,'Position',[300 400 1300 500]);
+set(gcf,'Position',[500 500 260 220]);
 %%
 subplot(131);hold on;
 [x1, x2, x3] = meshgrid(-dom:dom/20:dom);

@@ -47,8 +47,7 @@ figure(11);hold on;
 if info.feas
     cc = subs(cc,dopt);
     solu = subs(u1,dopt);
-    inV = patch(pcontour3(V,double(cc),domain,'k')); 
-    set(inV, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',0.7 ); hold on;
+    inV = patch(pcontour3(V,double(cc),domain,'k'); hold on;             % Plot the original Lyapunov sublevel set
     refreshdata; drawnow;
 else
     kk = 0;

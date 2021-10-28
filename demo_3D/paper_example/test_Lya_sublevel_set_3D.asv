@@ -4,7 +4,7 @@ pvar x1 x2 x3 u1 u2;
 x = [x1;x2;x3];
 %%
 f = [x2-x3^2; x3-x1^2; -x1-2*x2-x3+x2^3];
-gg = [1;1];
+gg = 1;
 input = [0;gg*u1;gg*u2];
 %%
 % V = x1^2+x1*x2+x2^2;
@@ -33,7 +33,7 @@ C = [C1;C2;C3;C4;C5;C6;C7;C8];
 %%
 figure(11);clf;hold on;
 us1 = patch(pcontour3(C(1),0,domain,'r'));            % Plot the original Lyapunov sublevel set
-set(us1, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','--','LineWidth',0.7 ); hold on;
+set(us1, 'FaceAlpha',0.01,'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','--','LineWidth',0.7 ); hold on;
 us2 = patch(pcontour3(C(2),0,domain,'r'));            % Plot the original Lyapunov sublevel set
 set(us2, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','--','LineWidth',0.7 ); hold on;
 us3 = patch(pcontour3(C(3),0,domain,'r'));            % Plot the original Lyapunov sublevel set
@@ -41,16 +41,21 @@ set(us3, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','--'
 us4 = patch(pcontour3(C(4),0,domain,'r'));            % Plot the original Lyapunov sublevel set
 set(us4, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','--','LineWidth',0.7 ); hold on;
 inV = patch(pcontour3(V,C0,domain,'g'));              % Plot the original Lyapunov sublevel set
-set(inV, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'g','LineStyle','-','LineWidth',0.7 ); hold on;
+set(inV, 'FaceAlpha',0.01,'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'g','LineStyle','-','LineWidth',0.7 ); hold on;
 xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);view(-150, 30);hold on; 
+title('');
+legend([us4,inV],{'Unsafe Regions','$V_0(x)$'}, 'Interpreter','latex','location','northwest');
+xlabel('$x_1$','Interpreter','latex','Fontsize',18);
+ylabel('$x_2$','Interpreter','latex','Fontsize',18);
+zlabel('$x_3$','Interpreter','latex','Fontsize',18);
 %%
 while abs(double(cc)-double(C0)) >= 1e-3
     iter = iter + 1;
     if iter ~= 1
         C0 = cc;
     end
-    [solu1,solu2,solL,kk]= sos_function_v_3D(f,gg,k,V,C0);
-    [cc,kk,solu] = sos_function_v2_3D(f,gg,k,V,C,dom,solL);
+    [solu,solL,kk]= sos_function_v(f,gg,k,V,C0,dom);
+    [cc,kk,solu] = sos_function_v2(f,gg,k,V,C,dom,solL);
     v_c = [v_c; double(cc)]
     solU = [solU;solu];
     if kk == 0
@@ -60,10 +65,3 @@ while abs(double(cc)-double(C0)) >= 1e-3
     end
 end
 toc
-
-%%
-title('');
-legend([us4,inV],{'Unsafe Regions','$V_0(x)$'}, 'Interpreter','latex','location','northwest');
-xlabel('$x_1$','Interpreter','latex','Fontsize',18);
-ylabel('$x_2$','Interpreter','latex','Fontsize',18);
-zlabel('$x_3$','Interpreter','latex','Fontsize',18);
