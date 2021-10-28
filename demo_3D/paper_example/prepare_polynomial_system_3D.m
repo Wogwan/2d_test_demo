@@ -8,7 +8,7 @@ syms x1 x2
 dttr = 0.1;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 20;                                                 % Simulation time for training per starting point (default = 3)
 noise = 0.01;                                             % Obervation noise
-sn = noise*[1 1]';                                        % Observation noise (default = 1e-1)
+sn = noise*[1 1 1]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
 tic
@@ -19,7 +19,7 @@ it = 400;
 
 %% The first dimension
 f1_p = -x1+x2;
-f1_np = 0.5*(exp(x1)-1);
+f1_np = 0;
 f1 = f1_p + f1_np;
 y = chebfun(char(f1_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
 y_deg = minimax(y,deg); c_deg = chebcoeffs(y_deg);
