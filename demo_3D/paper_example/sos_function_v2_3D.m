@@ -1,4 +1,4 @@
-function [cc,kk,solu]=sos_function_v2_3D(f,gg,k,V,C,dom,solL)
+function [cc,kk,solu]=sos_function_v2_3D(f,gg,k,V,C,dom,solL,boundary_u)
 
 kk = 1;
 domain = [-dom dom -dom dom -dom dom];
@@ -29,8 +29,8 @@ pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_24;pconstr_1;pconstr_31;pcon
 input_con = [uc1;uc2];
 for i=1:length(input_con) 
         con = input_con(i);
-        pconstr = [pconstr; con <= 100];
-        pconstr = [pconstr; con >= -100];
+        pconstr = [pconstr; con <= boundary_u];
+        pconstr = [pconstr; con >= -boundary_u];
 end
 
 %% Set objection

@@ -1,4 +1,4 @@
-function [solu1,solu2,solL,kk]=sos_function_v_3D(f,gg,k,V,cc)
+function [solu1,solu2,solL,kk]=sos_function_v_3D(f,gg,k,V,cc,boundary_u)
 
 kk = 1;
 pvar x1 x2 x3;
@@ -17,8 +17,8 @@ pconstr = [pconstr_1; pconstr_2];
 input_con = [uc1;uc2];
 for i=1:length(input_con) 
         con = input_con(i);
-        pconstr = [pconstr; con <= 100];
-        pconstr = [pconstr; con >= -100];
+        pconstr = [pconstr; con <= boundary_u];
+        pconstr = [pconstr; con >= -boundary_u];
 end
 
 %% Solve feasibility problem

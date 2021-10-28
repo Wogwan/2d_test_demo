@@ -1,4 +1,3 @@
-close all
 clear all
 
 %Init system
@@ -19,11 +18,11 @@ c4 = (x1+0)^2+(x2+0)^2+(x3+5)^2-9;
     c3s = char(sdisplay(c3));
     c4s = char(sdisplay(c4));
     xran=[-8 8 -8 8 -8 8];
-    smrplot(c1s,0,xran,[300 50],'r-');
-    smrplot(c2s,0,xran,[300 50],'r-');
-    smrplot(c3s,0,xran,[300 50],'r-');
-    smrplot(c4s,0,xran,[300 50],'r-');
-
+    smrplot(c1s,0,xran,[1000 300],'r-');
+    smrplot(c2s,0,xran,[1000 300],'r-');
+    smrplot(c3s,0,xran,[1000 300],'r-');
+    smrplot(c4s,0,xran,[1000 300],'r-');
+    refreshdata; drawnow;
 % % largest level set
 for ii = 1:10
 
@@ -66,7 +65,7 @@ solv = value(vc);
     xran=[-8 8 -8 8];
     smrplot(hs,0,xran,[300 50],'y-');
     axis(xran)
-
+    refreshdata; drawnow;
 end
 
     figure(1);hold on;
@@ -74,7 +73,7 @@ end
     hs = char(sdisplay(solh));
     xran=[-8 8 -8 8];
     smrplot(hs,0,xran,[300 50],'b-');
-
+    refreshdata; drawnow;
 
 cc=13.0124;
 % find barrier certificates
@@ -82,9 +81,9 @@ cc=13.0124;
 solh = cc - v;
     hinit = char(sdisplay(solh));
     xran=[-8 8 -8 8 -8 8];
-    smrplot(hinit,0,xran,[300 50],'c-');
+    smrplot(hinit,0,xran,[300 50],'m-');
     axis(xran)
-
+    refreshdata; drawnow;
 
 for ii = 1:20
 ii
@@ -121,7 +120,9 @@ solu2 = value(u2c)'*u2v;
 [L6 L6c L6v] = polynomial([x1 x2 x3], 2, 0);
 hdot = jacobian(h, x1)*(x2-x3^2) + jacobian(h, x2)*(x3-x1^2+solu1) + jacobian(h, x3)*(-x1-2*x2-x3+x2^3+solu2);
 Vdot = jacobian(v, x1)*(x2-x3^2) + jacobian(v, x2)*(x3-x1^2+solu1) + jacobian(v, x3)*(-x1-2*x2-x3+x2^3+solu2);
-F = [sos(L3), sos(L4),sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c1*L3), sos(-h+c2*L4), sos(-h+c3*L5), sos(-h+c4*L6)];
+% F = [sos(L3), sos(L4),sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c1*L3), sos(-h+c2*L4), sos(-h+c3*L5), sos(-h+c4*L6)];
+F = [sos(L3), sos(L4),sos(L5),sos(L6),sos(-Vdot + solL1*(-h)), sos(hdot + gamma*h + solL2*(-h)), sos(-h+c1*L3), sos(-h+c2*L4), sos(-h+c3*L5), sos(-h+c4*L6)];
+
 [sol,vv,QQ] = solvesos(F,-hc(1)-hc(5)-hc(7)-hc(10),[],[L3c;L4c;L5c;L6c;hc]);
 %solL3 = clean(value(L3c)'*L3v,1e-6);
 %solL4 = clean(value(L4c)'*L4v,1e-6);
@@ -137,9 +138,10 @@ sdisplay(solh)
     figure(1);hold on;
     hs = char(sdisplay(solh));
     xran=[-8 8 -8 8 -8 8];
-    smrplot(hs,0,xran,[300 50],'y--');
+    smrplot(hs,0,xran,[1000 300],'m-');
     axis(xran)
-
+    refreshdata; drawnow;
+    view(-120,0)
 end
 
 
@@ -148,7 +150,7 @@ end
     xran=[-8 8 -8 8 -8 8];
     smrplot(hs,0,xran,[300 50],'b--');
     axis(xran)
-
+    refreshdata; drawnow;
 
 %% double check
 hdot = jacobian(solh, x1)*(x2-x3^2) + jacobian(solh, x2)*(x3-x1^2+solu1) + jacobian(solh, x3)*(-x1-2*x2-x3+x2^3+solu2);

@@ -19,6 +19,7 @@ kk = 1;
 solU = [];
 v_c = [];
 iter = 1;
+boundary_u = 100;
 domain = [-dom dom -dom dom -dom dom];
 %%
 C1 = (x1-2)^2+(x2-1)^2+(x3-2)^2-1;
@@ -44,18 +45,23 @@ inV = patch(pcontour3(V,C0,domain,'g'));              % Plot the original Lyapun
 set(inV, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'g','LineStyle','-','LineWidth',0.7 ); hold on;
 xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);view(-150, 30);hold on; 
 %%
-while abs(double(cc)-double(C0)) >= 1e-3
+while abs(double(cc)-double(C0)) >= 1e-8
     iter = iter + 1;
     if iter ~= 1
         C0 = cc;
     end
-    [solu1,solu2,solL,kk]= sos_function_v_3D(f,gg,k,V,C0);
-    [cc,kk,solu] = sos_function_v2_3D(f,gg,k,V,C,dom,solL);
-    v_c = [v_c; double(cc)]
+    [solu1,solu2,solL,kk]= sos_function_v_3D(f,gg,k,V,C0,boundary_u);
+    [cc,kk,solu] = sos_function_v2_3D(f,gg,k,V,C,dom,solL,boundary_u);
+    v_c = [v_c; double(cc)];
     solU = [solU;solu];
-    if kk == 0
-        figure(11);hold on;
-        [~,~]=pcontour(V,v_c(end),domain,'b');  
+    figure(11);hold on;
+    if kk == 0 && iter == 2
+        inV = patch(pcontour3(V,C0,domain,'b'));              % Plot the original Lyapunov sublevel set
+        set(inV, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',0.7 ); hold on;
+        break
+    elseif kk == 0
+        inV = patch(pcontour3(V,v_c(end),domain,'b'));              % Plot the original Lyapunov sublevel set
+        set(inV, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',0.7 ); hold on;
         break
     end
 end
