@@ -55,7 +55,6 @@ C = [C1;C2;C3;C4;C5;C6;C7;C8];
 %%
 figure(12);clf;hold on;
 domain = [-dom dom -dom dom -dom dom];
-xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);view(-150, 30);
 us1 = patch(pcontour3(C(1),0,domain,'r'));            % Plot the original Lyapunov sublevel set
 set(us1, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','--','LineWidth',0.7 ); hold on;
 us2 = patch(pcontour3(C(2),0,domain,'r'));            % Plot the original Lyapunov sublevel set
@@ -90,6 +89,8 @@ for i = 1:30
     end
     %%%%%%%
 end
+xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);view(-150, 30);
+
 %     solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
 %%
 %     axis(domain)

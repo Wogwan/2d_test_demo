@@ -61,9 +61,9 @@ for i = 1:length(x0tr(1,:))
         [t,xtr] = ode45(dynt,0:dttr:Ttr,x0tr(:,i)'); xtr = xtr';                                     % obtain the trajectories from the ODE45 with given sample time and given sample time-step
         x = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
-%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
-%         real_dtr = dtr + noise_over_measurement;
-%         real_dtr = dtr; 
+        %         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
+        %         real_dtr = dtr + noise_over_measurement;
+        %         real_dtr = dtr;
         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
         y1 = dtr(1,:)'-d1_error;
@@ -72,9 +72,9 @@ for i = 1:length(x0tr(1,:))
         [t,xtr] = ode45(dynt,0:dttr:Ttr,x0tr(:,i)'); xtr = xtr';
         xtest = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
-%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
-%         real_dtr = dtr + noise_over_measurement;
-%         real_dtr = dtr; 
+        %         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
+        %         real_dtr = dtr + noise_over_measurement;
+        %         real_dtr = dtr;
         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
         y1_test = dtr(1,:)'-d1_error;
