@@ -76,7 +76,7 @@ legend('2$\sigma$','GP Predict','Real Data', 'Interpreter','latex','Orientation'
 xlim([0 n]); ylim([min(ytest) max(ytest)])
 time1 = toc
 txt = ['GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse)];
-text(n/3,max(ytest)/3,txt)
+text(n/5,max(ytest)/3,txt)
 set(gca,'xtick',[0,round(n/3),round(n/3*2),n]);
 set(gca,'ytick',[min(ytest),max(ytest)]);
 set(gca,'FontSize',18,'Fontname','Times');
@@ -107,7 +107,7 @@ xlabel('x'); ylabel('y');
 legend('2$\sigma$','GP Predict','Real Data','Interpreter','latex','Orientation','horizon');
 xlim([0 n]); ylim([min(ytest) max(ytest)])
 txt = ['Polynomial mean GPML Time: ' num2str(time1) 's RMSE:' num2str(rmse_poly)];
-text(n/3,max(ytest)/3,txt)
+text(n/5,max(ytest)/3,txt)
 set(gca,'xtick',[0,round(n/3),round(n/3*2),n]);
 set(gca,'ytick',[min(ytest),max(ytest)]);
 set(gca,'FontSize',18,'Fontname','Times');

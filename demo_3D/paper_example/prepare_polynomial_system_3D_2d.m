@@ -2,7 +2,7 @@
 clear;
 dbstop if error
 format long
-
+tic
 %%
 syms x1 x2 x3
 dttr = 0.01;                                               % Recording step size for taining data (default = 0.3)
@@ -96,8 +96,8 @@ for i = 1:length(x0tr(1,:))
         x_initial = xtr(:,1:end-1)';
         dtr_initial = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr_initial))';                                                 % Obtain the xdot not directly, but with approximated differential method
-        real_dtr = dtr_initial + noise_over_measurement;
+        noise_over_measurement_1 = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr_initial))';                                                 % Obtain the xdot not directly, but with approximated differential method
+        real_dtr = dtr_initial + noise_over_measurement_1;
         %         real_dtr = dtr;
         %%
         %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
@@ -177,36 +177,68 @@ for i = 1:length(X)
     dxdt3 = vpa(dxdt3 + X(i)*mean3(i));
 end
 
+f_output = [f1;f2_appro+dxdt2;f3_appro+dxdt3];
+toc
 %%
-% subplot(211);hold on;
-% f1_learn = f1_appro + dxdt1;
-% syms x1 x2;
-% y1_learn = double(subs(f1_learn,{x1,x2},{xtest(:,1),xtest(:,2)}));
-% plot3(xtest(:,1),xtest(:,2),y1_learn(:,1),'b*'); hold on;
-% y1 = double(subs(f2,{x1,x2},{xtest(:,1),xtest(:,2)}));
-% plot3(xtest(:,1),xtest(:,2),y1(:,1),'ro'); hold on; view(30,40)
-% title(['rsme1 = ', num2str(rmse1)])
-%%
-figure(3);clf;hold on;
-f2_learn = f2_appro + dxdt2;
-syms x1 x2 x3;
-y2_learn = double(subs(f2_learn,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
-a1 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2_learn(:,1),'b*'); hold on;
-y2 = double(subs(f2,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
-a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1)+noise_over_measurement(2,:)','ro'); hold on; view(30,40)
-f_output = [f1;f2_learn];
-legend([a1,a2],{'Learned Value','Exact Dynamics'}, 'Interpreter','latex','location','northeast');
-
-view(235, 25);hold on;
-title('');
-xlabel('$x_1$','Interpreter','latex','Fontsize',18);
-ylabel('$x_2$','Interpreter','latex','Fontsize',18);
-zlabel('$x_3$','Interpreter','latex','Fontsize',18);
-set(gca,'xtick',[-0.4,-0.2,0,0.2,0.4]);
-set(gca,'ytick',[-0.4,-0.2,0,0.2,0.4]);
-set(gca,'ztick',[0,0.2,0.4,0.6,0.8]);
-set(gca,'Box','on');
-ax = gca;
-ax.LineWidth = 1.2;
-xlim([-0.5 0.1]); ylim([-0.5 0.1]); zlim([-0.1 1]);hold on;
-set(gca,'FontSize',18,'Fontname','Times');
+% %%
+% figure(667);clf;
+% set(gcf,'Position',[100 100 1000 350]);
+% [ax1] = subplot(121);hold on;
+% pos1 = set([ax1],'Position',[0.130 0.11 0.3347 0.8150]);
+% y2_real = noise_over_measurement(2,:)'+double(subs(f2,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+% scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y2_real,'filled')    % draw the scatter plot
+% ax = gca;
+% ax.XDir = 'reverse';
+% view(-31,14)
+% % cb = colorbar;                                     % create and label the colorbar
+% % cb.Label.String = 'Values of 3D function';
+% xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+% ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+% zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+% set(gca,'FontSize',15,'Fontname','Times');
+% [ax2] = subplot(122);hold on;
+% pos2 = set([ax2],'Position',[0.530 0.11 0.3347 0.8150]);
+% f2_learn = f2_appro + dxdt2;
+% y2_learn = double(subs(f2_learn,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+% scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y2_learn,'filled')    % draw the scatter plot
+% ax = gca;
+% ax.XDir = 'reverse';
+% view(-31,14)
+% cb = colorbar;                                     % create and label the colorbar
+% cb.Label.String = 'Values of 3D function';
+% xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+% ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+% zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+% set(gca,'FontSize',15,'Fontname','Times');
+% 
+% %%
+% figure(668);clf;
+% set(gcf,'Position',[100 100 1000 350]);
+% [ax1] = subplot(121);hold on;
+% pos1 = set([ax1],'Position',[0.130 0.11 0.3347 0.8150]);
+% y3_real = noise_over_measurement(3,:)'+double(subs(f3,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+% scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y3_real,'filled')    % draw the scatter plot
+% ax = gca;
+% ax.XDir = 'reverse';
+% view(-31,14)
+% % cb = colorbar;                                     % create and label the colorbar
+% % cb.Label.String = 'Values of 3D function';
+% xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+% ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+% zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+% set(gca,'FontSize',15,'Fontname','Times');
+% [ax2] = subplot(122);hold on;
+% pos2 = set([ax2],'Position',[0.530 0.11 0.3347 0.8150]);
+% f3_learn = f3_appro + dxdt3;
+% y3_learn = double(subs(f3_learn,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+% scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y3_learn,'filled')    % draw the scatter plot
+% view(-31,14);
+% xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+% ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+% zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+% set(gca,'FontSize',15,'Fontname','Times');
+% ax = gca;
+% ax.XDir = 'reverse';
+% cb = colorbar;                                     % create and label the colorbar
+% cb.Label.String = 'Values of 3D function';
+% pos3 = set(cd,'Position',[0.895 0.14 0.022 0.72]); hold on;

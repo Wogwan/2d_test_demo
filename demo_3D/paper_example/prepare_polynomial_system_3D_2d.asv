@@ -5,16 +5,16 @@ format long
 
 %%
 syms x1 x2 x3
-dttr = 0.1;                                               % Recording step size for taining data (default = 0.3)
+dttr = 0.01;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 20;                                                 % Simulation time for training per starting point (default = 3)
 noise = 0.01;                                             % Obervation noise
 sn = noise*[0 1 1]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
 tic
-sz = 3;
+sz = 4;
 deg = 4;
-poly_deg = 4;
+poly_deg = 6;
 it = 400;
 
 %% The first dimension
@@ -83,7 +83,7 @@ f_input = [f1;f2_appro;f3_appro];
 %% Set parameters
 dXtr_0 = [];                                              % Collecting training model for learning the difference in real and approximated dynamic systems
 Xtr_0 = [];                                               % Collecting the Xtr_1 = [x1 x2] data by ode45 with setting
-x0tr = [-0.5 -0.4 0.4; 0.5 -0.4 0.6; 0.6 -0.5 0.5];
+x0tr = [-0.5 -0.4 -0.4; -0.5 -0.6 -0.4; 0.6 0.5 0.4];
 ntr = floor(Ttr/dttr);
 E = 3;                                                    % Dimensions of the state space
 dynt = @(t,x) dyn_controller_paper_3D(0,x);                                 % dynamical system to be learned
@@ -96,8 +96,8 @@ for i = 1:length(x0tr(1,:))
         x_initial = xtr(:,1:end-1)';
         dtr_initial = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
-        real_dtr = dtr_initial + noise_over_measurement;
+        noise_over_measurement_1 = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr_initial))';                                                 % Obtain the xdot not directly, but with approximated differential method
+        real_dtr = dtr_initial + noise_over_measurement_1;
         %         real_dtr = dtr;
         %%
         %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
@@ -109,7 +109,7 @@ for i = 1:length(x0tr(1,:))
         xtest_initial = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
+        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr))';                                                 % Obtain the xdot not directly, but with approximated differential method
         real_dtr_test = dtr + noise_over_measurement;
         %         real_dtr = dtr;
         %%
@@ -119,81 +119,118 @@ for i = 1:length(x0tr(1,:))
         %         y2_test = dtr(2,:)'-d2_error;
     end
 end
-
-dXtr_x_mid = [];
-dXtr_xtest_mid = [];
-f_origin = [f1,f2];
+%%
+dXtr_x_mid_2 = [];
+dXtr_xtest_mid_2 = [];
+dXtr_x_mid_3 = [];
+dXtr_xtest_mid_3 = [];
+f_origin = [f1,f2,f3];
 for num = 1:length(x_initial(:,1))
-    %         num_O = Odyn2D(Xtr_1(num,:)');                        % Collecting the original trajectories from the given dataset x=[x1,x2]
-    dXtr_x_mid = [dXtr_x_mid; vpa(subs(f2,[x1,x2],[x_initial(num,1),x_initial(num,2)]))];
-    dXtr_xtest_mid = [dXtr_xtest_mid; vpa(subs(f2,[x1,x2],[xtest_initial(num,1),xtest_initial(num,2)]))];
+    dXtr_x_mid_2 = [dXtr_x_mid_2; vpa(subs(f2,[x1,x2,x3],[x_initial(num,1),x_initial(num,2),x_initial(num,3)]))];
+    dXtr_x_mid_3 = [dXtr_x_mid_3; vpa(subs(f3,[x1,x2,x3],[x_initial(num,1),x_initial(num,2),x_initial(num,3)]))];
 end
-y2_mid = reshape(double(dXtr_x_mid),1,[])';
-y2_test_mid = reshape(double(dXtr_xtest_mid),1,[])';
+for num = 1:length(xtest_initial(:,1))
+    dXtr_xtest_mid_2 = [dXtr_xtest_mid_2; vpa(subs(f2,[x1,x2,x3],[xtest_initial(num,1),xtest_initial(num,2),x_initial(num,3)]))];
+    dXtr_xtest_mid_3 = [dXtr_xtest_mid_3; vpa(subs(f3,[x1,x2,x3],[xtest_initial(num,1),xtest_initial(num,2),x_initial(num,3)]))];
+end
+%%
+y2_mid = reshape(double(dXtr_x_mid_2),1,[])';
+y2_test_mid = reshape(double(dXtr_xtest_mid_2),1,[])';
 y2_trainset = reshape(double(real_dtr(2,:)),1,[])';
 y2_testset = reshape(double(real_dtr_test(2,:)),1,[])';
-
-%%
 y2 = y2_mid - y2_trainset;
 y2_test = y2_test_mid - y2_testset;
-
 %%
-% dxdt1 = 0;
-% X = [1];
-% [mean1,hyp1,delta1,rmse1] = gpr_xdot1(x,y1,xtest,y1_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
-% pvar x1 x2
-% X1 = p2s(monomials(x1,(0:poly_deg)));
-% X2 = p2s(monomials(x2,(0:poly_deg)));
-% for i = 2:length(X1)
-%     X = [X; X1(i); X2(i)];
-% end
-% for i = 1:length(X)
-%     dxdt1 = vpa(dxdt1 + X(i)*mean1(i));
-% end
+y3_mid = reshape(double(dXtr_x_mid_3),1,[])';
+y3_test_mid = reshape(double(dXtr_xtest_mid_3),1,[])';
+y3_trainset = reshape(double(real_dtr(3,:)),1,[])';
+y3_testset = reshape(double(real_dtr_test(3,:)),1,[])';
+y3 = y3_mid - y3_trainset;
+y3_test = y3_test_mid - y3_testset;
 
 %%
 dxdt2 = 0;
 X = [1];
-[mean2,hyp2,delta2,rmse2] = gpr_xdot2(x_initial,y2,xtest_initial,y2_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
-pvar x1 x2
+[mean2,hyp2,delta2,rmse2] = gpr_xdot2_3D(x_initial,y2,xtest_initial,y2_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
+pvar x1 x2 x3
 X1 = p2s(monomials(x1,(0:poly_deg)));
 X2 = p2s(monomials(x2,(0:poly_deg)));
+X3 = p2s(monomials(x3,(0:poly_deg)));
 for i = 2:length(X1)
-    X = [X; X1(i); X2(i)];
+    X = [X;X1(i);X2(i);X3(i)];
 end
 for i = 1:length(X)
     dxdt2 = vpa(dxdt2 + X(i)*mean2(i));
 end
 %%
-% subplot(211);hold on;
-% f1_learn = f1_appro + dxdt1;
-% syms x1 x2;
-% y1_learn = double(subs(f1_learn,{x1,x2},{xtest(:,1),xtest(:,2)}));
-% plot3(xtest(:,1),xtest(:,2),y1_learn(:,1),'b*'); hold on;
-% y1 = double(subs(f2,{x1,x2},{xtest(:,1),xtest(:,2)}));
-% plot3(xtest(:,1),xtest(:,2),y1(:,1),'ro'); hold on; view(30,40)
-% title(['rsme1 = ', num2str(rmse1)])
-%%
-figure(3);clf;hold on;
-f2_learn = f2_appro + dxdt2;
-syms x1 x2;
-y2_learn = double(subs(f2_learn,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
-a1 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2_learn(:,1),'b*'); hold on;
-y2 = double(subs(f2,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
-a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1)+noise_over_measurement(2,:)','ro'); hold on; view(30,40)
-f_output = [f1;f2_learn];
-legend([a1,a2],{'Learned Value','Exact Dynamics'}, 'Interpreter','latex','location','northeast');
+dxdt3 = 0;
+X = [1];
+[mean3,hyp3,delta3,rmse3] = gpr_xdot3_3D(x_initial,y3,xtest_initial,y3_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
+pvar x1 x2 x3
+X1 = p2s(monomials(x1,(0:poly_deg)));
+X2 = p2s(monomials(x2,(0:poly_deg)));
+X3 = p2s(monomials(x3,(0:poly_deg)));
+for i = 2:length(X1)
+    X = [X;X1(i);X2(i);X3(i)];
+end
+for i = 1:length(X)
+    dxdt3 = vpa(dxdt3 + X(i)*mean3(i));
+end
 
-view(235, 25);hold on;
-title('');
-xlabel('$x_1$','Interpreter','latex','Fontsize',18);
-ylabel('$x_2$','Interpreter','latex','Fontsize',18);
-zlabel('$x_3$','Interpreter','latex','Fontsize',18);
-set(gca,'xtick',[-0.4,-0.2,0,0.2,0.4]);
-set(gca,'ytick',[-0.4,-0.2,0,0.2,0.4]);
-set(gca,'ztick',[0,0.2,0.4,0.6,0.8]);
-set(gca,'Box','on');
+%%
+figure(667);clf;
+set(gcf,'Position',[100 100 1000 350]);
+[ax1] = subplot(121);hold on;
+y2_real = noise_over_measurement(2,:)'+double(subs(f2,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y2_real,'filled')    % draw the scatter plot
 ax = gca;
-ax.LineWidth = 1.2;
-xlim([-0.5 0.1]); ylim([-0.5 0.1]); zlim([-0.1 1]);hold on;
-set(gca,'FontSize',18,'Fontname','Times');
+ax.XDir = 'reverse';
+view(-31,14)
+% cb = colorbar;                                     % create and label the colorbar
+% cb.Label.String = 'Values of 3D function';
+xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+set(gca,'FontSize',15,'Fontname','Times');
+[ax2] = subplot(122);hold on;
+pos1 = set([ax1],'Position',[0.130 0.11 0.3347 0.8150])
+f2_learn = f2_appro + dxdt2;
+y2_learn = double(subs(f2_learn,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y2_learn,'filled')    % draw the scatter plot
+ax = gca;
+ax.XDir = 'reverse';
+view(-31,14)
+cb = colorbar;                                     % create and label the colorbar
+cb.Label.String = 'Values of 3D function';
+xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+set(gca,'FontSize',15,'Fontname','Times');
+
+%%
+figure(668);clf;
+subplot(122);hold on;
+f3_learn = f3_appro + dxdt3;
+y3_learn = double(subs(f3_learn,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y3_learn,'filled')    % draw the scatter plot
+ax = gca;
+ax.XDir = 'reverse';
+view(-31,14)
+cb = colorbar;                                     % create and label the colorbar
+cb.Label.String = 'Values of 3D function';
+xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+set(gca,'FontSize',15,'Fontname','Times');
+subplot(121);hold on;
+y3_real = noise_over_measurement(3,:)'+double(subs(f3,{x1,x2,x3},{xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3)}));
+scatter3(xtest_initial(:,1),xtest_initial(:,2),xtest_initial(:,3),40,y3_real,'filled')    % draw the scatter plot
+ax = gca;
+ax.XDir = 'reverse';
+view(-31,14)
+cb = colorbar;                                     % create and label the colorbar
+cb.Label.String = 'Values of 3D function';
+xlabel('$x_1$','Interpreter','latex','Fontsize',15);
+ylabel('$x_2$','Interpreter','latex','Fontsize',15);
+zlabel('$x_3$','Interpreter','latex','Fontsize',15);
+set(gca,'FontSize',15,'Fontname','Times');
