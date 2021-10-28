@@ -14,7 +14,7 @@ sn = noise*[0 1 1]';                                        % Observation noise 
 tic
 sz = 4;
 deg = 4;
-poly_deg = 6;
+poly_deg = 4;
 it = 400;
 
 %% The first dimension
