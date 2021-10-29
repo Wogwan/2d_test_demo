@@ -2,18 +2,10 @@ function [SOLu,SOL1,SOL2, kk] = sos_function_1(f,k,solh,V,mm,gamma,gg,L_au)
 pvar x1 x2 u htol epsi;
 x = [x1;x2];
 % Create corresponding decision variable
-[L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_au/2)); % L1 sos decision variables
-[L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_au/2)); % L1 sos decision variables
+[L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_au)); % L1 sos decision variables
+[L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_au)); % L1 sos decision variables
 [u,u1_Q] = polydecvar('u1_w',monomials(x,0:k)); % u1 sos decision variables
-%     if mm > 1
-%         [~,~]=pcontour(solh,0,domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
-%         hdot = jacobian(solh,x1)*f(1) + jacobian(solh, x2)*f(2);
-% %         Vdot = jacobian(V, x1)*x2 + jacobian(V, x2)*(-x1 + u1);
-%         Vdot = jacobian(-solh, x1)*f(1) + jacobian(-solh, x2)*f(2);
-%     else
-%         hdot = jacobian(solh, x1)*(0.1*x1^2+1*x2) + jacobian(solh, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
-%         Vdot = jacobian(V, x1)*(0.1*x1^2+1*x2) + jacobian(V, x2)*(0.1*x1*x2-0.2*x1+(1+x1^2)*u);
-%     end
+
 hdot = jacobian(solh, x1)*f(1) + jacobian(solh, x2)*(f(2)+gg*u);
 Vdot = jacobian(V, x1)*f(1) + jacobian(V, x2)*(f(2)+gg*u);
 %%
