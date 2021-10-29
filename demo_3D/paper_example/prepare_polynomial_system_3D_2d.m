@@ -8,7 +8,7 @@ tic
 syms x1 x2 x3
 dttr = 0.05;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 30;                                                 % Simulation time for training per starting point (default = 3)
-noise = 1e-2;                                             % Obervation noise
+noise = 1e-4;                                             % Obervation noise
 sn = noise*[0 0 0]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
@@ -112,9 +112,9 @@ for i = 1:length(x0tr(1,:))
         x_initial = xtr(:,1:end-1)';
         dtr_initial = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        noise_over_measurement_1 = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr_initial))';                                                 % Obtain the xdot not directly, but with approximated differential method
-        real_dtr = dtr_initial + noise_over_measurement_1;
-        %         real_dtr = dtr;
+%         noise_over_measurement_1 = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr_initial))';                                                 % Obtain the xdot not directly, but with approximated differential method
+%         real_dtr = dtr_initial + noise_over_measurement_1;
+        real_dtr = dtr_initial;
         %%
         %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
         %         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
@@ -125,9 +125,9 @@ for i = 1:length(x0tr(1,:))
         xtest_initial = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr))';                                                 % Obtain the xdot not directly, but with approximated differential method
-        real_dtr_test = dtr + noise_over_measurement;
-        %         real_dtr = dtr;
+%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr))';                                                 % Obtain the xdot not directly, but with approximated differential method
+%         real_dtr_test = dtr + noise_over_measurement;
+        real_dtr_test = dtr;
         %%
         %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
         %         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
