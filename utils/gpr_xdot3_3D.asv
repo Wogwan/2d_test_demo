@@ -1,4 +1,4 @@
-function [mean1,hyp1,delta,rmse] = gpr_xdot3_3D(x,y,xtest,ytest,it,noise,poly_deg)
+function [mean1,hyp1,delta,rmse] = gpr_xdot2_3D(x,y,xtest,ytest,it,noise,poly_deg)
 
 tic
 syms x1 x2 x3;
@@ -7,7 +7,7 @@ X = [1];
 %% Mean function
 m1 = {@meanPoly,poly_deg}; 
 hyp_m1 = zeros([3*poly_deg 1]);
-m2 = {@meanConst}; hyp_m2 = 0;
+m2 = {@meanConst}; hyp_m2 = 0.1;
 meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1]; 
 %%
 % deg = 3;
