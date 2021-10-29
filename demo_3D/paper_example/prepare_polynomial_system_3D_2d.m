@@ -6,17 +6,17 @@ tic
 
 %%
 syms x1 x2 x3
-dttr = 0.01;                                               % Recording step size for taining data (default = 0.3)
-Ttr = 20;                                                 % Simulation time for training per starting point (default = 3)
-noise = 0.01;                                             % Obervation noise
+dttr = 0.05;                                               % Recording step size for taining data (default = 0.3)
+Ttr = 30;                                                 % Simulation time for training per starting point (default = 3)
+noise = 1e-4;                                             % Obervation noise
 sn = noise*[0 1 1]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
 tic
 sz = 3;
-deg = 4;
-poly_deg = 4;
-it = 400;
+deg = 6;
+poly_deg = 6;
+it = 1000;
 
 %% The first dimension
 f1_p = x2+x3^2;
@@ -34,9 +34,10 @@ T = chebyshevT([0:deg],x1);
 f2_mid = vpa(T*c_deg_2);
 x_change = x1/sz;
 f2_appro_data = subs(f2_mid,x1,x_change);
+f2_appro = f2_appro_data + f2_p;
 % rho2 = cheb_rho(deg,sz,char(f2_np));
-rho2 = 2.1;
-f2_appro = f2_appro_data + f2_p + rho2;
+% rho2 = 2.1;
+% f2_appro = f2_appro_data + f2_p + rho2;
 
 %% The second dimension
 f3_p = -x1^2*x3;
@@ -48,9 +49,10 @@ T = chebyshevT([0:deg],x3);
 f3_mid = vpa(T*c_deg_3);
 x_change = x3/sz;
 f3_appro_data = subs(f3_mid,x1,x_change);
+f3_appro = f3_appro_data + f3_p;
 % rho3 = cheb_rho(deg,sz,char(f3_np));
-rho3 = 3.51;
-f3_appro = f3_appro_data + f3_p + rho3;
+% rho3 = 3.51;
+% f3_appro = f3_appro_data + f3_p + rho3;
 %%
 figure(1);clf;hold on;
 subplot(121);hold on;
