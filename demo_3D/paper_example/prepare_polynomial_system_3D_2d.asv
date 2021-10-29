@@ -3,7 +3,6 @@ clear;
 dbstop if error
 format long
 tic
-
 %%
 syms x1 x2 x3
 dttr = 0.01;                                               % Recording step size for taining data (default = 0.3)
@@ -13,7 +12,7 @@ sn = noise*[0 1 1]';                                        % Observation noise 
 
 %% Chebyshev interpolants value
 tic
-sz = 3;
+sz = 4;
 deg = 4;
 poly_deg = 4;
 it = 400;
@@ -34,13 +33,11 @@ T = chebyshevT([0:deg],x1);
 f2_mid = vpa(T*c_deg_2);
 x_change = x1/sz;
 f2_appro_data = subs(f2_mid,x1,x_change);
-% rho2 = cheb_rho(deg,sz,char(f2_np));
-rho2 = 2.1;
-f2_appro = f2_appro_data + f2_p + rho2;
+f2_appro = f2_appro_data + f2_p;
 
 %% The second dimension
-f3_p = -x1^2*x3;
-f3_np = 1-sqrt(sqrt((exp(x3)*cos(x3))^2));
+f3_p = -x1-2*x2-x3+x2^3;
+f3_np = -(exp(2*x3)*cos(x3)^2)^(1/4);
 f3 = f3_p + f3_np;
 y3 = chebfun(char(f3_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
 [y_deg_3, err3] = minimax(y3,deg); c_deg_3 = chebcoeffs(y_deg_3);
@@ -48,9 +45,7 @@ T = chebyshevT([0:deg],x3);
 f3_mid = vpa(T*c_deg_3);
 x_change = x3/sz;
 f3_appro_data = subs(f3_mid,x1,x_change);
-% rho3 = cheb_rho(deg,sz,char(f3_np));
-rho3 = 3.51;
-f3_appro = f3_appro_data + f3_p + rho3;
+f3_appro = f3_appro_data + f3_p;
 %%
 figure(1);clf;hold on;
 subplot(121);hold on;
