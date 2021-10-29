@@ -8,14 +8,14 @@ tic
 syms x1 x2 x3
 dttr = 0.05;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 30;                                                 % Simulation time for training per starting point (default = 3)
-noise = 1e-4;                                             % Obervation noise
-sn = noise*[0 1 1]';                                        % Observation noise (default = 1e-1)
+noise = 1e-2;                                             % Obervation noise
+sn = noise*[0 0 0]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
 tic
 sz = 3;
-deg = 6;
-poly_deg = 6;
+deg = 4;
+poly_deg = 4;
 it = 1000;
 
 %% The first dimension
@@ -26,11 +26,14 @@ f1_appro = f1;
 
 %% The second dimension
 f2_p = x3-x1^2;
-f2_np = -x1*sin(x1);
+f2_np = 1*sin(x1);
 f2 = f2_p + f2_np;
 y2 = chebfun(char(f2_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
 [y_deg_2, err2] = minimax(y2,deg); c_deg_2 = chebcoeffs(y_deg_2);
 T = chebyshevT([0:deg],x1);
+if length(c_deg_2)~=length(T)
+    c_deg_2 = [c_deg_2;0];
+end
 f2_mid = vpa(T*c_deg_2);
 x_change = x1/sz;
 f2_appro_data = subs(f2_mid,x1,x_change);
@@ -41,11 +44,14 @@ f2_appro = f2_appro_data + f2_p;
 
 %% The second dimension
 f3_p = -x1^2*x3;
-f3_np = 1-sqrt(sqrt((exp(x3)*cos(x3))^2));
+f3_np = 2*sin(x3);
 f3 = f3_p + f3_np;
 y3 = chebfun(char(f3_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
 [y_deg_3, err3] = minimax(y3,deg); c_deg_3 = chebcoeffs(y_deg_3);
 T = chebyshevT([0:deg],x3);
+if length(c_deg_3)~=length(T)
+    c_deg_3 = [c_deg_3;0];
+end
 f3_mid = vpa(T*c_deg_3);
 x_change = x3/sz;
 f3_appro_data = subs(f3_mid,x1,x_change);
@@ -84,6 +90,7 @@ ax.BoxStyle = 'full';
 ax.LineWidth = 1.7;
 xlabel('$x_3$','Interpreter','latex','Fontsize',22,'Fontname','Times');
 ylabel('$y$','Interpreter','latex','Fontsize',22,'Fontname','Times');
+refreshdata; drawnow; 
 
 %%
 f_input = [f1;f2_appro;f3_appro];  
@@ -92,7 +99,7 @@ f_input = [f1;f2_appro;f3_appro];
 %% Set parameters
 dXtr_0 = [];                                              % Collecting training model for learning the difference in real and approximated dynamic systems
 Xtr_0 = [];                                               % Collecting the Xtr_1 = [x1 x2] data by ode45 with setting
-x0tr = [-0.5 -0.4 -0.4; -0.5 -0.6 -0.4; 0.6 0.5 0.4];
+x0tr = [-0.1 -0.1 -0.2; -0.1 -0.2 -0.1; 0.1 0.1 0.2];
 ntr = floor(Ttr/dttr);
 E = 3;                                                    % Dimensions of the state space
 dynt = @(t,x) dyn_controller_paper_3D(0,x);                                 % dynamical system to be learned

@@ -3,19 +3,20 @@ clear;
 dbstop if error
 format long
 tic
+
 %%
 syms x1 x2 x3
-dttr = 0.01;                                               % Recording step size for taining data (default = 0.3)
-Ttr = 20;                                                 % Simulation time for training per starting point (default = 3)
-noise = 0.01;                                             % Obervation noise
+dttr = 0.05;                                               % Recording step size for taining data (default = 0.3)
+Ttr = 30;                                                 % Simulation time for training per starting point (default = 3)
+noise = 1e-4;                                             % Obervation noise
 sn = noise*[0 1 1]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
 tic
-sz = 4;
+sz = 3;
 deg = 4;
 poly_deg = 4;
-it = 400;
+it = 1000;
 
 %% The first dimension
 f1_p = x2+x3^2;
@@ -25,7 +26,7 @@ f1_appro = f1;
 
 %% The second dimension
 f2_p = x3-x1^2;
-f2_np = -x1*sin(x1);
+f2_np = 1*sin(x1);
 f2 = f2_p + f2_np;
 y2 = chebfun(char(f2_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
 [y_deg_2, err2] = minimax(y2,deg); c_deg_2 = chebcoeffs(y_deg_2);
@@ -34,10 +35,13 @@ f2_mid = vpa(T*c_deg_2);
 x_change = x1/sz;
 f2_appro_data = subs(f2_mid,x1,x_change);
 f2_appro = f2_appro_data + f2_p;
+% rho2 = cheb_rho(deg,sz,char(f2_np));
+% rho2 = 2.1;
+% f2_appro = f2_appro_data + f2_p + rho2;
 
 %% The second dimension
-f3_p = -x1-2*x2-x3+x2^3;
-f3_np = -(exp(2*x3)*cos(x3)^2)^(1/4);
+f3_p = -x1^2*x3;
+f3_np = 1-sqrt(sqrt((exp(x3)*cos(x3))^2));
 f3 = f3_p + f3_np;
 y3 = chebfun(char(f3_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
 [y_deg_3, err3] = minimax(y3,deg); c_deg_3 = chebcoeffs(y_deg_3);
@@ -46,6 +50,9 @@ f3_mid = vpa(T*c_deg_3);
 x_change = x3/sz;
 f3_appro_data = subs(f3_mid,x1,x_change);
 f3_appro = f3_appro_data + f3_p;
+% rho3 = cheb_rho(deg,sz,char(f3_np));
+% rho3 = 3.51;
+% f3_appro = f3_appro_data + f3_p + rho3;
 %%
 figure(1);clf;hold on;
 subplot(121);hold on;

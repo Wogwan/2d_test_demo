@@ -24,9 +24,9 @@ pconstr_32 = -(cc-V)+C(2)*L4 >= 0;
 pconstr_33 = -(cc-V)+C(3)*L5 >= 0;
 pconstr_34 = -(cc-V)+C(4)*L6 >= 0;
 pconstr_4 = cc >= 0;
-% pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_24;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_34;pconstr_4];
+pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_24;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_34;pconstr_4];
 % pconstr = [pconstr_21;pconstr_22;pconstr_24;pconstr_1;pconstr_31;pconstr_32;pconstr_34;pconstr_4];
-pconstr = [pconstr_1;pconstr_4];
+% pconstr = [pconstr_1;pconstr_4];
 
 input_con = [uc1;uc2];
 for i=1:length(input_con) 

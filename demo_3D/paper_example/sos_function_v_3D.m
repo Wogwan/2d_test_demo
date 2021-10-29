@@ -13,7 +13,7 @@ Vdot = jacobian(V, x1)*f(1)+ jacobian(V, x2)*(f(2)+gg(1)*u1)+jacobian(V, x3)*(f(
 pconstr_1 = L3 >= 0;
 pconstr_2 = -Vdot-L3*(cc-V) >= 0;
 pconstr = [pconstr_1; pconstr_2];
-% pconstr_3 = sum([uc1;uc2])/length([uc1;uc2]) <= 100;
+
 input_con = [uc1;uc2];
 for i=1:length(input_con) 
         con = input_con(i);
