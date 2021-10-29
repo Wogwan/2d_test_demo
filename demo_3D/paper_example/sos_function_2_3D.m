@@ -1,4 +1,4 @@
-function [solh,trace_Q,kk]=sos_function_2_3D(f,k,SOLu1,SOLu2,SOL1,SOL2,gamma,mm,V,C,dom,gg,L_us)
+function [solh,trace_Q,kk]=sos_function_2_3D(iter,f,k,SOLu1,SOLu2,SOL1,SOL2,gamma,mm,V,C,dom,gg,L_us)
 kk = 1;
 domain = [-dom dom -dom dom -dom dom];
 pvar x1 x2 x3;
@@ -54,8 +54,12 @@ if info.feas
     Q = subs(-obj,dopt);
     trace_Q = Q;
     inH = patch(pcontour3(solh,0,domain,'k'));
-    set(inH, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',0.7 ); hold on;
-    refreshdata; drawnow;
+    if mod(iter,2) == 1 
+        set(inH, 'EdgeAlpha',0.01,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',0.7 ); hold on;
+    else
+        set(inH, 'EdgeAlpha',0.01,'FaceColor', 'none', 'EdgeColor', 'g','LineStyle','-','LineWidth',0.7 ); hold on;    
+    end
+        refreshdata; drawnow;
 else
     kk = 0;
     solh = 0;

@@ -91,7 +91,7 @@ for i = 1:30
     if kk == 0
         break
     else
-        [solh,trace_Q,kk]=sos_function_2_3D(f,k,SOLu1,SOLu2,SOL1,SOL2,gamma,mm,V,C,dom,gg,L_us);
+        [solh,trace_Q,kk]=sos_function_2_3D(i,f,k,SOLu1,SOLu2,SOL1,SOL2,gamma,mm,V,C,dom,gg,L_us);
         TRACE = [TRACE; double(trace_Q)];
         Barrier = [Barrier; solh];
     end
