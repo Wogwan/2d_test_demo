@@ -1,4 +1,4 @@
-clear;
+clear;tic;
 pvar x1 x2 x3 u1 u2 htol epsi;
 x = [x1;x2;x3];
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -20,7 +20,7 @@ input = [0;gg*u1;gg*u2];
 V = 5*x1^2+10*x1*x2+2*x1*x3+10*x2^2+6*x2*x3+4*x3^2;
 % V = 1*x1^4+1*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; C0 = 5.862834287294065;
 % V = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; 
-C0 = 13.309586736690946;
+C0 = 13.309586736607509;
 %%
 % f = [-x2-3/2*x1^2-1/2*x1^3; x1 - u];
 % V = x1^2+x2^2+1*x1*x2;
@@ -51,8 +51,8 @@ mm = 0;
 TRACE = [];
 Barrier = [];
 %%
-C1 = (x1-3)^2+(x2-3)^2+(x3-0)^2-2;
-C2 = (x1+3)^2+(x2+3)^2+(x3-0)^2-2;
+C1 = (x1-3)^2+(x2-3)^2+(x3-0)^2-3;
+C2 = (x1+3)^2+(x2+3)^2+(x3-0)^2-3;
 C3 = (x1+0)^2+(x2-0)^2+(x3-4)^2-4;
 C4 = (x1+0)^2+(x2-0)^2+(x3+4)^2-4;
 C5 = -x2+2;
@@ -97,9 +97,23 @@ for i = 1:30
     end
     %%%%%%%
 end
-xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);view(-150, 30);
 
+%%
+xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);view(-150, 30);
+%%
+title('');toc;
+legend([us4,inV],{'Unsafe Regions','$V_0(x)$'}, 'Interpreter','latex','location','northwest');
+xlabel('$x_1$','Interpreter','latex','Fontsize',18);
+ylabel('$x_2$','Interpreter','latex','Fontsize',18);
+zlabel('$x_3$','Interpreter','latex','Fontsize',18);
 %     solu =sos_function_3(k,solh,gamma,mm,V,C,V0);
+
+% solh = 
+%   -145.7686630997646*x1^2 - 18.69634054363406*x1*x2 - 3.486869598534508*x1
+%   *x3 - 65.61212908891149*x2^2 + 21.69619390012745*x2*x3 
+%   - 245.3396890062136*x3^2 - 30.91171455333036*x1 + 9.877234110946764*x2 
+%   + 121.1541933795845*x3 + 654.274289233073
+ 
 %%
 %     axis(domain)
 %     kk = 1;
