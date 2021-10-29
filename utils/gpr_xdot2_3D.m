@@ -22,7 +22,7 @@ meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1];
 % cov2 = {@covConst}; hyp_cov2 = 0.1; 
 % covfunc = {'covSum',{cov1,cov2}}; hyp.cov = [hyp_cov1; hyp_cov2]; 
 %%
-sf = 1; ell = 2; 
+sf = 0.4; ell = 0.6; 
 cov1 = {@covSEiso}; hyp_cov1 = log([ell;sf/2]); 
 covfunc = cov1; hyp.cov = hyp_cov1; 
 %% Lik function
