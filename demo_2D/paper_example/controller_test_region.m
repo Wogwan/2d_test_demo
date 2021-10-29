@@ -11,7 +11,7 @@ sym = [x2-x1;
     ];
 % V = x1^2+x1*x2+x2^2; C0 = 5.862834287294065;
 % V = 1*x1^4+1*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; C0 = 5.862834287294065;
-V = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; C0 = 19.962969754795161;
+V = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; C0 = 18.671159581825997;
 gg = 1;
 dom = 5;
 %%
@@ -30,19 +30,21 @@ dom = 5;
 % V = x1^2+x1*x2+x2^2;
 % C0 = 100*8.109410321812767;
 %%
-k = 4;
+k = 2;
 L_unsafe_factor = 2;
 L_auxilary = 6;
-gamma = 0.1;
+% gamma = 0.1;
+gamma = 2;
 kk = 1;
 i = 0; j = 0;
 solh = C0 - V;
 %     C1 = (x1-3)^2+(x2-1)^2-1;
 %     C2 = (x1+3)^2+(x2+4)^2-1;
 %     C3 = (x1+4)^2+(x2-5)^2-1;
-C1 = (x1-0)^2+(x2-2.8)^2-1;
+C1 = (x1+2)^2+(x2-3)^2-2;
 C2 = (x1+3)^2+(x2+2)^2-1;
-C3 = (x1-3)^2+(x2+0)^2-1;
+C3 = (x1-2)^2+(x2-2)^2-1;
+%%
 C4 = (x1-2)^2+(x2-6)^2-1;
 C5 = -x2+2;
 C6 = (x1+0.5)^2+(x2+3.25)^2-1;
@@ -72,17 +74,20 @@ axis(domain);
 %%%%%%%%%%%%%%%%%%%%%%%%
 TRACE = [];
 Barrier = [];
+Control = [];
 % while abs(double(trace_Q)-double(trace_Q1))>=epsi
 % while 1
 %
 %     mm = mm+1; kk = 1;
 %     fprintf('The whole Iteration time is:  %d\n  ',mm);
 
-for i = 1:16
+% 16
+for i = 1:40
     fprintf('i=%6.0f\n',i);
     record = solh;
     record_Q = trace_Q;
     [SOLu,SOL1,SOL2,kk] = sos_function_1(f,k,solh,V,mm,gamma,gg,L_auxilary);
+    Control = [Control; SOLu];
     if kk == 0
         break
     end
