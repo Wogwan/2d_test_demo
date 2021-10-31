@@ -2,8 +2,8 @@ function [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,k,solh,V,gamma,gg,L_au)
 pvar x1 x2 htol epsi;
 x = [x1;x2];
 %% Create corresponding decision variable
-[u1,u1_Q] = polydecvar('u1_w',monomials(x,0:k)); % u1 sos decision variables
-[u2,u2_Q] = polydecvar('u2_w',monomials(x,0:k)); % u1 sos decision variables
+[u1,u1_Q] = polydecvar('u1_w',monomials(x,1:k)); % u1 sos decision variables
+[u2,u2_Q] = polydecvar('u2_w',monomials(x,1:k)); % u1 sos decision variables
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_au)); % L1 sos decision variables
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_au)); % L1 sos decision variables
 %% CLBF

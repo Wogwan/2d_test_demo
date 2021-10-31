@@ -10,16 +10,21 @@ dom = 5;
 %%
 V = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; 
 C0 = 59.903496442963558;
-solh = C0 - V;
+sol_B = C0 - V;
+solh = sol_B;
+%%
+% k_u = 2;
+% k_h = 2;
+% L_us = 4;
+% L_au = 4;
+% gamma = 2;
 %%
 k_u = 2;
-k_h = 2;
-L_us = 4;
-L_au = 4;
-% gamma = 0.1;
-gamma = 2;
-kk = 1;
-i = 0; j = 0;
+k_h = 4;
+L_us = 2;
+L_au = 6;
+gamma = 1;
+
 %%
 C1 = (x1+3)^2+(x2-4)^2-1;
 C2 = (x1+1)^2+(x2+4)^2-1;
@@ -32,9 +37,8 @@ C7 = -x2 - 4;
 C8 = -x1 + 1;
 C = [C1;C2;C3;C4;C5;C6;C7;C8];
 epsi = 1e-10;
-trace_Q1 = 1;
-trace_Q = 0;
-mm = 0;
+trace_Q1 = 1; trace_Q = 0;
+mm = 0; kk = 1; i = 0;
 %%
 figure(12);clf;hold on;
 domain = [-dom dom -dom dom];
@@ -68,7 +72,7 @@ while 1
     end
     Control = [Control; [SOLu1 SOLu2]];
     %%
-    [solh,trace_Q,kk]=sos_function_2(i,f,k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us);
+    [solh,trace_Q,kk]=sos_function_2(i,f,k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,sol_B);
     if kk == 0
         break
     end
