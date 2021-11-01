@@ -1,4 +1,4 @@
-function [cc,kk,solu1,solu2]=sos_optimal_v3(f,gg,k,k_l,V,C,dom,solL,ccc)
+function [cc,kk,solu1,solu2]=sos_optimal_v3(f,gg,k,k_l,V,C,dom,solL,ccc,figure_id)
 
 kk = 1;
 domain = [-dom dom -dom dom];
@@ -16,14 +16,14 @@ Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
 
 %% Constraint:
 pconstr_21 = L1 >= 0;
-% pconstr_22 = L2 >= 0;
+pconstr_22 = L2 >= 0;
 % pconstr_23 = L3 >= 0;
 pconstr_1 = -Vdot-solL*(cc-V) >= 0;
 pconstr_31 = -(cc-V)+C(1)*L1 >= 0;
-% pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
+pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
 % pconstr_33 = -(cc-V)+C(3)*L3 >= 0;
 pconstr_4 = cc >= ccc;
-pconstr = [pconstr_21;pconstr_1;pconstr_31;pconstr_4];
+pconstr = [pconstr_21;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
 % pconstr = [pconstr_1;pconstr_4];
 
 %% Set objection
@@ -34,14 +34,13 @@ opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,[x1;x2],obj,opts);
-
-figure(14);hold on;
-% Create output
+%%
+figure(figure_id);hold on;
 if info.feas
     cc = subs(cc,dopt);
     solu1 = subs(u1,dopt);
     solu2 = subs(u2,dopt);
-    [~,~]=pcontour(V,double(cc),domain,'g'); hold on;             % Plot the original Lyapunov sublevel set
+    [~,~]=pcontour(V,double(cc),domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
     refreshdata; drawnow;
 else
     kk = 0;

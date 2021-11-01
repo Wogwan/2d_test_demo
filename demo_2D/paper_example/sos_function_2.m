@@ -1,4 +1,4 @@
-function [solh,trace_Q,kk]=sos_function_2(iter,f,k,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,sol_B)
+function [solh,trace_Q,kk]=sos_function_2(iter,f,k,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,sol_B,figure_id)
 kk = 1;
 domain = [-dom dom -dom dom];
 pvar x1 x2 htol epsi;
@@ -16,14 +16,15 @@ Vdot = jacobian(V, x1)*(f(1)+gg(1)*SOLu1)+jacobian(V, x2)*(f(2)+gg(2)*SOLu2);
 %% Constraint:
 pconstr_6 = L1 >= 0;
 pconstr_7 = L2 >= 0;
-pconstr_8 = L3 >= 0;
+% pconstr_8 = L3 >= 0;
 pconstr_1 = -Vdot-SOL1*h >= 0;
 pconstr_2 = hdot+gamma*h-SOL2*h >= 0;
 pconstr_3 = -h+C(1)*L1 >= 0;
 pconstr_4 = -h+C(2)*L2 >= 0;
-pconstr_5 = -h+C(3)*L3 >= 0;
+% pconstr_5 = -h+C(3)*L3 >= 0;
 % pconstr = [pconstr_6;pconstr_7;pconstr_8;pconstr_3;pconstr_4;pconstr_5;pconstr_1;pconstr_2];
-pconstr = [pconstr_6;pconstr_7;pconstr_8;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pconstr_5];
+% pconstr = [pconstr_6;pconstr_7;pconstr_8;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pconstr_5];
+pconstr = [pconstr_6;pconstr_7;pconstr_1;pconstr_2;pconstr_3;pconstr_4];
 
 %% Set objection
 if k==2
@@ -52,13 +53,14 @@ opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,x,obj,opts);
-figure(12);hold on;
+figure(figure_id);hold on;
 %% Create output
 if info.feas
     kk = 1;
     solh = subs(h,dopt);
     trace_Q = subs(-obj,dopt);
     k = ['r','g','b','m','c','k','y'];
+    
     if mod(iter,7) == 0
         [~,~]=pcontour(solh,0,domain,k(7)); hold on;             % Plot the original Lyapunov sublevel set
     else

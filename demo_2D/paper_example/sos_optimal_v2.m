@@ -1,7 +1,7 @@
 function [solu1,solu2,solL,kk]=sos_optimal_v2(f,gg,k,k_l,V,cc)
 
 kk = 1;
-pvar x1 x2 u;
+pvar x1 x2;
 x = [x1;x2];
 [u1,uc1] = polydecvar('u_w1',monomials(x,0:k)); % L1 sos decision variables
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k)); % L1 sos decision variables
