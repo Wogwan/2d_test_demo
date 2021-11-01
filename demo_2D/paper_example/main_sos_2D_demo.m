@@ -84,108 +84,111 @@ figure(figure_id);hold on;
 [~,~]=pcontour(Barrier(end),0,domain,'m');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Hyperparameters of the SOSP @ CBF -> V
-V_us = 2; V_au = 2; V_degree = 4;
-gamma = 0;
-kk = 1; OO = 0;
-%%
-u1 = Control(end,1);
-u2 = Control(end,2);
-B = Barrier(end);
-dom_2 = 40; domain_2 = [-dom_2 dom_2 -dom_2 dom_2];
-N_Lya = [];
-%%
-[V, kk] = sos_optimal_V1(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
-%%
-if kk == 0
-    fprintf('Suitable Lyapunov function can not find.======\n');
-end
-N_Lya = [N_Lya;V];
-figure(figure_id+2);clf;hold on;
-cc = [1,2,3];
-for i = 0:16
-    k_u_V = ['r','g','b','m','c','k','y'];
-    if mod(i,7) == 0
-        [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(7)); hold on;
-        [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(7)); hold on;
-        [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(7)); hold on;             
-    else
-        [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(mod(i,7))); hold on;      
-        [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(mod(i,7))); hold on;      
-        [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(mod(i,7))); hold on;      
-    end
-end
-Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
-for i = 0:16
-    k_u_V = ['r','g','b','m','c','k','y'];
-    if mod(i,7) == 0
-        [~,~]=pcontour(Vdot,0,domain_2,k_u_V(7)); hold on;             % Plot the original Lyapunov sublevel set
-    else
-        [~,~]=pcontour(Vdot,0,domain_2,k_u_V(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
-    end
-end
-%% TEST FOR Sublevel Set
-[a1,b1] = coeffs(p2s(V));
-ccc = double(vpa(a1(end)));
-C0 = ccc; cc = ccc+0.1;
-k_u_V = 2; k_l_au = 2; kk = 1;
-%%
-figure(figure_id);hold on;                   
-[~,~]=pcontour(V,ccc,domain,'r');      
-solU = []; v_c = []; iter = 0;
-%%
-while abs(double(cc)-double(C0)) >= 1e-5
-    iter = iter + 1;
-    if iter ~= 0
-        C0 = cc;
-    end
-    [solu1,solu2,solL,kk]= sos_optimal_v2(f,gg,k_u_V,k_l_au,V,C0);
-    if kk == 0
-        break
-    end
-    [cc,kk,solu1,solu2] = sos_optimal_v3(f,gg,k_u_V,k_l_au,V,C,dom,solL,ccc,figure_id);
-    v_c = [v_c; double(cc)]
-    solU = [solU;[solu1,solu2]];
-    if kk == 0
-        figure(figure_id);hold on;
-        [~,~]=pcontour(V,v_c(end),domain,'r');  
-        break
-    end
-end
 
-%% Start to compute the control barrier function
-c_b = v_c(end);
-sol_B = c_b - N_Lya(end);
-V = N_Lya(end);
-solh = sol_B;
-%% Hyperparameters of the SOSP @ CBF
-b_k_u = 4; b_k_h = 4;
-L_us = 6; L_au = 6;
-gamma = 1;
-trace_Q1 = 1; trace_Q = 0;
-kk = 1; j = 0;
-TRACE = [];
-Barrier = [];
-Control = [];
-%%
-figure(figure_id+1);clf;hold on;
-[~,~]=pcontour(C(1),0,domain,'r');
-[~,~]=pcontour(C(2),0,domain,'r');
 while 1
-    j = j+1
-    record_Q = trace_Q
-    [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,b_k_u,L_au,solh,V,gamma,gg);
+    %% Hyperparameters of the SOSP @ CBF -> V
+    V_us = 4; V_au = 4; V_degree = 2;
+    gamma = 0;
+    kk = 1; OO = 0;
+    %%
+    u1 = Control(end,1);
+    u2 = Control(end,2);
+    B = Barrier(end);
+    dom_2 = 10000; domain_2 = [-dom_2 dom_2 -dom_2 dom_2];
+    N_Lya = [];
+    %%
+    [V, kk] = sos_optimal_V1(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
+    %%
     if kk == 0
-        break
+        fprintf('Suitable Lyapunov function can not find.======\n');
     end
-    Control = [Control; [SOLu1 SOLu2]];
-    [solh,trace_Q,kk]=sos_function_2(j,f,b_k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,sol_B,figure_id+1);
-    if kk == 0
-        break
+    N_Lya = [N_Lya;V];
+    figure(figure_id+2);clf;hold on;
+    cc = [1,2,3];
+    for i = 0:16
+        k_u_V = ['r','g','b','m','c','k','y'];
+        if mod(i,7) == 0
+            [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(7)); hold on;
+            [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(7)); hold on;
+            [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(7)); hold on;
+        else
+            [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(mod(i,7))); hold on;
+            [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(mod(i,7))); hold on;
+            [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(mod(i,7))); hold on;
+        end
     end
-    TRACE = [TRACE; double(trace_Q)];
-    Barrier = [Barrier; solh];
+    Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
+    for i = 0:16
+        k_u_V = ['r','g','b','m','c','k','y'];
+        if mod(i,7) == 0
+            [~,~]=pcontour(Vdot,0,domain_2,k_u_V(7)); hold on;             % Plot the original Lyapunov sublevel set
+        else
+            [~,~]=pcontour(Vdot,0,domain_2,k_u_V(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
+        end
+    end
+    %% TEST FOR Sublevel Set
+    [a1,b1] = coeffs(p2s(V));
+    ccc = double(vpa(a1(end)));
+    C0 = ccc; cc = ccc+0.1;
+    k_u_V = 2; k_l_au = 2; kk = 1;
+    %%
+    figure(figure_id);hold on;
+    [~,~]=pcontour(V,ccc,domain,'r');
+    solU = []; v_c = []; iter = 0;
+    %%
+    while abs(double(cc)-double(C0)) >= 1e-5
+        iter = iter + 1;
+        if iter ~= 0
+            C0 = cc;
+        end
+        [solu1,solu2,solL,kk]= sos_optimal_v2(f,gg,k_u_V,k_l_au,V,C0);
+        if kk == 0
+            break
+        end
+        [cc,kk,solu1,solu2] = sos_optimal_v3(f,gg,k_u_V,k_l_au,V,C,dom,solL,ccc,figure_id);
+        v_c = [v_c; double(cc)]
+        solU = [solU;[solu1,solu2]];
+        if kk == 0
+            figure(figure_id);hold on;
+            [~,~]=pcontour(V,v_c(end),domain,'r');
+            break
+        end
+    end
+    
+    %% Start to compute the control barrier function
+    c_b = v_c(end);
+    sol_B = c_b - N_Lya(end);
+    V = N_Lya(end);
+    %% Hyperparameters of the SOSP @ CBF
+    solh = sol_B;
+    b_k_u = 4; b_k_h = 2;
+    L_us = 4; L_au = 4;
+    gamma = 0;
+    trace_Q1 = 1; trace_Q = 0;
+    kk = 1; j = 0;
+    TRACE = [];
+    Barrier = [];
+    Control = [];
+    %%
+    figure(figure_id+1);clf;hold on;
+    [~,~]=pcontour(C(1),0,domain,'r');
+    [~,~]=pcontour(C(2),0,domain,'r');
+    while 1
+        j = j+1
+        record_Q = trace_Q
+        [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,b_k_u,L_au,solh,V,gamma,gg);
+        if kk == 0
+            break
+        end
+        Control = [Control; [SOLu1 SOLu2]];
+        [solh,trace_Q,kk]=sos_function_2(j,f,b_k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,sol_B,figure_id+1);
+        if kk == 0
+            break
+        end
+        TRACE = [TRACE; double(trace_Q)];
+        Barrier = [Barrier; solh];
+    end
+    %%
+    figure(figure_id);hold on;
+    [~,~]=pcontour(Barrier(end),0,domain,'m');
 end
-%%
-figure(figure_id);hold on;
-[~,~]=pcontour(Barrier(end),0,domain,'m');

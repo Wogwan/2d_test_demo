@@ -155,11 +155,12 @@ end
 
 %% Start to compute the control barrier function
 c_b = v_c(end);
-sol_B = c_b - V0;
+sol_B = c_b - N_Lya(end);
+V = N_Lya(end);
 solh = sol_B;
 %% Hyperparameters of the SOSP @ CBF
-b_k_u = 2; b_k_h = 2;
-L_us = 2; L_au = 2;
+b_k_u = 4; b_k_h = 4;
+L_us = 6; L_au = 8;
 gamma = 0;
 trace_Q1 = 1; trace_Q = 0;
 kk = 1; j = 0;
@@ -173,12 +174,12 @@ figure(figure_id+1);clf;hold on;
 while 1
     j = j+1
     record_Q = trace_Q
-    [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,b_k_u,L_au,solh,V0,gamma,gg);
+    [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,b_k_u,L_au,solh,V,gamma,gg);
     if kk == 0
         break
     end
     Control = [Control; [SOLu1 SOLu2]];
-    [solh,trace_Q,kk]=sos_function_2(j,f,b_k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V0,C,dom,gg,L_us,sol_B,figure_id+1);
+    [solh,trace_Q,kk]=sos_function_2(j,f,b_k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,sol_B,figure_id+1);
     if kk == 0
         break
     end
