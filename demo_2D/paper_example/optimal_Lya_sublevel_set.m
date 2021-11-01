@@ -78,8 +78,8 @@ V = s2p(a1*b1');
 mm = 0;
 gamma = 0;
 solh = s2p(C0) + V;
-[~,~]=pcontour(V,C0,domain,'R');              % Plot the original Lyapunov sublevel set
-% [~,~]=pcontour(solh,0,domain,'b');              % Plot the original Lyapunov sublevel set
+[~,~]=pcontour(V,C0,domain,'R'); 
+% [~,~]=pcontour(solh,0,domain,'b'); 
 
 
 %%
