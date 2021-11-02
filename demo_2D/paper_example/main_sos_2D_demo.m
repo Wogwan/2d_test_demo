@@ -1,5 +1,6 @@
 clear;close all;
 pvar x1 x2 u1 u2 htol epsi;
+format long
 x = [x1;x2];
 %%
 f = [x2; -x1-x2*(1-x1^2)];
@@ -26,7 +27,8 @@ figure(figure_id);clf;hold on;
 solU = []; v_c = []; iter = 1; kk = 1;
 v_k_u = 2; v_k_l = 4;
 %% Start to compute the sublevel set of a Lyapunov function
-while abs(double(cc)-double(c0)) >= epsi
+% while abs(double(cc)-double(c0)) >= epsi
+while double(cc)-double(c0) >= epsi
     iter = iter + 1;
     if iter ~= 1
         c0 = cc;
@@ -40,15 +42,15 @@ while abs(double(cc)-double(c0)) >= epsi
     v_c = [v_c; double(cc)];
     solU = [solU;[solu1,solu2]];
     if kk == 0
-        figure(11);hold on;
-        [~,~]=pcontour(V,v_c(end),domain,'b');
         break
     end
 end
+hold on;
+[~,~]=pcontour(V0,max(double(v_c)),domain,'b');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Start to compute the control barrier function
-c_b = v_c(end);
+c_b = max(double(v_c));
 sol_B = c_b - V0;
 solh = sol_B;
 %% Hyperparameters of the SOSP @ CBF
@@ -133,7 +135,7 @@ while 1
     k_u_V = 2; k_l_au = 2; kk = 1;
     %%
     figure(figure_id);hold on;
-    [~,~]=pcontour(V,ccc,domain,'r');
+    [~,~]=pcontour(V,double(cc),domain,'c');
     solU = []; v_c = []; iter = 0;
     %%
     while abs(double(cc)-double(C0)) >= 1e-5
@@ -150,7 +152,7 @@ while 1
         solU = [solU;[solu1,solu2]];
         if kk == 0
             figure(figure_id);hold on;
-            [~,~]=pcontour(V,v_c(end),domain,'r');
+            [~,~]=pcontour(V,v_c(end),domain,'b');
             break
         end
     end
@@ -190,5 +192,5 @@ while 1
     end
     %%
     figure(figure_id);hold on;
-    [~,~]=pcontour(Barrier(end),0,domain,'m');
+    [~,~]=pcontour(Barrier(end),0,domain,'k');
 end

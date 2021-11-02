@@ -72,6 +72,7 @@ delta = 0;
 m = size(x,1);
 n = size(xtest,1);
 figure(801);clf;
+set(gca,'Position',[300 300 1000 500]);
 Output = [ymu+2*sqrt(ys2);flipdim(ymu-2*sqrt(ys2),1)];
 error = abs(ytest-ymu);
 rmse = sqrt(sum(error.^2)/n) 

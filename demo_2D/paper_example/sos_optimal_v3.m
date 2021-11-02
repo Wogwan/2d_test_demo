@@ -23,7 +23,7 @@ pconstr_31 = -(cc-V)+C(1)*L1 >= 0;
 pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
 % pconstr_33 = -(cc-V)+C(3)*L3 >= 0;
 pconstr_4 = cc >= ccc;
-pconstr = [pconstr_21;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
+pconstr = [pconstr_21;pconstr_22;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
 % pconstr = [pconstr_1;pconstr_4];
 
 %% Set objection

@@ -24,7 +24,11 @@ pconstr_3 = Vtol2 >= 0;
 pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22];
 %% Set objection
 obj = Vtol2;
-% obj = Vtol1+Vtol2;
+
+% pconstr_2 = -Vdot-L2*B+gamma*B >= 0;
+% pconstr_3 = Vtol2 >= 0;
+% pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pcr_21;pcr_22];
+
 %% Solve feasibility problem
 opts = sosoptions;
 opts.form = 'kernel';

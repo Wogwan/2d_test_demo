@@ -26,12 +26,27 @@ end
 s = vpa(s);
 
 % Create pvars for each variable in s
-vars = findsym(s);
+% vars = findsym(s); % Original Version
+vars = strip(char(symvar(s)),'left','[');
+vars = strip(vars,'right',']');
+vars = erase(vars,' ');
+
+% Original Version
+% if isempty(vars)
+%     nv = 0;
+% else
+%     vidx = [0 strfind(vars,',') length(vars)+1];
+%     nv = length(vidx)-1;
+% end
+% for i1 =1:nv
+%     varname = vars(vidx(i1)+1 : vidx(i1+1)-1);
+%     pvar(varname);
+% end
 
 if isempty(vars)
     nv = 0;
 else
-    vidx = [0 strfind(vars,',') length(vars)+1];
+    vidx = [0 strfind(char(vars),',') length(char(vars))+1];
     nv = length(vidx)-1;
 end
 for i1 =1:nv

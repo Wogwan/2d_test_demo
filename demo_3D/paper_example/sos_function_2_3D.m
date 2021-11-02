@@ -55,9 +55,11 @@ if info.feas
     trace_Q = Q;
     inH = patch(pcontour3(solh,0,domain,'k'));
     if mod(iter,2) == 1 
-        set(inH, 'EdgeAlpha',0.01,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',0.7 ); hold on;
+        set(inH, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'm','LineStyle','-','LineWidth',0.7 ); hold on;
+        view(-150, 30);hold on;
     else
-        set(inH, 'EdgeAlpha',0.01,'FaceColor', 'none', 'EdgeColor', 'g','LineStyle','-','LineWidth',0.7 ); hold on;    
+        set(inH, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',0.7 ); hold on;    
+        view(-150, 30);hold on;
     end
         refreshdata; drawnow;
 else
