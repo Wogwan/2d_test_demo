@@ -8,7 +8,7 @@ x = [x1;x2];
 %%
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:k_l/2)); % L1 sos decision variables
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:k_l/2)); % L1 sos decision variables
-% [L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k_l/2)); % L1 sos decision variables
+[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k_l/2)); % L1 sos decision variables
 [u1,uc1] = polydecvar('u_w1',monomials(x,0:k)); % L1 sos decision variables
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k)); % L1 sos decision variables
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
@@ -19,17 +19,15 @@ pconstr_1 = -Vdot-solL*(cc-V) >= 0;
 pconstr_31 = -(cc-V)+C(1)*L1 >= 0;
 pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
 pconstr_4 = cc >= 0;
-pconstr = [pconstr_21;pconstr_22;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
-%% Containing 3 Constraints
-% pconstr_21 = L1 >= 0;
-% pconstr_22 = L2 >= 0;
-% pconstr_23 = L3 >= 0;
-% pconstr_1 = -Vdot-solL*(cc-V) >= 0;
-% pconstr_31 = -(cc-V)+C(1)*L1 >= 0;
-% pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
-% pconstr_33 = -(cc-V)+C(3)*L3 >= 0;
-% pconstr_4 = cc >= 0;
-% pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_4];
+if length(C) == 2
+    pconstr = [pconstr_21;pconstr_22;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
+elseif length(C) == 3
+    pconstr_33 = -(cc-V)+C(3)*L3 >= 0;
+    pconstr_23 = L3 >= 0;
+    pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_4];
+else
+    fprintf('Constraints vector does not match.======\n');
+end
 %% Set objection
 obj = -cc;
 %% Solve feasibility problem

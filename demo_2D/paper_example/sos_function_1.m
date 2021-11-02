@@ -4,8 +4,8 @@ x = [x1;x2];
 %% Create corresponding decision variable
 [u1,u1_Q] = polydecvar('u1_w',monomials(x,0:k)); % u1 sos decision variables
 [u2,u2_Q] = polydecvar('u2_w',monomials(x,0:k)); % u1 sos decision variables
-[L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_au)); % L1 sos decision variables
-[L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_au)); % L1 sos decision variables
+[L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_au/2)); % L1 sos decision variables
+[L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_au/2)); % L1 sos decision variables
 %% CLBF
 hdot = jacobian(solh, x1)*(f(1)+gg(1)*u1)+jacobian(solh, x2)*(f(2)+gg(2)*u2);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+jacobian(V, x2)*(f(2)+gg(2)*u2);

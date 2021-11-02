@@ -1,6 +1,7 @@
 clear;
 tic
 pvar x1 x2 u1 u2 htol epsi;
+format long
 x = [x1;x2];
 %%
 f = [x2-x1
@@ -26,20 +27,19 @@ domain = [-dom dom -dom dom];
 C1 = (x1+3)^2+(x2-4)^2-1;
 C2 = (x1+1)^2+(x2+4)^2-1;
 C3 = (x1-3)^2+(x2-2)^2-1;
-%%
-C4 = (x1-2)^2+(x2-6)^2-1;
-C5 = -x2+2;
-C6 = (x1+0.5)^2+(x2+3.25)^2-1;
-C7 = -x2 - 4;
-C8 = -x1 + 1;
-C = [C1;C2;C3;C4;C5;C6;C7;C8];
+C = [C1;C2;C3];
+% C = [C1;C2];
 kk = 1;
 %%
-figure(11);clf;hold on;
+figure_id = 11;
+figure(figure_id);clf;hold on;
 [~,~]=pcontour(C(1),0,domain,'r');            % Plot the original Lyapunov sublevel set
 [~,~]=pcontour(C(2),0,domain,'r');            % Plot the original Lyapunov sublevel set
-[~,~]=pcontour(C(3),0,domain,'r');            % Plot the original Lyapunov sublevel set
 [~,~]=pcontour(V,C0,domain,'g');              % Plot the original Lyapunov sublevel set
+if length(C) == 3
+    [~,~]=pcontour(C(3),0,domain,'r');            % Plot the original Lyapunov sublevel set
+end
+
 solU = [];
 v_c = [];
 iter = 1;
@@ -49,15 +49,17 @@ while abs(double(cc)-double(C0)) >= 1e-8
     if iter ~= 1
         C0 = cc;
     end
-    [solu1,solu2,solL,kk]= sos_function_v(f,gg,k,k_l,V,C0);
+%     [solu1,solu2,solL,kk]= sos_function_v(f,gg,k,k_l,V,C0);
+    [solu1,solu2,solL,kk] = sos_function_v(f,gg,k,k_l,V,C0);
     if kk == 0
         break
     end
-    [cc,kk,solu1,solu2] = sos_function_v2(f,gg,k,k_l,V,C,dom,solL);
+%     [cc,kk,solu1,solu2] = sos_function_v2(f,gg,k,k_l,V,C,dom,solL);
+    [cc,kk,solu1,solu2] = sos_function_v2(f,gg,k,k_l,V,C,dom,solL,figure_id)
     v_c = [v_c; double(cc)]
     solU = [solU;[solu1,solu2]];
     if kk == 0
-        figure(11);hold on;
+        figure(figure_id);hold on;
         [~,~]=pcontour(V,v_c(end),domain,'b');  
         break
     end

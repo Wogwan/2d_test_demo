@@ -96,7 +96,7 @@ while 1
     u1 = Control(end,1);
     u2 = Control(end,2);
     B = Barrier(end);
-    dom_2 = 10000; domain_2 = [-dom_2 dom_2 -dom_2 dom_2];
+    dom_2 = 1000; domain_2 = [-dom_2 dom_2 -dom_2 dom_2];
     N_Lya = [];
     %%
     [V, kk] = sos_optimal_V1(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
@@ -138,7 +138,7 @@ while 1
     [~,~]=pcontour(V,double(cc),domain,'c');
     solU = []; v_c = []; iter = 0;
     %%
-    while abs(double(cc)-double(C0)) >= 1e-5
+    while abs(double(cc)-double(C0)) >= epsi
         iter = iter + 1;
         if iter ~= 0
             C0 = cc;
