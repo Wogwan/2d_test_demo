@@ -40,7 +40,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Hyperparameter of the SOSP @ CLF
 solU = []; v_c = []; iter = 1; kk = 1;
-v_k_u = 2; v_k_l = 4;
+v_k_u = 4; v_k_l = 4;
+% v_k_u = 2;
 %% Start to compute the sublevel set of a Lyapunov function
 % while abs(double(cc)-double(c0)) >= epsi
 while double(cc)-double(c0) >= epsi
@@ -92,9 +93,12 @@ elseif length(C) == 4
 else
     fprintf('The constraint number does not match.======\n');
 end
-while 1
+record_Q = [0.0001];
+trace_Q = 0.00011;
+while abs(double(trace_Q)-double(record_Q(end)))>=epsi
     j = j+1
-    record_Q = trace_Q
+    record_Q = [record_Q; trace_Q];
+    record_Q
     [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,b_k_u,L_au,solh,V0,gamma,gg);
     if kk == 0
         break
@@ -221,7 +225,9 @@ while 1
     else
         fprintf('The constraint number does not match.======\n');
     end
-    while 1
+    record_Q = [0.0001];
+    trace_Q = 0.00011;
+    while abs(double(trace_Q)-double(record_Q(end-1)))>=epsi
         j = j+1
         record_Q = trace_Q
         [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,b_k_u,L_au,solh,V,gamma,gg);
