@@ -15,7 +15,7 @@ tic
 sz = 3;
 deg = 4;
 poly_deg = 4;
-it = 400;
+it = 600;
 
 %% The first dimension
 f1_p = -x1+x2;
