@@ -19,7 +19,7 @@ C3 = (x1-0)^2+(x2-8)^2-4;
 C4 = (x1-0)^2+(x2+8)^2-4;
 C = [C1;C2;C3;C4];
 % V0 = x1^2+x1*x2+x2^2;
-V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
+V0 = 4*x1^4+2*x2^4+2*x1^2*x2^2+4*x1^2+2*x2^2+1*x1*x2;
 c0 = 1; cc = 1.1; epsi = 1e-6;
 figure_id = 111;
 %%
@@ -40,8 +40,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Hyperparameter of the SOSP @ CLF
 solU = []; v_c = []; iter = 1; kk = 1;
-v_k_u = 4; v_k_l = 4;
-% v_k_u = 2;
+% v_k_u = 4; 
+v_k_u = 2;
+v_k_l = 4;
 %% Start to compute the sublevel set of a Lyapunov function
 % while abs(double(cc)-double(c0)) >= epsi
 while double(cc)-double(c0) >= epsi
@@ -122,7 +123,7 @@ end
 
 while 1
     %% Hyperparameters of the SOSP @ CBF -> V
-    V_us = 6; V_au = 6; V_degree = 4;
+    V_us = 6; V_au = 8; V_degree = 4;
     gamma = 1;
     kk = 1; OO = 0;
     %%
@@ -227,7 +228,7 @@ while 1
     end
     record_Q = [0.0001];
     trace_Q = 0.00011;
-    while abs(double(trace_Q)-double(record_Q(end-1)))>=epsi
+    while abs(double(trace_Q)-double(record_Q(end)))>=5e-1
         j = j+1
         record_Q = trace_Q
         [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,b_k_u,L_au,solh,V,gamma,gg);
