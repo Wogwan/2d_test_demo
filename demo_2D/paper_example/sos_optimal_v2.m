@@ -1,4 +1,4 @@
-function [solu1,solu2,solL,kk]=sos_optimal_v2(f,gg,u1,u2,k_l,V,cc)
+function [solL,kk]=sos_optimal_v2(f,gg,u1,u2,k_l,V,cc)
 
 kk = 1;
 pvar x1 x2;
@@ -23,13 +23,9 @@ opts.solver = 'mosek';
 
 % Create output
 if info.feas
-    solu1 = subs(u1,dopt);
-    solu2 = subs(u2,dopt);
     solL = subs(L,dopt);
 else
     kk = 0;
-    solu1  = 0;
-    solu2  = 0;
     solL = 0;
     fprintf('Lyapunov SOS Factor L can not find.======\n');
     return;
