@@ -4,17 +4,17 @@ domain = [-dom dom -dom dom];
 pvar x1 x2 htol epsi;
 x = [x1;x2];
 %%
-[h,hc] = polydecvar('h_w',monomials(x,0:k)); % L1 sos decision variables
+% [h,hc] = polydecvar('h_w',monomials(x,0:k)); % L1 sos decision variables
 
 % [h,hc] = polydecvar('h_w',monomials(x,[0 2 4])); % L1 sos decision variables
-% if k == 2
-%     [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables
-% elseif k == 4
-% %     [h,hc] = sosdecvar('h_w',monomials(x,[0 2])); % L1 sos decision variables 
-%     [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables 
-% else
-%     fprintf('Select suitable Barrier function degree.======\n');
-% end
+if k == 2
+    [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables
+elseif k == 4
+%     [h,hc] = sosdecvar('h_w',monomials(x,[0 2])); % L1 sos decision variables 
+    [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables 
+else
+    fprintf('Select suitable Barrier function degree.======\n');
+end
 
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_us/2));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_us/2));
@@ -46,25 +46,25 @@ else
     fprintf('Constraints vector does not match.======\n');
 end  
 %%
-% obj = -trace(hc);
+obj = -trace(hc);
 % obj = -(hc(1)+hc(2)+hc(4)+hc(5)+hc(7)+hc(9));
-if k==2
-    obj = -(hc(1)+hc(4)+hc(6));
-elseif k==4
-    obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15));
-elseif k==6
-    obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28));
-elseif k==8
-    obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45));
-elseif k==10
-    obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45)+hc(56)+hc(58)+hc(60)+hc(62)+hc(64)+hc(66));
-elseif k==12
-    obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45)+hc(56)+hc(58)+hc(60)+hc(62)+hc(64)+hc(66)+hc(79)+hc(81)+hc(83)+hc(85)+hc(87)+hc(89)+hc(91));
-elseif k==14
-    obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45)+hc(56)+hc(58)+hc(60)+hc(62)+hc(64)+hc(66)+hc(79)+hc(81)+hc(83)+hc(85)+hc(87)+hc(89)+hc(91)+hc(106)+hc(108)+hc(110)+hc(112)+hc(114)+hc(116)+hc(118)+hc(120));
-else
-    fprintf('Pleaes enter suitable order of Barrier certificate.====== ');
-end
+% if k==2
+%     obj = -(hc(1)+hc(4)+hc(6));
+% elseif k==4
+%     obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15));
+% elseif k==6
+%     obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28));
+% elseif k==8
+%     obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45));
+% elseif k==10
+%     obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45)+hc(56)+hc(58)+hc(60)+hc(62)+hc(64)+hc(66));
+% elseif k==12
+%     obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45)+hc(56)+hc(58)+hc(60)+hc(62)+hc(64)+hc(66)+hc(79)+hc(81)+hc(83)+hc(85)+hc(87)+hc(89)+hc(91));
+% elseif k==14
+%     obj = -(hc(1)+hc(4)+hc(6)+hc(11)+hc(13)+hc(15)+hc(22)+hc(24)+hc(26)+hc(28)+hc(37)+hc(39)+hc(41)+hc(43)+hc(45)+hc(56)+hc(58)+hc(60)+hc(62)+hc(64)+hc(66)+hc(79)+hc(81)+hc(83)+hc(85)+hc(87)+hc(89)+hc(91)+hc(106)+hc(108)+hc(110)+hc(112)+hc(114)+hc(116)+hc(118)+hc(120));
+% else
+%     fprintf('Pleaes enter suitable order of Barrier certificate.====== ');
+% end
 
 %% Solve feasibility problem
 opts = sosoptions;

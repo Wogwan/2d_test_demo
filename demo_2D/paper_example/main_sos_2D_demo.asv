@@ -20,8 +20,8 @@ C4 = (x1-0)^2+(x2+8)^2-4;
 C = [C1;C2;C3;C4];
 % C = [C1;C2;C3];
 % V0 = x1^2+x1*x2+x2^2;
-V0 = 4*x1^4+2*x2^4+2*x1^2*x2^2+4*x1^2+2*x2^2+1*x1*x2;
-% V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; 
+% V0 = 4*x1^4+2*x2^4+2*x1^2*x2^2+4*x1^2+2*x2^2+1*x1*x2;
+V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; 
 c0 = 1; cc = 1.1; epsi = 1e-6; epsi2 = 0.196;
 figure_id = 111;
 %%
@@ -129,32 +129,17 @@ while 1
     kk = 1; OO = 0;
     %%
     i_count_1 = min(length(Control),length(Barrier));
+    i_count_2 = min(length(Control),length(Barrier));
     if i_count_1 ~= 0
         u1 = Control(i_count_1,1);
         u2 = Control(i_count_1,2);
         B = Barrier(i_count_1);
     else
-        if isempty(Control)
-            u1 = 1;
-            u2 = 1;
-        else
-            u1 = Control(i_count_1,1);
-            u2 = Control(i_count_1,2);
-        end
+        u1 = Control(i_count_1,1);
+        u2 = Control(i_count_1,2);
         B = 0;
         fprintf('Barrier function can not find.======\n');
     end
-% i_count_1 = min(length(Control(:,1)),length(Barrier));
-% i_count_2 = max(length(Control(:,1)),length(Barrier));
-% u1 = Control(i_count_2,1);
-% u2 = Control(i_count_2,2);
-% if i_count_1 ~= 0
-%     B = Barrier(i_count_1);
-% else
-%     B = 0;
-%     fprintf('Barrier function can not find.======\n');
-% end
-
 
     dom_2 = 100; domain_2 = [-dom_2 dom_2 -dom_2 dom_2];
     N_Lya = [];

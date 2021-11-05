@@ -1,0 +1,564 @@
+
+iter =
+
+     2
+
+
+ans =
+
+     1.331973836517852e+03
+
+
+ans =
+
+     1.331969562341641e+03
+
+120 Barrier function can not find.======
+137 Barrier function can not find.======
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sedumi2mosek>mat2mosek', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m', 161)" style="font-weight:bold">sedumi2mosek>mat2mosek</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m',161,0)">line 161</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sedumi2mosek', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m', 97)" style="font-weight:bold">sedumi2mosek</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m',97,0)">line 97</a>)
+        Amatmsk = mat2mosek(mat(A(k,1+nS(j):nS(j+1))), Amatmsk, j, k);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('solvesossdp', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\solvesossdp.m', 81)" style="font-weight:bold">solvesossdp</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\solvesossdp.m',81,0)">line 81</a>)
+    [x,y,solverinfo] = sedumi2mosek(A,b,c,K,solveropts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sosd', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosd.m', 274)" style="font-weight:bold">sosd</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosd.m',274,0)">line 274</a>)
+    [xs,ys,solverinfo] = solvesossdp(sdpdata,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sosopt', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosopt.m', 255)" style="font-weight:bold">sosopt</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosopt.m',255,0)">line 255</a>)
+        [info,dopt]=sosd(sosdata,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sos_optimal_V1', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\sos_optimal_V1.m', 51)" style="font-weight:bold">sos_optimal_V1</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\sos_optimal_V1.m',51,0)">line 51</a>)
+[info,dopt] = sosopt(pconstr,x,obj,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('auto_test_demo_2d', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m', 144)" style="font-weight:bold">auto_test_demo_2d</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',144,0)">line 144</a>)
+    [lp3.V, lp3.feas] = sos_optimal_V1(sym.f,sym.gg,B,u1,u2,lp3.V_au,lp3.V_us,lp3.V_degree,sym.us,lp3.gamma);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 51)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',51,0)">line 51</a>)
+                    auto_test_demo_2d(sym,lp1,lp2,lp3,lp4,lp5,plot)
+} 
+get(0,'Diary')
+
+ans =
+
+    'on'
+
+type Test_check_system_1.out
+
+
+iter =
+
+     2
+
+
+ans =
+
+     1.331973836517852e+03
+
+
+ans =
+
+     1.331969562341641e+03
+
+120 Barrier function can not find.======
+137 Barrier function can not find.======
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sedumi2mosek>mat2mosek', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m', 161)" style="font-weight:bold">sedumi2mosek>mat2mosek</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m',161,0)">line 161</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sedumi2mosek', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m', 97)" style="font-weight:bold">sedumi2mosek</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m',97,0)">line 97</a>)
+        Amatmsk = mat2mosek(mat(A(k,1+nS(j):nS(j+1))), Amatmsk, j, k);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('solvesossdp', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\solvesossdp.m', 81)" style="font-weight:bold">solvesossdp</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\solvesossdp.m',81,0)">line 81</a>)
+    [x,y,solverinfo] = sedumi2mosek(A,b,c,K,solveropts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sosd', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosd.m', 274)" style="font-weight:bold">sosd</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosd.m',274,0)">line 274</a>)
+    [xs,ys,solverinfo] = solvesossdp(sdpdata,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sosopt', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosopt.m', 255)" style="font-weight:bold">sosopt</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosopt.m',255,0)">line 255</a>)
+        [info,dopt]=sosd(sosdata,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sos_optimal_V1', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\sos_optimal_V1.m', 51)" style="font-weight:bold">sos_optimal_V1</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\sos_optimal_V1.m',51,0)">line 51</a>)
+[info,dopt] = sosopt(pconstr,x,obj,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('auto_test_demo_2d', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m', 144)" style="font-weight:bold">auto_test_demo_2d</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',144,0)">line 144</a>)
+    [lp3.V, lp3.feas] = sos_optimal_V1(sym.f,sym.gg,B,u1,u2,lp3.V_au,lp3.V_us,lp3.V_degree,sym.us,lp3.gamma);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 51)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',51,0)">line 51</a>)
+                    auto_test_demo_2d(sym,lp1,lp2,lp3,lp4,lp5,plot)
+} 
+get(0,'Diary')
+
+ans =
+
+    'on'
+
+demo2D_test_main
+
+iter =
+
+     2
+
+
+ans =
+
+     1.331973836517852e+03
+
+
+ans =
+
+     1.331969562341641e+03
+
+120 Barrier function can not find.======
+137 Barrier function can not find.======
+ 
+V = 
+  607.8162228491276*x1^4 - 50.65200149630545*x1^3*x2 + 52.24964389289118
+  *x1^2*x2^2 - 15.55217537829393*x1*x2^3 + 20.95203362943225*x2^4 
+  - 209.0046134600559*x1^3 - 487.0967394745936*x1^2*x2 + 145.9011083858237
+  *x1*x2^2 - 185.3265101630388*x2^3 + 627.3417680602803*x1^2 
+  - 250.930780083909*x1*x2 + 467.5608155505652*x2^2 - 296.8254919770048
+  *x1 - 364.410260322512*x2 + 778.7145049849299
+ 
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+     2.543437982483153e+03
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+   2.543437516832746
+
+
+j =
+
+     1
+
+
+record_Q =
+
+   1.100000000000000
+
+L1 and L2 can not find.====== 242 Optimal CBF controller [End] can not find.======
+137 Barrier function can not find.======
+ 
+V = 
+  607.8162228491276*x1^4 - 50.65200149630545*x1^3*x2 + 52.24964389289118
+  *x1^2*x2^2 - 15.55217537829393*x1*x2^3 + 20.95203362943225*x2^4 
+  - 209.0046134600559*x1^3 - 487.0967394745936*x1^2*x2 + 145.9011083858237
+  *x1*x2^2 - 185.3265101630388*x2^3 + 627.3417680602803*x1^2 
+  - 250.930780083909*x1*x2 + 467.5608155505652*x2^2 - 296.8254919770048
+  *x1 - 364.410260322512*x2 + 778.7145049849299
+ 
+[Warning: Error updating Contour.
+
+ InterruptException(ctrl-c)
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('defaulterrorcallback', 'C:\Program Files\MATLAB\R2021a\toolbox\matlab\graphics\objectsystem\defaulterrorcallback.m', 12)" style="font-weight:bold">defaulterrorcallback</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021a\toolbox\matlab\graphics\objectsystem\defaulterrorcallback.m',12,0)">line 12</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('xlabel', 'C:\Program Files\MATLAB\R2021a\toolbox\matlab\graph2d\xlabel.m', 65)" style="font-weight:bold">xlabel</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021a\toolbox\matlab\graph2d\xlabel.m',65,0)">line 65</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polynomial/pcontour', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m', 168)" style="font-weight:bold">polynomial/pcontour</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m',168,0)">line 168</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('auto_test_demo_2d', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m', 160)" style="font-weight:bold">auto_test_demo_2d</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',160,0)">line 160</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 51)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',51,0)">line 51</a>)] 
+[Warning: Error updating Contour.
+
+ InterruptException(ctrl-c)
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('defaulterrorcallback', 'C:\Program Files\MATLAB\R2021a\toolbox\matlab\graphics\objectsystem\defaulterrorcallback.m', 12)" style="font-weight:bold">defaulterrorcallback</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021a\toolbox\matlab\graphics\objectsystem\defaulterrorcallback.m',12,0)">line 12</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('ylabel', 'C:\Program Files\MATLAB\R2021a\toolbox\matlab\graph2d\ylabel.m', 65)" style="font-weight:bold">ylabel</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021a\toolbox\matlab\graph2d\ylabel.m',65,0)">line 65</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polynomial/pcontour', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m', 169)" style="font-weight:bold">polynomial/pcontour</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m',169,0)">line 169</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('auto_test_demo_2d', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m', 169)" style="font-weight:bold">auto_test_demo_2d</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',169,0)">line 169</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 51)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',51,0)">line 51</a>)] 
+[Warning: Error updating Contour.
+
+ InterruptException(ctrl-c)
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('defaulterrorcallback', 'C:\Program Files\MATLAB\R2021a\toolbox\matlab\graphics\objectsystem\defaulterrorcallback.m', 12)" style="font-weight:bold">defaulterrorcallback</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021a\toolbox\matlab\graphics\objectsystem\defaulterrorcallback.m',12,0)">line 12</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('ylabel', 'C:\Program Files\MATLAB\R2021a\toolbox\matlab\graph2d\ylabel.m', 65)" style="font-weight:bold">ylabel</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2021a\toolbox\matlab\graph2d\ylabel.m',65,0)">line 65</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polynomial/pcontour', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m', 169)" style="font-weight:bold">polynomial/pcontour</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m',169,0)">line 169</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('auto_test_demo_2d', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m', 169)" style="font-weight:bold">auto_test_demo_2d</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',169,0)">line 169</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 51)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',51,0)">line 51</a>)] 
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polynomial/subs', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\subs.m', 168)" style="font-weight:bold">polynomial/subs</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\subs.m',168,0)">line 168</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polynomial/pcontour', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m', 155)" style="font-weight:bold">polynomial/pcontour</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\multipoly\@polynomial\pcontour.m',155,0)">line 155</a>)
+pgrid = double(subs(p,{x; y},[xg(:)'; yg(:)']));
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('auto_test_demo_2d', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m', 169)" style="font-weight:bold">auto_test_demo_2d</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',169,0)">line 169</a>)
+            [~,~]=pcontour(lp3.Vdot,0,domain_2,k_u_V(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 51)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',51,0)">line 51</a>)
+                    auto_test_demo_2d(sym,lp1,lp2,lp3,lp4,lp5,plot)
+} 
+{Operation terminated by the user.
+} 
+set(0,'DefaultFigureWindowStyle','docked')
+sosaddpath
+executing gpml startup script...
+demo2D_test_main
+
+iter =
+
+     2
+
+
+ans =
+
+     1.331973836517852e+03
+
+
+ans =
+
+     1.331969562341641e+03
+
+120 Barrier function can not find.======
+137 Barrier function can not find.======
+ 
+V = 
+  607.8162228491276*x1^4 - 50.65200149630545*x1^3*x2 + 52.24964389289118
+  *x1^2*x2^2 - 15.55217537829393*x1*x2^3 + 20.95203362943225*x2^4 
+  - 209.0046134600559*x1^3 - 487.0967394745936*x1^2*x2 + 145.9011083858237
+  *x1*x2^2 - 185.3265101630388*x2^3 + 627.3417680602803*x1^2 
+  - 250.930780083909*x1*x2 + 467.5608155505652*x2^2 - 296.8254919770048
+  *x1 - 364.410260322512*x2 + 778.7145049849299
+ 
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+     2.543437982483153e+03
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+   2.543437516832746
+
+
+j =
+
+     1
+
+
+record_Q =
+
+   1.100000000000000
+
+L1 and L2 can not find.====== 242 Optimal CBF controller [End] can not find.======
+137 Barrier function can not find.======
+ 
+V = 
+  607.8162228491276*x1^4 - 50.65200149630545*x1^3*x2 + 52.24964389289118
+  *x1^2*x2^2 - 15.55217537829393*x1*x2^3 + 20.95203362943225*x2^4 
+  - 209.0046134600559*x1^3 - 487.0967394745936*x1^2*x2 + 145.9011083858237
+  *x1*x2^2 - 185.3265101630388*x2^3 + 627.3417680602803*x1^2 
+  - 250.930780083909*x1*x2 + 467.5608155505652*x2^2 - 296.8254919770048
+  *x1 - 364.410260322512*x2 + 778.7145049849299
+ 
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+     2.543437982483153e+03
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+   2.543437516832746
+
+
+j =
+
+     1
+
+
+record_Q =
+
+   1.100000000000000
+
+L1 and L2 can not find.====== 242 Optimal CBF controller [End] can not find.======
+137 Barrier function can not find.======
+ 
+V = 
+  607.8162228491276*x1^4 - 50.65200149630545*x1^3*x2 + 52.24964389289118
+  *x1^2*x2^2 - 15.55217537829393*x1*x2^3 + 20.95203362943225*x2^4 
+  - 209.0046134600559*x1^3 - 487.0967394745936*x1^2*x2 + 145.9011083858237
+  *x1*x2^2 - 185.3265101630388*x2^3 + 627.3417680602803*x1^2 
+  - 250.930780083909*x1*x2 + 467.5608155505652*x2^2 - 296.8254919770048
+  *x1 - 364.410260322512*x2 + 778.7145049849299
+ 
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+     2.543437982483153e+03
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+   2.543437516832746
+
+
+j =
+
+     1
+
+
+record_Q =
+
+   1.100000000000000
+
+L1 and L2 can not find.====== 242 Optimal CBF controller [End] can not find.======
+137 Barrier function can not find.======
+ 
+V = 
+  607.8162228491276*x1^4 - 50.65200149630545*x1^3*x2 + 52.24964389289118
+  *x1^2*x2^2 - 15.55217537829393*x1*x2^3 + 20.95203362943225*x2^4 
+  - 209.0046134600559*x1^3 - 487.0967394745936*x1^2*x2 + 145.9011083858237
+  *x1*x2^2 - 185.3265101630388*x2^3 + 627.3417680602803*x1^2 
+  - 250.930780083909*x1*x2 + 467.5608155505652*x2^2 - 296.8254919770048
+  *x1 - 364.410260322512*x2 + 778.7145049849299
+ 
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+     2.543437982483153e+03
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+
+198 The sublevel set of optimal LF move on.======
+
+optimal_vc =
+
+   1.0e+03 *
+
+   2.543437982483153
+   2.543437925651321
+   2.543437934288729
+   2.543437517018915
+   2.543437516832746
+
+
+j =
+
+     1
+
+
+record_Q =
+
+   1.100000000000000
+
+L1 and L2 can not find.====== 242 Optimal CBF controller [End] can not find.======
+137 Barrier function can not find.======
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sedumi2mosek', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m', 97)" style="font-weight:bold">sedumi2mosek</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sedumi2mosek.m',97,0)">line 97</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('solvesossdp', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\solvesossdp.m', 81)" style="font-weight:bold">solvesossdp</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\solvesossdp.m',81,0)">line 81</a>)
+    [x,y,solverinfo] = sedumi2mosek(A,b,c,K,solveropts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sosd', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosd.m', 274)" style="font-weight:bold">sosd</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosd.m',274,0)">line 274</a>)
+    [xs,ys,solverinfo] = solvesossdp(sdpdata,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sosopt', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosopt.m', 255)" style="font-weight:bold">sosopt</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\toolbox\sosopt\sosopt.m',255,0)">line 255</a>)
+        [info,dopt]=sosd(sosdata,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('sos_optimal_V1', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\sos_optimal_V1.m', 51)" style="font-weight:bold">sos_optimal_V1</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\sos_optimal_V1.m',51,0)">line 51</a>)
+[info,dopt] = sosopt(pconstr,x,obj,opts);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('auto_test_demo_2d', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m', 144)" style="font-weight:bold">auto_test_demo_2d</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',144,0)">line 144</a>)
+    [lp3.V, lp3.feas] = sos_optimal_V1(sym.f,sym.gg,B,u1,u2,lp3.V_au,lp3.V_us,lp3.V_degree,sym.us,lp3.gamma);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 52)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',52,0)">line 52</a>)
+                    auto_test_demo_2d(sym,lp1,lp2,lp3,lp4,lp5,plot)
+} 
+demo2D_test_main
+
+iter =
+
+     2
+
+{<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\auto_test_demo_2d.m',129,5)">File: auto_test_demo_2d.m Line: 129 Column: 5</a>
+Invalid expression. Check for missing multiplication operator, missing or unbalanced delimiters, or other syntax error. To construct matrices,
+use brackets instead of parentheses.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('demo2D_test_main', 'C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m', 52)" style="font-weight:bold">demo2D_test_main</a> (<a href="matlab: opentoline('C:\Users\hjhuang\OneDrive\桌面\Conference Paper\2022ASCC\code\github\Test_repo\ASCC2022\demo_2D\paper_example\demo2D_test_main.m',52,0)">line 52</a>)
+                    auto_test_demo_2d(sym,lp1,lp2,lp3,lp4,lp5,plot)
+} 

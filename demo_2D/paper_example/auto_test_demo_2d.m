@@ -1,22 +1,23 @@
-clear;
+function k_iter = auto_test_demo_2d(sym,lp1,lp2,lp3,lp4,lp5,plot)
 pvar x1 x2 u1 u2 htol epsi;
 format long
 x = [x1;x2];
+k_iter = 0;
 %% Initial System information
-C1 = (x1+8)^2+(x2-0)^2-4;
-C2 = (x1-8)^2+(x2+0)^2-4;
-C3 = (x1-0)^2+(x2-8)^2-4;
-C4 = (x1-0)^2+(x2+8)^2-4;
+% C1 = (x1+8)^2+(x2-0)^2-4;
+% C2 = (x1-8)^2+(x2+0)^2-4;
+% C3 = (x1-0)^2+(x2-8)^2-4;
+% C4 = (x1-0)^2+(x2+8)^2-4;
 % sym.us = [C1;C2;C3;C4];
-sym.us = [C1;C2;C3];
-sym.f = [x2-x1;
-    0.46382156330341729589940137480476*x1^4-0.21219821363526560116570580989732*x1^3+0.35000677410250802565647474138031*x1^2+x1*x2-0.27258976376810471290805063896793*x1+0.15407267311901634565529661813343*x2^4+0.94268273772394006737584959410015*x2^3+4.1277331008261466394060335005634*x2^2-1.7098389065959235244562819389103*x2+0.011510115809394316777058975276304
-    ];
-sym.gg = [1; 1];
-sym.sys = [sym.f(1)+sym.gg(1)*u1; sym.f(2)+sym.gg(2)*u2];
-sym.V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
-% sym.V0 = 4*x1^4+2*x2^4+2*x1^2*x2^2+4*x1^2+2*x2^2+1*x1*x2;
-% sym.V0 = x1^2+x1*x2+x2^2;
+% % sym.us = [C1;C2;C3];
+% sym.f = [x2-x1;
+%     0.46382156330341729589940137480476*x1^4-0.21219821363526560116570580989732*x1^3+0.35000677410250802565647474138031*x1^2+x1*x2-0.27258976376810471290805063896793*x1+0.15407267311901634565529661813343*x2^4+0.94268273772394006737584959410015*x2^3+4.1277331008261466394060335005634*x2^2-1.7098389065959235244562819389103*x2+0.011510115809394316777058975276304
+%     ];
+% sym.gg = [1; 1];
+% sym.sys = [sym.f(1)+sym.gg(1)*u1; sym.f(2)+sym.gg(2)*u2];
+% sym.V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
+% % sym.V0 = 4*x1^4+2*x2^4+2*x1^2*x2^2+4*x1^2+2*x2^2+1*x1*x2;
+% % sym.V0 = x1^2+x1*x2+x2^2;
 
 %%
 N_Lya = [];
@@ -27,7 +28,7 @@ TRACE_lp5 = []; Barrier_lp5 = []; Control_lp5 = [];
 %% Plot basic figure
 lp3.dom_2 = 100; domain_2 = [-lp3.dom_2 lp3.dom_2 -lp3.dom_2 lp3.dom_2];
 dom = 15; plot.domain = [-dom dom -dom dom];
-plot.figure_id = 111;
+% plot.figure_id = 111;
 figure(plot.figure_id);clf;hold on;
 [~,~]=pcontour(sym.us(1),0,plot.domain,'r');
 [~,~]=pcontour(sym.us(2),0,plot.domain,'r');
@@ -41,8 +42,8 @@ else
 end
 
 %% Hyperparameter of lp1 @ CLF sublevel set
-lp1.v_k_u = 2;
-lp1.v_k_l = 4;
+% lp1.v_k_u = 2;
+% lp1.v_k_l = 4;
 %%
 lp1.iter = 1;
 lp1.feas = 1;
@@ -84,11 +85,11 @@ else
     fprintf('84 The constraint number does not match.======\n');
 end
 %% Hyperparameters of the lp2 @ CBF find controller
-lp2.u = 4;
-lp2.h = 4;
-lp2.us = 8;
-lp2.au = 8;
-lp2.gamma = 2;
+% lp2.u = 4;
+% lp2.h = 4;
+% lp2.us = 8;
+% lp2.au = 8;
+% lp2.gamma = 0;
 %%
 lp2.c_b = max(double(lp1.v_c));
 lp2.solh = lp2.c_b - sym.V0;
@@ -120,12 +121,12 @@ else
     fprintf('120 Barrier function can not find.======\n');
 end
 %% Hyperparameters of the SOSP @ CBF -> V
-lp3.V_us = 6;
-lp3.V_au = 8;
-lp3.V_degree = 4;
-lp3.gamma = 0;
+% lp3.V_us = 6;
+% lp3.V_au = 8;
+% lp3.V_degree = 4;
+% lp3.gamma = 0;
 %%
-while 1
+for 1
     kk = 1; OO = 0;
     if ~isempty(Control)
         u1 = Control(end,1);
@@ -170,8 +171,8 @@ while 1
         end
     end
     %% Hyperparameters of the Optimal Sublevel set @ CLF LP4
-    lp4.u = 8;
-    lp4.au = 8;
+    %     lp4.u = 4;
+    %     lp4.au = 8;
     %%
     lp4.u1 = u1;
     lp4.u2 = u2;
@@ -189,7 +190,7 @@ while 1
         if lp1iter ~= 0
             C0 = CC;
         end
-        [solL,lp4.feas]= sos_optimal_v2(sym.f,sym.gg,lp4.u1,lp4.u2,lp4.au,lp4.V,C0);
+        [solL,lp4.feas]= sos_optimal_v2(sym.f,sym.gg,lp4.u,lp4.au,lp4.V,C0);
         if lp4.feas == 0
             break
         elseif isempty(p2s(solL))
@@ -210,11 +211,11 @@ while 1
     c_b = optimal_vc(end);
     sol_B = c_b - N_Lya(end);
     %% Hyperparameters of the SOSP @ CBF LP5
-    lp5.u = 8;
-    lp5.h = 4;
-    lp5.us = 8;
-    lp5.au = 8;
-    lp5.gamma = 0;
+    %     lp5.u = 4;
+    %     lp5.h = 4;
+    %     lp5.us = 8;
+    %     lp5.au = 8;
+    %     lp5.gamma = 0;
     %%
     lp5.V = N_Lya(end);
     solh = sol_B;
@@ -253,5 +254,9 @@ while 1
     end
     %%
     figure(plot.figure_id);hold on;
-    [~,~]=pcontour(Barrier_lp5(end),0,plot.domain,'k');
+    if ~isempty(Barrier_lp5)
+        [~,~]=pcontour(Barrier_lp5(end),0,plot.domain,'b');
+    end
+    k_iter = 5;
+end
 end

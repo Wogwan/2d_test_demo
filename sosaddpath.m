@@ -6,6 +6,7 @@
 cm = computer;
 
 if cm(1) == 'M' ||  cm(1)=='G'
+    set(0,'DefaultFigureWindowStyle','docked')
     % Add chebfun-master
     addpath([pwd '/toolbox/chebfun-master']);
     
@@ -42,7 +43,8 @@ if cm(1) == 'M' ||  cm(1)=='G'
     addpath([pwd '/demo_3D/paper_example'])
     
 elseif cm(1) == 'P'
-    
+    set(0,'DefaultFigureWindowStyle','docked')
+%     set(0,'DefaultFigureWindowStyle','normal')
     % Add chebfun-master
     addpath([pwd '/toolbox/chebfun-master']);
     
