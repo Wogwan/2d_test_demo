@@ -18,9 +18,11 @@ C2 = (x1-8)^2+(x2+0)^2-4;
 C3 = (x1-0)^2+(x2-8)^2-4;
 C4 = (x1-0)^2+(x2+8)^2-4;
 C = [C1;C2;C3;C4];
+% C = [C1;C2;C3];
 % V0 = x1^2+x1*x2+x2^2;
-V0 = 4*x1^4+2*x2^4+2*x1^2*x2^2+4*x1^2+2*x2^2+1*x1*x2;
-c0 = 1; cc = 1.1; epsi = 1e-6;
+% V0 = 4*x1^4+2*x2^4+2*x1^2*x2^2+4*x1^2+2*x2^2+1*x1*x2;
+V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2; 
+c0 = 1; cc = 1.1; epsi = 1e-6; epsi2 = 0.196;
 figure_id = 111;
 %%
 dom = 15; domain = [-dom dom -dom dom];
@@ -71,13 +73,12 @@ c_b = max(double(v_c));
 sol_B = c_b - V0;
 solh = sol_B;
 %% Hyperparameters of the SOSP @ CBF
-b_k_u = 4; b_k_h = 4;
-L_us = 8; L_au = 8;
-gamma = 2;
-% b_k_u = 4; b_k_h = 4;
+% b_k_u = 6; b_k_h = 4;
 % L_us = 8; L_au = 8;
 % gamma = 0;
-trace_Q1 = 1; trace_Q = 0;
+b_k_u = 4; b_k_h = 4;
+L_us = 8; L_au = 8;
+gamma = 0;
 kk = 1; j = 0;
 TRACE = [];
 Barrier = [];
@@ -94,9 +95,9 @@ elseif length(C) == 4
 else
     fprintf('The constraint number does not match.======\n');
 end
-record_Q = [0.0001];
-trace_Q = 0.00011;
-while abs(double(trace_Q)-double(record_Q(end)))>=epsi
+record_Q = [1000];
+trace_Q = 10001;
+while abs(double(trace_Q)-double(record_Q(end)))>=epsi2
     j = j+1
     record_Q = [record_Q; trace_Q];
     record_Q
@@ -123,8 +124,8 @@ end
 
 while 1
     %% Hyperparameters of the SOSP @ CBF -> V
-    V_us = 6; V_au = 8; V_degree = 4;
-    gamma = 1;
+    V_us = 4; V_au = 4; V_degree = 4;
+    gamma = 0;
     kk = 1; OO = 0;
     %%
     i_count = min(length(Control),length(Barrier));
@@ -139,7 +140,7 @@ while 1
         fprintf('Barrier function can not find.======\n');
     end
 
-    dom_2 = 1000; domain_2 = [-dom_2 dom_2 -dom_2 dom_2];
+    dom_2 = 100; domain_2 = [-dom_2 dom_2 -dom_2 dom_2];
     N_Lya = [];
     %%
     [V, kk] = sos_optimal_V1(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
@@ -203,12 +204,14 @@ while 1
     %% Start to compute the control barrier function
     c_b = v_c(end);
     sol_B = c_b - N_Lya(end);
+    figure(figure_id);hold on;
+    [~,~]=pcontour(sol_B,0,domain,'k');
     V = N_Lya(end);
     %% Hyperparameters of the SOSP @ CBF
     solh = sol_B;
     b_k_u = 4; b_k_h = 4;
     L_us = 8; L_au = 8;
-    gamma = 2;
+    gamma = 1;
     trace_Q1 = 1; trace_Q = 0;
     kk = 1; j = 0;
     TRACE = [];
@@ -238,6 +241,7 @@ while 1
         Control = [Control; [SOLu1 SOLu2]];
         [solh,trace_Q,kk]=sos_function_2(j,f,b_k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,figure_id+1);
         if kk == 0
+            fprintf('Optimal Control Barrier function can not find.======\n');
             break
         end
         TRACE = [TRACE; double(trace_Q)];
