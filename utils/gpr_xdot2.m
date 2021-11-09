@@ -15,7 +15,7 @@ X = [1];
 %% Mean function
 m1 = {@meanPoly,poly_deg}; 
 hyp_m1 = zeros([2*poly_deg 1]);
-m2 = {@meanConst}; hyp_m2 = -0.05;
+m2 = {@meanConst}; hyp_m2 = 0;
 meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1]; 
 %%
 % deg = 3;
@@ -30,7 +30,7 @@ meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1];
 % cov2 = {@covConst}; hyp_cov2 = 0.1; 
 % covfunc = {'covSum',{cov1,cov2}}; hyp.cov = [hyp_cov1; hyp_cov2]; 
 %%
-sf = 0.1; ell = 0.1; 
+sf = 0.1; ell = 0.2; 
 cov1 = {@covSEiso}; hyp_cov1 = log([ell;sf/2]); 
 covfunc = cov1; hyp.cov = hyp_cov1; 
 %% Lik function

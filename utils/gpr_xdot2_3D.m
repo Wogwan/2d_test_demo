@@ -14,7 +14,7 @@ meanfunc = {'meanSum',{m2,m1}}; hyp.mean = [hyp_m2; hyp_m1];
 % m1 = {@meanConst}; hyp_m1 = 0;
 % m2 = {@meanLinear}; hyp_m2 = [0;0];
 % msu = {'meanSum',{m1,m2}};  hypsu = [hyp_m1; hyp_m2];    % 1+2*x1+3*x2
-% mpo = {'meanPow',deg,msu};       hyppo = hypsu;            % third power
+% mpo = {'meanPow',deg,msu};       hyppo = hypsu;          % third power
 % meanfunc = mpo; hyp.mean = hyppo; 
 %% Cov function
 % sf = 0.4; ell = 0.1; 

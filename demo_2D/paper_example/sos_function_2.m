@@ -71,20 +71,20 @@ opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,x,obj,opts);
-figure(figure_id);hold on;
+% figure(figure_id);hold on;
 %% Create output
 if info.feas
     kk = 1;
     solh = subs(h,dopt);
     trace_Q = subs(-obj,dopt);
-    k = ['r','g','b','m','c','k','y'];
-    
-    if mod(iter,7) == 0
-        [~,~]=pcontour(solh,0,domain,k(7)); hold on;             % Plot the original Lyapunov sublevel set
-    else
-        [~,~]=pcontour(solh,0,domain,k(mod(iter,7))); hold on;             % Plot the original Lyapunov sublevel set
-    end
-    refreshdata; drawnow;
+%     k = ['r','g','b','m','c','k','y'];
+%     
+%     if mod(iter,7) == 0
+%         [~,~]=pcontour(solh,0,domain,k(7)); hold on;             % Plot the original Lyapunov sublevel set
+%     else
+%         [~,~]=pcontour(solh,0,domain,k(mod(iter,7))); hold on;             % Plot the original Lyapunov sublevel set
+%     end
+%     refreshdata; drawnow;
 else
     kk = 0;
     solh = 0;

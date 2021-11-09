@@ -43,12 +43,12 @@ opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,[x1;x2],obj,opts);
 %%
-figure(figure_id);hold on;
+% figure(figure_id);hold on;
 if info.feas
     cc = subs(cc,dopt);
     solu1 = subs(u1,dopt);
     solu2 = subs(u2,dopt);
-    [~,~]=pcontour(V,double(cc),domain,'g'); hold on;             % Plot the original Lyapunov sublevel set
+%     [~,~]=pcontour(V,double(cc),domain,'g'); hold on;             % Plot the original Lyapunov sublevel set
     refreshdata; drawnow;
 else
     kk = 0;

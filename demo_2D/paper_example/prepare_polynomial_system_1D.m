@@ -7,17 +7,18 @@ format long
 syms x1 x2
 dttr = 0.1;                                               % Recording step size for taining data (default = 0.3)
 Ttr = 30;                                                 % Simulation time for training per starting point (default = 3)
-noise = 0.01;                                             % Obervation noise
+noise = 1e-3;                                             % Obervation noise
 sn = noise*[0 1]';                                        % Observation noise (default = 1e-1)
 
 %% Chebyshev interpolants value
 tic
-sz = 3;
+sz = 2;
 deg = 4;
 poly_deg = 4;
-it = 600;
+it = 400;
 
 %% The first dimension
+% f1_p = x1^2*x2^2-2*x1-x2;
 f1_p = -x1+x2;
 f1_np = 0;
 f1 = f1_p + f1_np;
@@ -32,23 +33,31 @@ f1_appro = f1;
 % f1_appro_data = subs(f1_mid,x1,x_change);
 % f1_appro = f1_appro_data + f1_p;
 %% The second dimension
-f2_p = -x1-x2+x1*x2;
-f2_np = 0.5*(exp(x1)-1);
+f2_p = x1^2*x2;
+f2_np = 1-sqrt(sqrt((exp(x1)*cos(x1))^2));
+% f2_np = 1*sin(x1);
 f2 = f2_p + f2_np;
 y = chebfun(char(f2_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
 y_deg = minimax(y,deg); c_deg = chebcoeffs(y_deg);
 T = chebyshevT([0:deg],x1);
+% if length(c_deg) ~= length(T)
+%     c_deg = [c_deg;0];
+% end
 f2_mid = vpa(T*c_deg);
 x_change = x1/sz;
 f2_appro_data = subs(f2_mid,x1,x_change);
 f2_appro = f2_appro_data + f2_p;
-f_input = [f1;f2_appro];  
+rho = 1.9;                                                % Obtain rho value of 4-th order from cheb_rho.m
+[M,x_num] = cheb_max(f2_np,sz);   
+d = 4*M*rho.^(-deg)/(rho-1.0);                            % Upper bound
+
+f_input = [f1;f2_appro]+[0;d];  
 % the hyper-parameters in f2_appro is passing in dyn_controller_paper_1d.m
 
 %% Set parameters
 dXtr_0 = [];                                              % Collecting training model for learning the difference in real and approximated dynamic systems
 Xtr_0 = [];                                               % Collecting the Xtr_1 = [x1 x2] data by ode45 with setting
-x0tr = [-0.5 -0.4; 0.2 -0.4];
+x0tr = [-0.05 -0.05; 0.05 -0.05];
 ntr = floor(Ttr/dttr);
 E = 2;                                                    % Dimensions of the state space
 dynt = @(t,x) dyn_controller_paper_1d(0,x);                                 % dynamical system to be learned
@@ -61,7 +70,8 @@ for i = 1:length(x0tr(1,:))
         x_initial = xtr(:,1:end-1)';
         dtr_initial = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
+%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)'; 
+        noise_over_measurement = 0;
         real_dtr = dtr_initial + noise_over_measurement;
         %         real_dtr = dtr;
         %%
@@ -74,7 +84,8 @@ for i = 1:length(x0tr(1,:))
         xtest_initial = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
+%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
+        noise_over_measurement = 0;
         real_dtr_test = dtr + noise_over_measurement;
         %         real_dtr = dtr;
         %%
@@ -145,7 +156,9 @@ syms x1 x2;
 y2_learn = double(subs(f2_learn,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
 a1 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2_learn(:,1),'b*'); hold on;
 y2 = double(subs(f2,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
-a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1)+noise_over_measurement(2,:)','ro'); hold on; view(30,40)
+% a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1)+noise_over_measurement(2,:)','ro'); hold on; view(30,40)
+a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1),'ro'); hold on; view(30,40)
+
 f_output = [f1;f2_learn];
 legend([a1,a2],{'Learned Value','Exact Dynamics'}, 'Interpreter','latex','location','northeast');
 

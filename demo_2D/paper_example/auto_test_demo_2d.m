@@ -73,17 +73,17 @@ hold on;
 [~,~]=pcontour(sym.V0,max(double(lp1.v_c)),plot.domain,'b');
 
 %% Plot
-figure(plot.figure_id+1);clf;hold on;
-[~,~]=pcontour(sym.us(1),0,plot.domain,'r');
-[~,~]=pcontour(sym.us(2),0,plot.domain,'r');
-if length(sym.us) == 3
-    [~,~]=pcontour(sym.us(3),0,plot.domain,'r');
-elseif length(sym.us) == 4
-    [~,~]=pcontour(sym.us(3),0,plot.domain,'r');
-    [~,~]=pcontour(sym.us(4),0,plot.domain,'r');
-else
-    fprintf('84 The constraint number does not match.======\n');
-end
+% figure(plot.figure_id+1);clf;hold on;
+% [~,~]=pcontour(sym.us(1),0,plot.domain,'r');
+% [~,~]=pcontour(sym.us(2),0,plot.domain,'r');
+% if length(sym.us) == 3
+%     [~,~]=pcontour(sym.us(3),0,plot.domain,'r');
+% elseif length(sym.us) == 4
+%     [~,~]=pcontour(sym.us(3),0,plot.domain,'r');
+%     [~,~]=pcontour(sym.us(4),0,plot.domain,'r');
+% else
+%     fprintf('84 The constraint number does not match.======\n');
+% end
 %% Hyperparameters of the lp2 @ CBF find controller
 % lp2.u = 4;
 % lp2.h = 4;
@@ -98,9 +98,15 @@ lp2.feas = 1; j = 0;
 %% Start to compute the control barrier function
 record_Q = [1000];
 trace_Q = 1000;
-while abs(double(trace_Q)-double(record_Q(end)))>= lp2.epsi2
+kkk_limit = lp2.epsi2;
+while abs(double(trace_Q)-double(record_Q(end)))>= kkk_limit
     j = j+1
     record_Q = [record_Q; trace_Q];
+    if j <= 20
+        kkk_limit = lp2.epsi2;
+    else
+        kkk_limit = 1.4*mean(double(record(3:20)));
+    end
     record_Q
     [SOLu1,SOLu2,SOL1,SOL2,lp2.feas] = sos_function_1(sym.f,lp2.u,lp2.au,lp2.solh,sym.V0,lp2.gamma,sym.gg);
     if lp2.feas == 0
@@ -126,7 +132,7 @@ end
 % lp3.V_degree = 4;
 % lp3.gamma = 0;
 %%
-for 1
+for itit = 1:6
     kk = 1; OO = 0;
     if ~isempty(Control)
         u1 = Control(end,1);
@@ -147,29 +153,29 @@ for 1
         fprintf('146 Suitable Lyapunov function can not find.======\n');
     end
     N_Lya = [N_Lya;lp3.V];
-    figure(plot.figure_id+2);clf;hold on;
-    cc_p = [1,2,3];
-    for i = 0:16
-        k_u_V = ['r','g','b','m','c','k','y'];
-        if mod(i,7) == 0
-            [~,~]=pcontour(lp3.V,cc_p(1)*i,domain_2,k_u_V(7)); hold on;
-            [~,~]=pcontour(lp3.V,cc_p(2)*i,domain_2,k_u_V(7)); hold on;
-            [~,~]=pcontour(lp3.V,cc_p(3)*i,domain_2,k_u_V(7)); hold on;
-        else
-            [~,~]=pcontour(lp3.V,cc_p(1)*i,domain_2,k_u_V(mod(i,7))); hold on;
-            [~,~]=pcontour(lp3.V,cc_p(2)*i,domain_2,k_u_V(mod(i,7))); hold on;
-            [~,~]=pcontour(lp3.V,cc_p(3)*i,domain_2,k_u_V(mod(i,7))); hold on;
-        end
-    end
-    lp3.Vdot = jacobian(lp3.V, x1)*(sym.f(1)+sym.gg(1)*u1)+ jacobian(lp3.V, x2)*(sym.f(2)+sym.gg(2)*u2);
-    for i = 0:16
-        k_u_V = ['r','g','b','m','c','k','y'];
-        if mod(i,7) == 0
-            [~,~]=pcontour(lp3.Vdot,0,domain_2,k_u_V(7)); hold on;             % Plot the original Lyapunov sublevel set
-        else
-            [~,~]=pcontour(lp3.Vdot,0,domain_2,k_u_V(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
-        end
-    end
+    %     figure(plot.figure_id+2);clf;hold on;
+    %     cc_p = [1,2,3];
+    %     for i = 0:16
+    %         k_u_V = ['r','g','b','m','c','k','y'];
+    %         if mod(i,7) == 0
+    %             [~,~]=pcontour(lp3.V,cc_p(1)*i,domain_2,k_u_V(7)); hold on;
+    %             [~,~]=pcontour(lp3.V,cc_p(2)*i,domain_2,k_u_V(7)); hold on;
+    %             [~,~]=pcontour(lp3.V,cc_p(3)*i,domain_2,k_u_V(7)); hold on;
+    %         else
+    %             [~,~]=pcontour(lp3.V,cc_p(1)*i,domain_2,k_u_V(mod(i,7))); hold on;
+    %             [~,~]=pcontour(lp3.V,cc_p(2)*i,domain_2,k_u_V(mod(i,7))); hold on;
+    %             [~,~]=pcontour(lp3.V,cc_p(3)*i,domain_2,k_u_V(mod(i,7))); hold on;
+    %         end
+    %     end
+    %     lp3.Vdot = jacobian(lp3.V, x1)*(sym.f(1)+sym.gg(1)*u1)+ jacobian(lp3.V, x2)*(sym.f(2)+sym.gg(2)*u2);
+    %     for i = 0:16
+    %         k_u_V = ['r','g','b','m','c','k','y'];
+    %         if mod(i,7) == 0
+    %             [~,~]=pcontour(lp3.Vdot,0,domain_2,k_u_V(7)); hold on;             % Plot the original Lyapunov sublevel set
+    %         else
+    %             [~,~]=pcontour(lp3.Vdot,0,domain_2,k_u_V(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
+    %         end
+    %     end
     %% Hyperparameters of the Optimal Sublevel set @ CLF LP4
     %     lp4.u = 4;
     %     lp4.au = 8;
@@ -185,7 +191,7 @@ for 1
     [~,~]=pcontour(lp3.V,double(CC),plot.domain,'c');
     solU = []; optimal_vc = []; lp1iter = 0;
     %%
-    while abs(double(CC)-double(C0)) >= 1e-6
+    while abs(double(CC)-double(C0)) >= 1e-4
         lp1iter = lp1iter + 1;
         if lp1iter ~= 0
             C0 = CC;
@@ -233,18 +239,24 @@ for 1
     else
         fprintf('233 The constraint number does not match.======\n');
     end
-    record_Q = [1];
+    record_Q1 = [1];
     trace_Q = 1.1;
-    while abs(double(trace_Q)-double(record_Q(end)))>=1e-3
+    kkk_limit = 1e-4;
+    while abs(double(trace_Q)-double(record_Q1(end)))>=kkk_limit
         j = j+1
-        record_Q = trace_Q
+        record_Q1 = [record_Q1; trace_Q];
+        if j <= 20
+            kkk_limit = lp2.epsi2;
+        else
+            kkk_limit = 1.4*mean(double(record_Q1(3:20)));
+        end
         [SOLu1,SOLu2,SOL1,SOL2,lp5.feas] = sos_function_1(sym.f,lp5.u,lp5.au,solh,lp5.V,lp5.gamma,sym.gg);
         if lp5.feas == 0
             fprintf('242 Optimal CBF controller [End] can not find.======\n');
             break
         end
         Control_lp5 = [Control_lp5; [SOLu1 SOLu2]];
-        [solh,trace_Q,lp5.feas]=sos_function_2(j,sym.f,b_k_h,SOLu1,SOLu2,SOL1,SOL2,lp5.gamma,lp5.V,sym.us,dom,sym.gg,lp5.us,plot.figure_id+3);
+        [solh,trace_Q,lp5.feas]=sos_function_2(j,sym.f,lp5.h,SOLu1,SOLu2,SOL1,SOL2,lp5.gamma,lp5.V,sym.us,dom,sym.gg,lp5.us,plot.figure_id+3);
         TRACE_lp5 = [TRACE_lp5; double(trace_Q)];
         Barrier_lp5 = [Barrier_lp5; solh];
         if lp5.feas == 0
@@ -254,7 +266,7 @@ for 1
     end
     %%
     figure(plot.figure_id);hold on;
-    if ~isempty(Barrier_lp5)
+    if length(Barrier_lp5)~=1 || double(Barrier_lp5)~=0 || double(Barrier_lp5(end))~=0
         [~,~]=pcontour(Barrier_lp5(end),0,plot.domain,'b');
     end
     k_iter = 5;

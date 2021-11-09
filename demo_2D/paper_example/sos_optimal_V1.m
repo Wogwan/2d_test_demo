@@ -3,8 +3,8 @@ function [V, kk] = sos_optimal_V1(f,gg,B,u1,u2,l_au,l_us,V_degree,C,gamma)
 pvar x1 x2 Vtol2;
 x = [x1;x2];
 %%
-[V,vc] = polydecvar('v_w',monomials(x,0:V_degree));
-% [V,vc] = polydecvar('v_w',[x1^4; x2^4; x1^2*x2^2;x1^2;x2^2;x1*x2]);
+% [V,vc] = polydecvar('v_w',monomials(x,0:V_degree));
+[V,vc] = polydecvar('v_w',[x1^4; x2^4; x1^2*x2^2;x1^2;x2^2;x1*x2]);
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:l_au));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:l_au)); 
 [L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:l_us)); 
