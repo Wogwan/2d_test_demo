@@ -5,6 +5,7 @@ pvar x1 x2 htol epsi;
 x = [x1;x2];
 %%
 [h,hc] = polydecvar('h_w',monomials(x,0:k)); % L1 sos decision variables
+% [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables
 
 % [h,hc] = polydecvar('h_w',monomials(x,[0 2 4])); % L1 sos decision variables
 % if k == 2
@@ -52,7 +53,7 @@ else
 end  
 %%
 % obj = -trace(hc);
-% obj = -(hc(1)+hc(2)+hc(4)+hc(5)+hc(7)+hc(9));
+%%
 if k==2
     obj = -(hc(1)+hc(4)+hc(6));
 elseif k==4
