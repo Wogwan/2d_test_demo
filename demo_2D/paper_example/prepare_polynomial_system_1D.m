@@ -12,7 +12,7 @@ sn = noise*[0 1]';                                        % Observation noise (d
 
 %% Chebyshev interpolants value
 tic
-sz = 2;
+sz = 3;
 deg = 4;
 poly_deg = 4;
 it = 400;

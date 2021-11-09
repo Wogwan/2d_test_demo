@@ -2,49 +2,49 @@
 figure(2);clf;
 pvar x1 x2 u htol epsi;
 x = [x1;x2];
+%%
+dom1 = 10; domain1 = [-dom1 dom1 -dom1 dom1];
+dom2 = 3; domain2 = [-dom2 dom2 -dom2 dom2];
 %%%%%%%%%%%%%%%%%%%%%%%
-C1 = (x1+8)^2+(x2-0)^2-4;
-C2 = (x1-8)^2+(x2+0)^2-4;
-C3 = (x1-0)^2+(x2-8)^2-4;
-C4 = (x1-0)^2+(x2+8)^2-4;
+C1 = (x1+4)^2+(x2-6)^2-4;
+C2 = (x1+3)^2+(x2+4)^2-4;
+C3 = (x1-6)^2+(x2-0)^2-5;
+[~,h20] = pcontour(C1,0,domain1,'k'); hold on; h20.LineStyle = '--';     
+[~,h21] = pcontour(C2,0,domain1,'k'); hold on; h21.LineStyle = '--';   
+[~,h22] = pcontour(C3,0,domain1,'k'); hold on; h22.LineStyle = '--';    
+%% Without controller
 V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
-sub_level_no_controller = 0.101339366217398;
-B_no_controller = -299469.2888551163*x1^6+177574.6581854458*x1^5*x2-779712.3797276674*x1^4*x2^2-868120.9856405794*x1^3*x2^3-1075057.741145297*x1^2*x2^4+524840.3553407069*x1*x2^5-687371.1975566965*x2^6-424386.1054192791*x1^5+2308009.407168391*x1^4*x2-1528276.899024193*x1^3*x2^2-372648.7371172399*x1^2*x2^3-1827051.861052636*x1*x2^4-99505.7212121567*x2^5-1016241.746731024*x1^4+4394543.527266666*x1^3*x2+2156575.298549416*x1^2*x2^2+1064086.444029456*x1*x2^3+180462.8532985262*x2^4-1446177.344812278*x1^3-515132.2066721657*x1^2*x2+4512922.136537937*x1*x2^2+1644329.601763489*x2^3-316821.4412679775*x1^2-5570076.203360715*x1*x2+1441378.478613752*x2^2+962752.0173226857*x1-3245844.443155527*x2+566653.4844229659;
-V = 15.22034892819922*x1^4-13.44164154544166*x1^2*x2^2+18.56603884407099*x2^4+5.087438107880891*x1^2+0.2507678441391148*x1*x2+6.951304128544671*x2^2;
-H = -12.9254727672629*x1^4+0.02951083237961412*x1^3*x2+10.73667355440355*x1^2*x2^2-1.692619448386333*x1*x2^3-3.582476284173307*x2^4+0.1542660855197659*x1^3+0.06655462590463264*x1^2*x2-0.0764762142639748*x1*x2^2+0.04089981707855826*x2^3+23.41429551310097*x1^2+3.002811313301487*x1*x2-22.87164191870751*x2^2-0.1173283511687331*x1-0.1731079941771329*x2+98.97467757952973;
-%%
-dom = 14;
-domain = [-dom dom -dom dom];
-[c24,h24] = pcontour(C1,0,domain,'k'); hold on;    
-[~,h21] = pcontour(C2,0,domain,'k'); hold on;    
-[~,h22] = pcontour(C3,0,domain,'k'); hold on;            
-[~,h23] = pcontour(C4,0,domain,'k'); hold on;       
-%%
-[c26,h26]=pcontour(V,1.0e+04*1.990871978283739,domain,'r'); hold on; 
-[c28,h28]=pcontour(H,0,domain,'g'); hold on; 
-[c30,h30]=pcontour(V0,sub_level_no_controller,domain,'m'); hold on; 
-[c32,h32]=pcontour(B_no_controller,0,domain,'m'); hold on; 
-% clabel(c26,h26);
-h24.LineStyle = '--';
-h21.LineStyle = '--';
-h22.LineStyle = '--';
-h23.LineStyle = '--';
-h26.LineWidth = 1.2;
-h26.LineStyle = '-.';
-h26.LineWidth = 1.5;
-h28.LineStyle = ':';
-h28.LineWidth = 1.8;
-h30.LineStyle = '-';
-h30.LineWidth = 2.1;
-h32.LineStyle = ':';
-h32.LineWidth = 1.8;
+sub_level_no_controller = 1e-2;
+sub_maximum = 0.3669112237857279;
+B_no_controller = -0.01730994859216674*x1^4+0.01942272684429362*x1^3*x2+0.03417833273172551*x1^2*x2^2-0.03089576272906369*x1*x2^3-0.03229854756848641*x2^4+0.0469049245134507*x1^3-0.02724130274950444*x1^2*x2-0.1920732549990291*x1*x2^2-0.04355589754110674*x2^3-0.1908212359824433*x1^2+0.04850161666128519*x1*x2-0.3902288519748806*x2^2+0.02342000091755831*x1+0.01847082505198164*x2+0.1049276784359924;
+% [~,h26]=pcontour(V0,double(sub_level_no_controller),domain2,'r'); hold on; h26.LineWidth = 1.5; % h26.LineStyle = '-'; 
+% [~,h27]=pcontour(V0,double(sub_maximum),domain2,'r'); hold on; h27.LineWidth = 1.5; % h27.LineStyle = '-'; 
+[~,h28]=pcontour(B_no_controller,0,domain2,'b'); hold on; h28.LineStyle = '-.'; h28.LineWidth = 1.8;
 
-h = legend([h24,h30,h28,h32,h26],{'Unsafe Regions','$\mathcal{L}_{V_0} = \{0<V(x)\leq 0.1013\}$','$\mathcal{L}_B = \{B(x)\geq 0\}$','$\mathcal{L}_{B_n} = \{B_n(x)\geq 0\}$','$\mathcal{L}_V = \{0<V(x)\leq 19.96\}$'}, 'Interpreter','latex','location','northeast','Fontsize',12);
+%% With controller
+V1 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
+initial_set = 0.1;
+sub_level_with_controller = 1e+2*1.237395136812358;
+B_controller_1 = -25.5286775994005*x1^4-8.826737822184512*x1^3*x2+9.97662491998584*x1^2*x2^2-57.03373052165595*x1*x2^3-66.6347601541668*x2^4+6.719666264862423*x1^3+27.82600314594399*x1^2*x2+63.24796692083677*x1*x2^2+32.27190868643367*x2^3-12.33737345606981*x1^2-16.10987157050511*x1*x2-5.888600774219452*x2^2-0.003646379657348746*x1-0.002562037970909413*x2+4830.062776216545;
+%% Fin optimal Lyapunov
+optimal_Lya = 0.04179276814237692*x1^4+0.00599499247615957*x1^3*x2-0.01159727730969628*x1^2*x2^2+0.1133535410885831*x1*x2^3+0.1278491306857938*x2^4-0.02172406709266159*x1^3-0.01538819184502436*x1^2*x2-0.0696562899336908*x1*x2^2-0.06418623865759861*x2^3+1.008634051772913*x1^2-0.1426054475471644*x1*x2+1.639478142955251*x2^2+0.0001459131173134332*x1+0.0002096383926257461*x2+16.81346393865286;
+optimal_Lya_initial_sub_level_with_controller = 16.913463938652860;
+optimal_Lya_sub_level_with_controller = 36.684617121664921;
+B_controller_2 = -58.97980677188772*x1^4-21.6659060443932*x1^3*x2+28.12125555741769*x1^2*x2^2-129.6803853558933*x1*x2^3-157.3179863576909*x2^4+13.24827426695448*x1^3+68.28776419576589*x1^2*x2+144.7494317999085*x1*x2^2+66.60440538680615*x2^3-25.62617405232249*x1^2-31.77766929928703*x1*x2-9.891097539993952*x2^2-0.03166247667860711*x1-0.01972385661073517*x2+10966.53856493954;
+%%
+% [~,h29]=pcontour(V1,double(initial_set),domain1,'r'); hold on; h29.LineStyle = '-'; h29.LineWidth = 2.1;
+[~,h30]=pcontour(V1,double(sub_level_with_controller),domain1,'r'); hold on; h30.LineStyle = '-'; h30.LineWidth = 2.1;
+[~,h31]=pcontour(B_controller_1,0,domain1,'m'); hold on; h31.LineStyle = '-'; h31.LineWidth = 1.4;
+% [~,h32]=pcontour(optimal_Lya,optimal_Lya_initial_sub_level_with_controller,domain1,'b'); h32.LineStyle = '-'; h32.LineWidth = 2.1;
+[~,h33]=pcontour(optimal_Lya,optimal_Lya_sub_level_with_controller,domain1,'m'); h33.LineStyle = '-.'; h33.LineWidth = 1.4;
+[~,h34]=pcontour(B_controller_2,0,domain1,'b'); h34.LineStyle = '-.'; h34.LineWidth = 1.5;
+%%
+h = legend([h22,h28,h30,h33,h31,h34],{'Unsafe Regions','Barrier certificates','CLF sublevel set','Optimal CLF','CBF-ROA','Optimal CBF-ROA'}, 'Interpreter','latex','location','northeast','Fontsize',12);
 set(h,'FontName','Times New Roman','FontSize',14,'FontWeight','normal');hold on;
 % xlabel('$x_1$','Interpreter','latex','Fontsize',18); 
 % ylabel('$x_2$','Interpreter','latex','Fontsize',18);
-set(gca,'ytick',[-12,-6,0,6,12]);
-set(gca,'xtick',[-12,-6,0,6,12]);
+set(gca,'ytick',[-10,-5,0,5,10]);
+set(gca,'xtick',[-10,-5,0,5,10]);
 set(gca,'FontSize',14,'Fontname','Times');
 set(gca,'Box','on');
 ax = gca;
@@ -52,7 +52,7 @@ ax.BoxStyle = 'full';
 ax.LineWidth = 1.7;
 xlabel('$x_1$','Interpreter','latex','Fontsize',16,'Fontname','Times');
 ylabel('$x_2$','Interpreter','latex','Fontsize',16,'Fontname','Times');
-xlim([-dom-3 dom+3]); ylim([-dom+2 dom+6]); hold on;
+xlim([-dom1-3 dom1+3]); ylim([-dom1+2 dom1+6]); hold on;
 
 %  Green [54 185 132]/255
 %  Red [247 77 77]/255

@@ -5,10 +5,15 @@ domain = [-dom dom -dom dom];
 pvar x1 x2 cc;
 x = [x1;x2];
 %     [u,uc] = polydecvar('u_w',monomials(x,0:k));
-[L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:k_l/2)); 
-[L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:k_l/2)); 
-[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k_l/2)); 
-[L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:k_l/2)); 
+% [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:k_l/2)); 
+% [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:k_l/2)); 
+% [L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k_l/2)); 
+% [L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:k_l/2)); 
+[L1,L1_Q] = polydecvar('L1_w',monomials(x,0:k_l));
+[L2,L2_Q] = polydecvar('L2_w',monomials(x,0:k_l)); 
+[L3,L3_Q] = polydecvar('L3_w',monomials(x,0:k_l)); 
+[L4,L4_Q] = polydecvar('L4_w',monomials(x,0:k_l));
+
 [u1,uc1] = polydecvar('u_w1',monomials(x,0:k)); 
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k));
 
@@ -21,7 +26,7 @@ pconstr_22 = L2 >= 0;
 pconstr_1 = -Vdot-solL*(cc-V) >= 0;
 pconstr_31 = -(cc-V)+C(1)*L1 >= 0;
 pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
-pconstr_4 = cc >= 0;
+pconstr_4 = cc >= ccc;
 if length(C) == 2
     pconstr = [pconstr_21;pconstr_22;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
 elseif length(C) == 3
