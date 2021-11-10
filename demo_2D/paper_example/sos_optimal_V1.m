@@ -25,14 +25,79 @@ pcr_11 = L1 >= 0;
 pcr_12 = L2 >= 0;
 pcr_13 = L3 >= 0;
 pcr_14 = L4 >= 0;
-pcr_15 = L5 >= 0;
+% pcr_15 = L5 >= 0;
 %%
 pconstr_1 = V-L1*B >= 0;
 % pconstr_1 = -V+L1*B >= 0;
-pconstr_2 = -Vdot-L2*B-gamma*B-Vtol2 >= 0;
-% pconstr_2 = -Vdot+L2*B+gamma*B+Vtol2 >= 0;
+% pconstr_2 = -Vdot-L2*B-gamma*B-Vtol2 >= 0;
+pconstr_2 = -Vdot-L2*B-gamma*B>= 0;
 pconstr_3 = Vtol2 >= 0;
 pconstr_4 = V >= 0;
+%%
+% pcr_21 = V-C(1)*L3 >= 0;
+% pcr_22 = V-C(2)*L4 >= 0;
+% if length(C) == 2
+% %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22];
+%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22];
+% elseif length(C) == 3
+%     pcr_15 = L5 >= 0;
+%     pcr_23 = V-C(3)*L5 >= 0;
+% %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
+%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23];
+% elseif length(C) == 4
+%     pcr_15 = L5 >= 0;
+%     pcr_23 = V-C(3)*L5 >= 0;
+%     pcr_16 = L6 >= 0;
+%     pcr_24 = V-C(4)*L6 >= 0;
+% %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23;pcr_24];
+%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23;pcr_24];
+% else
+%     fprintf('Constraints vector does not match.======\n');
+% end  
+%% Unsafe Region Negative
+pcr_21 = -V-C(1)*L3 <= 0;
+pcr_22 = -V-C(2)*L4 <= 0;
+if length(C) == 2
+%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22];
+    pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_4;pcr_21;pcr_22];
+elseif length(C) == 3
+    pcr_15 = L5 >= 0;
+    pcr_23 = -V-C(3)*L5 <= 0;
+    pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_4;pcr_21;pcr_22;pcr_23];
+    %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
+elseif length(C) == 4
+    pcr_15 = L5 >= 0;
+    pcr_23 = -V-C(3)*L5 <= 0;
+    pcr_16 = L6 >= 0;
+    pcr_24 = -V-C(4)*L6 <= 0;
+    pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_4;pcr_21;pcr_22;pcr_23;pcr_24];
+    %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23;pcr_24];
+else
+    fprintf('Constraints vector does not match.======\n');
+end  
+%%
+% obj = Vtol2+cc1+cc2+cc3;
+% obj = -(Vtol2+cc1+cc2+cc3);
+% obj = -Vtol2;
+% obj = Vtol2;
+%%
+opts = sosoptions;
+opts.form = 'kernel';
+opts.solver = 'mosek';
+% [info,dopt] = sosopt(pconstr,x,obj,opts);
+[info,dopt] = sosopt(pconstr,x,opts);
+if info.feas
+    kk = 1;
+    V = subs(V,dopt)
+else
+    kk = 0;
+    V  = 0;
+    fprintf('Lyapunov SOS Factor L can not find.======\n');
+    return;
+end
+
+end
+
 %%
 % pp1 = cc1 >= 0;
 % pp2 = cc2 >= 0;
@@ -45,67 +110,3 @@ pconstr_4 = V >= 0;
 % pconstr = [pcr_11;pcr_12;pconstr_1;pconstr_2];
 % pconstr = [pcr_11;pcr_12;pconstr_1;pconstr_2;pconstr_3];
 % pconstr = [pcr_11;pcr_12;pconstr_1;pconstr_2;pconstr_3;pconstr_4];
-%%
-pcr_21 = V-C(1)*L3 >= 0;
-pcr_22 = V-C(2)*L4 >= 0;
-if length(C) == 2
-%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22];
-    pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22];
-elseif length(C) == 3
-    pcr_15 = L5 >= 0;
-    pcr_23 = V-C(3)*L5 >= 0;
-%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
-    pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23];
-elseif length(C) == 4
-    pcr_15 = L5 >= 0;
-    pcr_23 = V-C(3)*L5 >= 0;
-    pcr_16 = L6 >= 0;
-    pcr_24 = V-C(4)*L6 >= 0;
-%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23;pcr_24];
-    pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23;pcr_24];
-else
-    fprintf('Constraints vector does not match.======\n');
-end  
-%% Unsafe Region Negative
-% pcr_21 = -V-C(1)*L3 <= 0;
-% pcr_22 = -V-C(2)*L4 <= 0;
-% if length(C) == 2
-% %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22];
-%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22];
-% elseif length(C) == 3
-%     pcr_15 = L5 >= 0;
-%     pcr_23 = -V-C(3)*L5 <= 0;
-%     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23];
-%     %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
-% elseif length(C) == 4
-%     pcr_15 = L5 >= 0;
-%     pcr_23 = -V-C(3)*L5 <= 0;
-%     pcr_16 = L6 >= 0;
-%     pcr_24 = -V-C(4)*L6 <= 0;
-% %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23;pcr_24];
-%     %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23;pcr_24];
-% else
-%     fprintf('Constraints vector does not match.======\n');
-% end  
-%%
-% obj = Vtol2+cc1+cc2+cc3;
-% obj = -(Vtol2+cc1+cc2+cc3);
-% obj = -Vtol2;
-obj = Vtol2;
-%%
-opts = sosoptions;
-opts.form = 'kernel';
-opts.solver = 'mosek';
-[info,dopt] = sosopt(pconstr,x,obj,opts);
-% [info,dopt] = sosopt(pconstr,x,opts);
-if info.feas
-    kk = 1;
-    V = subs(V,dopt)
-else
-    kk = 0;
-    V  = 0;
-    fprintf('Lyapunov SOS Factor L can not find.======\n');
-    return;
-end
-
-end

@@ -51,7 +51,7 @@ solU = [];
 v_c = [];
 iter = 1;
 %%
-while double(cc)-double(C0) >= 1e-8
+while double(cc)-double(C0) >= 1e-6
     iter = iter + 1;
     if iter ~= 1
         C0 = cc;
