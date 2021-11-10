@@ -69,7 +69,7 @@ xlim([-dom dom]); ylim([-dom dom]); hold on;
 [~,~]=pcontour(C1,0,domain,'k'); hold on;           
 [~,~]=pcontour(C2,0,domain,'k'); hold on;         
 if length(C) == 3
-    [~,~]=pcontour(C(3),0,domain,'r');            % Plot the original Lyapunov sublevel set
+    [~,~]=pcontour(C(3),0,domain,'k');            % Plot the original Lyapunov sublevel set
 end      
 axis(domain); TRACE = [];
 Barrier = []; Control = [];
