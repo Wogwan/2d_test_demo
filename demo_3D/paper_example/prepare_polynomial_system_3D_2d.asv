@@ -44,8 +44,8 @@ f3_appro_data = subs(f3_mid,x1,x_change);
 f3_appro = f3_appro_data + f3_p;
 %% Chebyshev remainder item
 [Cheb_Pn1, Cheb_Pn3] = sos_cheb(deg,sz);                  % Provide the non-polynomial function in sos_cheb.m
-[M1,x_num1] = cheb_max_3D(f1_np,sz);                          % Check the maximum value in the given region of the approximated function
-[M3,x_num2] = cheb_max_3D(f3_np,sz);                         % Check the maximum value in the given region of the approximated function
+[M1,x_num1] = cheb_max_3D(f1_np,sz);                          % Check the maximum value in the given region of the approximated function            
+[M3,x_num2] = cheb_max_3D(f3_np,sz);                         % Check the maximum value in the given region of the approximated function            
 hold on; plot(x_num1,M1,'ko'); plot(x_num2,M3,'ko');
 % rho1 = cheb_rho1(deg,sz); % rho2 = cheb_rho2(deg,sz);
 rho1 = 1.33;                                                % Obtain rho value of 4-th order from cheb_rho.m
@@ -83,7 +83,7 @@ ax.BoxStyle = 'full';
 ax.LineWidth = 1.7;
 xlabel('$x_3$','Interpreter','latex','Fontsize',22,'Fontname','Times');
 ylabel('$y$','Interpreter','latex','Fontsize',22,'Fontname','Times');
-refreshdata; drawnow;
+refreshdata; drawnow; 
 %% Set parameters
 dXtr_0 = [];                                              % Collecting training model for learning the difference in real and approximated dynamic systems
 Xtr_0 = [];                                               % Collecting the Xtr_1 = [x1 x2] data by ode45 with setting
@@ -100,8 +100,8 @@ for i = 1:length(x0tr(1,:))
         x_initial = xtr(:,1:end-1)';
         dtr_initial = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        %         noise_over_measurement_1 = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr_initial))';                                                 % Obtain the xdot not directly, but with approximated differential method
-        %         real_dtr = dtr_initial + noise_over_measurement_1;
+%         noise_over_measurement_1 = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr_initial))';                                                 % Obtain the xdot not directly, but with approximated differential method
+%         real_dtr = dtr_initial + noise_over_measurement_1;
         real_dtr = dtr_initial;
         %%
         %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
@@ -113,8 +113,8 @@ for i = 1:length(x0tr(1,:))
         xtest_initial = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-        %         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr))';                                                 % Obtain the xdot not directly, but with approximated differential method
-        %         real_dtr_test = dtr + noise_over_measurement;
+%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),length(dtr))';                                                 % Obtain the xdot not directly, but with approximated differential method
+%         real_dtr_test = dtr + noise_over_measurement;
         real_dtr_test = dtr;
         %%
         %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
@@ -137,8 +137,8 @@ end
 %%
 y1_mid = reshape(double(dXtr_x_mid_1),1,[])';
 y1_test_mid = reshape(double(dXtr_xtest_mid_1),1,[])';
-y1_trainset = reshape(double(real_dtr(1,:)),1,[])';
-y1_testset = reshape(double(real_dtr_test(1,:)),1,[])';
+y1_trainset = reshape(double(real_dtr(2,:)),1,[])';
+y1_testset = reshape(double(real_dtr_test(2,:)),1,[])';
 y1 = y1_mid - y1_trainset;
 y1_test = y1_test_mid - y1_testset;
 %%
@@ -150,9 +150,9 @@ y3 = y3_mid - y3_trainset;
 y3_test = y3_test_mid - y3_testset;
 
 %%
-dxdt1 = 0;
+dxdt2 = 0;
 X = [1];
-[mean1,hyp2,delta2,rmse2] = gpr_xdot1_3D(x_initial,y1,xtest_initial,y1_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
+[mean2,hyp2,delta2,rmse2] = gpr_xdot2_3D(x_initial,y1,xtest_initial,y1_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
 pvar x1 x2 x3
 X1 = p2s(monomials(x1,(0:poly_deg)));
 X2 = p2s(monomials(x2,(0:poly_deg)));
@@ -161,7 +161,7 @@ for i = 2:length(X1)
     X = [X;X1(i);X2(i);X3(i)];
 end
 for i = 1:length(X)
-    dxdt1 = vpa(dxdt1 + X(i)*mean1(i));
+    dxdt2 = vpa(dxdt2 + X(i)*mean2(i));
 end
 %%
 dxdt3 = 0;
@@ -178,7 +178,7 @@ for i = 1:length(X)
     dxdt3 = vpa(dxdt3 + X(i)*mean3(i));
 end
 
-f_output = [f1_appro+dxdt1;f2;f3_appro+dxdt3];
+f_output = [f1;f1_appro+dxdt2;f3_appro+dxdt3];
 toc
 %%
 % %%
@@ -211,7 +211,7 @@ toc
 % ylabel('$x_2$','Interpreter','latex','Fontsize',15);
 % zlabel('$x_3$','Interpreter','latex','Fontsize',15);
 % set(gca,'FontSize',15,'Fontname','Times');
-%
+% 
 % %%
 % figure(668);clf;
 % set(gcf,'Position',[100 100 1000 350]);
