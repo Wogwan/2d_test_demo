@@ -1,7 +1,7 @@
 clear;
 pvar x1 x2 x3 u1 u2 u3 htol epsi;
 format long
-x = [x1;x2];
+x = [x1;x2;x3];
 %%
 f = [-0.16211179709695037165964324641892*x1^4+0.49031898059485488031675707268867*x1^3-0.80741059860165544525334054266171*x1^2-0.67918469453797989758096302163419*x1-0.000031796033448678815965058458425929*x2^4+0.00049811603934539429219124917480599*x2^3-0.017884574789259536503616132563366*x2^2+0.059003602596920091960530641017613*x2+0.14736298331076760903535216584714*x3^4-0.22234685217253638556123007674614*x3^3+0.14008297734444075111071015271591*x3^2+0.34076230832989312657943514750514*x3-1.4865840251194628709408125437986
     -x2*x1^3-x2
@@ -52,9 +52,7 @@ ccc = double(vpa(a1(end)));
 C0 = ccc; cc = ccc+1;solU = []; v_c = []; iter = 0;
 %%
 figure(figure_id);hold on;
-% [~,~]=pcontour(V,double(C0),domain,'r');
 phV1= patch(pcontour3(V,double(cc),domain,'G')); set(phV1,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'r' );
-
 %%
 while double(cc)-double(C0) >= epsi
     iter = iter + 1;
@@ -68,58 +66,10 @@ while double(cc)-double(C0) >= epsi
     [cc,kk,solu1,solu2,solu3] = sos_optimal_v3_3D(f,gg,k_u_V,k_l_au,V,C,dom,solL,ccc,figure_id);
     v_c = [v_c; double(cc)]
     solU = [solU;[solu1,solu2,solu3]];
-    if kk == 0
-        figure(figure_id);hold on;
-        [~,~]=pcontour(V,v_c(end),domain,'b');
-        break
-    end
 end
-
 %% Start to compute the control barrier function
 c_b = v_c(end);
 sol_B = c_b - N_Lya(end);
-hold on;[~,~]=pcontour(sol_B,0,domain,'k');
+hold on;
+phsol_B= patch(pcontour3(sol_B,0,domain,'B')); set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
 V = N_Lya(end);
-
-%%
-%     i_count_1 = min(length(Control),length(Barrier));
-%     if i_count_1 ~= 0
-%         u1 = Control(i_count_1,1);
-%         u2 = Control(i_count_1,2);
-%         B = Barrier(i_count_1);
-%     else
-%         if isempty(Control)
-%             u1 = 1;
-%             u2 = 1;
-%         else
-%             u1 = Control(i_count_1,1);
-%             u2 = Control(i_count_1,2);
-%         end
-%         B = 0;
-%         fprintf('Barrier function can not find.======\n');
-%     end
-
-%     figure(figure_id+2);clf;
-%     hold on;
-%     cc = [1,2,3];
-%     for i = 0:16
-%         k_u_V = ['r','g','b','m','c','k','y'];
-%         if mod(i,7) == 0
-%             [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(7)); hold on;
-%             [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(7)); hold on;
-%             [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(7)); hold on;
-%         else
-%             [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(mod(i,7))); hold on;
-%             [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(mod(i,7))); hold on;
-%             [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(mod(i,7))); hold on;
-%         end
-%     end
-%     Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
-%     for i = 0:16
-%         k_u_V = ['r','g','b','m','c','k','y'];
-%         if mod(i,7) == 0
-%             [~,~]=pcontour(Vdot,0,domain_2,k_u_V(7)); hold on;             % Plot the original Lyapunov sublevel set
-%         else
-%             [~,~]=pcontour(Vdot,0,domain_2,k_u_V(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
-%         end
-%     end
