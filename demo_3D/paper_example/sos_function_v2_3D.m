@@ -40,7 +40,7 @@ opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,x,obj,opts);
-figure(figure_id);hold on;
+figure(figure_id);clf;hold on;
 % Create output
 if info.feas
     cc = subs(cc,dopt);

@@ -12,7 +12,8 @@ sn = noise*[0 1]';                                        % Observation noise (d
 
 %% Chebyshev interpolants value
 tic
-sz = 3;
+% sz = 3;
+sz = 2;
 deg = 4;
 poly_deg = 4;
 it = 400;
@@ -50,7 +51,8 @@ f2_appro = f2_appro_data + f2_p;
 rho = 1.9;                                                % Obtain rho value of 4-th order from cheb_rho.m
 [M,x_num] = cheb_max(f2_np,sz);   
 d = 4*M*rho.^(-deg)/(rho-1.0);                            % Upper bound
-
+%%
+% f_input = [f1;f2_appro];  
 f_input = [f1;f2_appro]+[0;d];  
 % the hyper-parameters in f2_appro is passing in dyn_controller_paper_1d.m
 
