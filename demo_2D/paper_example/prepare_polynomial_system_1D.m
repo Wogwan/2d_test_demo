@@ -12,49 +12,29 @@ sn = noise*[0 1]';                                        % Observation noise (d
 
 %% Chebyshev interpolants value
 tic
-% sz = 3;
 sz = 2;
 deg = 4;
 poly_deg = 4;
 it = 400;
 
 %% The first dimension
-% f1_p = x1^2*x2^2-2*x1-x2;
 f1_p = -x1+x2;
 f1_np = 0;
 f1 = f1_p + f1_np;
 f1_appro = f1;
-
-%%
-% y = chebfun(char(f1_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
-% y_deg = minimax(y,deg); c_deg = chebcoeffs(y_deg);
-% T = chebyshevT([0:deg],x1);
-% f1_mid = vpa(T*c_deg);
-% x_change = x1/sz;
-% f1_appro_data = subs(f1_mid,x1,x_change);
-% f1_appro = f1_appro_data + f1_p;
 %% The second dimension
 f2_p = x1^2*x2;
 f2_np = 1-sqrt(sqrt((exp(x1)*cos(x1))^2));
-% f2_np = 1*sin(x1);
 f2 = f2_p + f2_np;
-y = chebfun(char(f2_np),[-sz,sz],'splitting','on'); % Modified here with different non-polynomial g
-y_deg = minimax(y,deg); c_deg = chebcoeffs(y_deg);
-T = chebyshevT([0:deg],x1);
-% if length(c_deg) ~= length(T)
-%     c_deg = [c_deg;0];
-% end
-f2_mid = vpa(T*c_deg);
-x_change = x1/sz;
-f2_appro_data = subs(f2_mid,x1,x_change);
+%%
+f2_appro_data = sos_cheb_controller(deg,sz);
 f2_appro = f2_appro_data + f2_p;
 rho = 1.9;                                                % Obtain rho value of 4-th order from cheb_rho.m
 [M,x_num] = cheb_max(f2_np,sz);   
 d = 4*M*rho.^(-deg)/(rho-1.0);                            % Upper bound
-%%
-% f_input = [f1;f2_appro];  
+%% 
 f_input = [f1;f2_appro]+[0;d];  
-% the hyper-parameters in f2_appro is passing in dyn_controller_paper_1d.m
+% the hyper-parameters in f_input is passing in dyn_controller_paper_1d.m
 
 %% Set parameters
 dXtr_0 = [];                                              % Collecting training model for learning the difference in real and approximated dynamic systems
@@ -76,11 +56,6 @@ for i = 1:length(x0tr(1,:))
         noise_over_measurement = 0;
         real_dtr = dtr_initial + noise_over_measurement;
         %         real_dtr = dtr;
-        %%
-        %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
-        %         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
-        %         y1 = dtr(1,:)'-d1_error;
-        %         y2 = dtr(2,:)'-d2_error;
     elseif i == 2
         [t,xtr] = ode45(dynt,0:dttr:Ttr,x0tr(:,i)'); xtr = xtr';
         xtest_initial = xtr(:,1:end-1)';
@@ -90,11 +65,6 @@ for i = 1:length(x0tr(1,:))
         noise_over_measurement = 0;
         real_dtr_test = dtr + noise_over_measurement;
         %         real_dtr = dtr;
-        %%
-        %         d1_error = double(subs(f1_appro,{x1,x2},{x(:,1),x(:,2)}));
-        %         d2_error = double(subs(f2_appro,{x1,x2},{x(:,1),x(:,2)}));
-        %         y1_test = dtr(1,:)'-d1_error;
-        %         y2_test = dtr(2,:)'-d2_error;
     end
 end
 
@@ -114,20 +84,6 @@ y2_testset = reshape(double(real_dtr_test(2,:)),1,[])';
 %%
 y2 = y2_mid - y2_trainset;
 y2_test = y2_test_mid - y2_testset;
-
-%%
-% dxdt1 = 0;
-% X = [1];
-% [mean1,hyp1,delta1,rmse1] = gpr_xdot1(x,y1,xtest,y1_test,it,noise,poly_deg);            % GP learning for the xdot2 dynamic systems
-% pvar x1 x2
-% X1 = p2s(monomials(x1,(0:poly_deg)));
-% X2 = p2s(monomials(x2,(0:poly_deg)));
-% for i = 2:length(X1)
-%     X = [X; X1(i); X2(i)];
-% end
-% for i = 1:length(X)
-%     dxdt1 = vpa(dxdt1 + X(i)*mean1(i));
-% end
 
 %%
 dxdt2 = 0;
@@ -153,17 +109,16 @@ end
 % title(['rsme1 = ', num2str(rmse1)])
 %%
 figure(3);clf;hold on;
-f2_learn = f2_appro + dxdt2;
+f2_learn = f2_appro + dxdt2 + d;
 syms x1 x2;
 y2_learn = double(subs(f2_learn,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
 a1 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2_learn(:,1),'b*'); hold on;
 y2 = double(subs(f2,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
-% a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1)+noise_over_measurement(2,:)','ro'); hold on; view(30,40)
 a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1),'ro'); hold on; view(30,40)
-
+%%
 f_output = [f1;f2_learn];
 legend([a1,a2],{'Learned Value','Exact Dynamics'}, 'Interpreter','latex','location','northeast');
-
+%%
 view(235, 25);hold on;
 title('');
 xlabel('$x_1$','Interpreter','latex','Fontsize',18);

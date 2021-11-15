@@ -1,4 +1,4 @@
-function f = sos_cheb(deg,sz)
+function f = sos_cheb_controller(deg,sz)
 %%SOS_CHEB generates the function from Chebyshev approximation in [g]
 % In:
 %     deg    double   1  x  1   Input approximation truncated series degree
@@ -8,7 +8,6 @@ function f = sos_cheb(deg,sz)
 % Copyright (c) by Huang Hejun (CUHK) under BSD License 
 % Last modified: Huang Hejun 2021-05
 
-% See corresponding [g] in SOS_MODEL.m.
 % We can plot the approximation result with code below.
 
     a = -sz; b = sz;
