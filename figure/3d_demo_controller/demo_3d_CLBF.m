@@ -4,10 +4,10 @@ pvar x1 x2 x3;
 dom = 6;
 domain = [-dom dom -dom dom -dom dom];
 %%
-C1 = (x1-3)^2+(x2-3)^2+(x3-0)^2-3;
-C2 = (x1+3)^2+(x2+3)^2+(x3-0)^2-3;
-C3 = (x1+0)^2+(x2-0)^2+(x3-4)^2-4;
-C4 = (x1+0)^2+(x2-0)^2+(x3+4)^2-4;
+C1 = (x1+4)^2+(x2-6)^2+(x3+2)^2-4;
+C2 = (x1+3)^2+(x2+4)^2+(x3+4)^2-4;
+C3 = (x1-4)^2+(x2-0)^2+(x3-0)^2-5;
+C4 = (x1+4)^2+(x2-2)^2+(x3-4)^2-5;
 C = [C1;C2;C3;C4];
 us1 = patch(pcontour3(C(1),0,domain,'r'));            % Plot the original Lyapunov sublevel set
 set(us1, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','--','LineWidth',0.7 ); hold on;
