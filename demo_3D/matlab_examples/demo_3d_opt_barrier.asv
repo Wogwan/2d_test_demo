@@ -58,6 +58,3 @@ while 1
 end
 
 A = [];
-for i = 1:length(Barrier)
-    A = [A; [Control(i,:) Barrier(i)]];
-end

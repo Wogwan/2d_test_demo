@@ -50,9 +50,10 @@ legend([ph4,ph1],{'$h(x)\geq 0$','$V(x)\leq c_0$'}, 'Interpreter','latex','locat
 
 
 title('');
-xlabel('$x_1$','Interpreter','latex','Fontsize',18);
-ylabel('$x_2$','Interpreter','latex','Fontsize',18);
-zlabel('$x_3$','Interpreter','latex','Fontsize',18);
-set(gca,'xtick',[-2,0,2]);
-set(gca,'ytick',[-2,0,2]);
-set(gca,'ztick',[-2,0,2]);
+xlabel('$x_1$','Interpreter','latex','Fontsize',24);
+ylabel('$x_2$','Interpreter','latex','Fontsize',24);
+zlabel('$x_3$','Interpreter','latex','Fontsize',24);
+set(gca,'xtick',[-20,-10,0,10,20]);
+set(gca,'ytick',[-20,-10,0,10,20]);
+set(gca,'ztick',[-20,-10,0,10,20]);
+set(gca,'LooseInset',get(gca,'TightInset'))
