@@ -10,8 +10,8 @@ for i = 1:length(Barrier)
     us4 = patch(pcontour3(V,C0,domain,'r'));            % Plot the original Lyapunov sublevel set
     set(us4, 'EdgeAlpha',0.4,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','--','LineWidth',1 ); hold on;
     inH = patch(pcontour3(Barrier(i),0,domain,'k'));
-    set(inH, 'EdgeAlpha',0.8,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','-','LineWidth',1.5 ); hold on;
-    view(-30,20);hold on;    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
+    set(inH, 'EdgeAlpha',0.6,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','-','LineWidth',0.8 ); hold on;
+    view(-185,5);hold on;    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); 
 end
 
 % 8?
