@@ -34,17 +34,17 @@ for i = 1:length(A)
     figure(figure_id);clf;hold on;
     dom = 10; domain = [-dom dom -dom dom -dom dom];
     %     ph1= patch(pcontour3(C1,0,domain,'c')); set(ph1, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'y' );
-    ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'b' );
-    ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'g' );
-    phV0= patch(pcontour3(V0,double(C0),domain,'G')); set(phV0,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'g' );
+ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'y' );
+ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'b' );
+ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'g' );
+phV0= patch(pcontour3(V0,double(C0),domain,'G')); set(phV0,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'g' );
     phB= patch(pcontour3(B,0,domain,'B')); set(phB,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',1);
     xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
     %%
     figure(figure_id+1);clf;hold on;
     phV0= patch(pcontour3(V0,double(C0),domain,'G')); set(phV0,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'g' );
     %% Hyperparameters of the SOSP @ CBF -> V
-    figure(figure_id+100+i);hold on;
+    figure(figure_id);hold on;
     V_us = 4; V_au = 4; V_degree = 4; k_u_V = 4; k_l_au = 4; gamma = 0;
     % V_us = 6; V_au = 6; V_degree = 6; gamma = 0; k_u_V = 6; k_l_au = 6;
     % V_us = 8; V_au = 8; V_degree = 8; gamma = 0; k_u_V = 8; k_l_au = 8;
@@ -85,14 +85,11 @@ for i = 1:length(A)
     C0_Sel = [C0_Sel; c_b];
     sol_B = c_b - N_Lya(end);
     hold on;
-    phsol_B= patch(pcontour3(sol_B,0,domain,'B')); 
-    set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'c','LineStyle','-','LineWidth',1);
+    phsol_B= patch(pcontour3(sol_B,0,domain,'B')); set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
     figure(figure_id+1);hold on;
-    phsol_B= patch(pcontour3(sol_B,0,domain,'B')); 
-    set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','-','LineWidth',1);
+    phsol_B= patch(pcontour3(sol_B,0,domain,'B')); set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
     xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
     V = N_Lya(end);
-    figure_id = figure_id + 1;
 end
 
 B = [];

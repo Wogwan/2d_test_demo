@@ -41,11 +41,10 @@ for i = 1:length(A)
     phB= patch(pcontour3(B,0,domain,'B')); set(phB,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',1);
     xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
     %%
-    figure(figure_id+1);clf;hold on;
+    figure(figure_id+100);clf;hold on;
     phV0= patch(pcontour3(V0,double(C0),domain,'G')); set(phV0,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'g' );
     %% Hyperparameters of the SOSP @ CBF -> V
-    figure(figure_id+100+i);hold on;
-    V_us = 4; V_au = 4; V_degree = 4; k_u_V = 4; k_l_au = 4; gamma = 0;
+    V_us = 4; V_au = 6; V_degree = 4; k_u_V = 4; k_l_au = 4; gamma = 0;
     % V_us = 6; V_au = 6; V_degree = 6; gamma = 0; k_u_V = 6; k_l_au = 6;
     % V_us = 8; V_au = 8; V_degree = 8; gamma = 0; k_u_V = 8; k_l_au = 8;
     %%
@@ -53,46 +52,16 @@ for i = 1:length(A)
     %%
     [V, kk] = sos_optimal_V1_3D(f,gg,B,u1,u2,u3,V_au,V_us,V_degree,C,gamma);
     %     [V, kk] = sos_optimal_V1_3D_Update(f,gg,B,u1,u2,u3,V_au,V_us,V_degree,C,gamma);
-    %%
-    if kk == 0
-        fprintf('Suitable Lyapunov function can not find.======\n');
-    end
-    N_Lya = [N_Lya;V];
-    %% TEST FOR Sublevel Set
-    [a1,b1] = coeffs(p2s(V));
-    ccc = double(vpa(a1(end)));
-    C0 = ccc; cc = ccc+1;solU = []; v_c = []; iter = 0;
-    %%
-    figure(figure_id);hold on;
-    phV1= patch(pcontour3(V,double(cc),domain,'G')); set(phV1,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'r' );
-    %%
-    while double(cc)-double(C0) >= epsi
-        iter = iter + 1;
-        if iter ~= 0
-            C0 = cc;
-        end
-        [solL,kk]= sos_optimal_v2_3D(f,gg,k_u_V,k_l_au,V,cc);
-        if kk == 0
-            break
-        end
-        [cc,kk,solu1,solu2,solu3] = sos_optimal_v3_3D(f,gg,k_u_V,k_l_au,V,C,dom,solL,ccc,figure_id);
-        v_c = [v_c; double(cc)]
-        solU = [solU;[solu1,solu2,solu3]];
-    end
     %% Start to compute the control barrier function
-    c_b = v_c(end);
-    V_Sel = [V_Sel; N_Lya(end)];
-    C0_Sel = [C0_Sel; c_b];
-    sol_B = c_b - N_Lya(end);
-    hold on;
-    phsol_B= patch(pcontour3(sol_B,0,domain,'B')); 
+    phsol_B= patch(pcontour3(V,0,domain,'B')); 
     set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'c','LineStyle','-','LineWidth',1);
-    figure(figure_id+1);hold on;
-    phsol_B= patch(pcontour3(sol_B,0,domain,'B')); 
+    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
+    figure(figure_id);hold on;
+    phsol_B= patch(pcontour3(V,0,domain,'B')); 
     set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','-','LineWidth',1);
     xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
-    V = N_Lya(end);
     figure_id = figure_id + 1;
+
 end
 
 B = [];
