@@ -6,26 +6,16 @@ x = [x1;x2];
 %%
 [h,hc] = polydecvar('h_w',monomials(x,0:k)); % L1 sos decision variables
 % [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables
-
-% [h,hc] = polydecvar('h_w',monomials(x,[0 2 4])); % L1 sos decision variables
-% if k == 2
-%     [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables
-% elseif k == 4
-% %     [h,hc] = sosdecvar('h_w',monomials(x,[0 2])); % L1 sos decision variables 
-%     [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); % L1 sos decision variables 
-% else
-%     fprintf('Select suitable Barrier function degree.======\n');
-% end
 %%
-% [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_us/2));
-% [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_us/2));
-% [L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:L_us/2));
-% [L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:L_us/2)); 
+[L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_us/2));
+[L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_us/2));
+[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:L_us/2));
+[L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:L_us/2)); 
 %%
-[L1,L1_Q] = polydecvar('L1_w',monomials(x,0:L_us));
-[L2,L2_Q] = polydecvar('L2_w',monomials(x,0:L_us));
-[L3,L3_Q] = polydecvar('L3_w',monomials(x,0:L_us));
-[L4,L4_Q] = polydecvar('L4_w',monomials(x,0:L_us)); 
+% [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:L_us));
+% [L2,L2_Q] = polydecvar('L2_w',monomials(x,0:L_us));
+% [L3,L3_Q] = polydecvar('L3_w',monomials(x,0:L_us));
+% [L4,L4_Q] = polydecvar('L4_w',monomials(x,0:L_us)); 
 %%
 hdot = jacobian(h, x1)*(f(1)+gg(1)*SOLu1)+jacobian(h, x2)*(f(2)+gg(2)*SOLu2);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*SOLu1)+jacobian(V, x2)*(f(2)+gg(2)*SOLu2);
@@ -76,6 +66,8 @@ end
 opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
+% opts.solver = 'sedumi';
+% opts.solver = 'sdpam'; opts.solveropts.epsilonStar = 1e-9;
 [info,dopt] = sosopt(pconstr,x,obj,opts);
 % figure(figure_id);hold on;
 %% Create output

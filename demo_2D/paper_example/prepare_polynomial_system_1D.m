@@ -117,18 +117,21 @@ y2 = double(subs(f2,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
 a2 = plot3(xtest_initial(:,1),xtest_initial(:,2),y2(:,1),'ro'); hold on; view(30,40)
 %%
 f_output = [f1;f2_learn];
-legend([a1,a2],{'Learned Value','Exact Dynamics'}, 'Interpreter','latex','location','northeast');
+% legend([a1,a2],{'Learned Value','Exact Dynamics'}, 'Interpreter','latex','location','northeast');
+legend([a2,a1],{'Exact Dynamics','Learned Value'}, 'Interpreter','latex','location','northeast');
 %%
 view(235, 25);hold on;
 title('');
-xlabel('$x_1$','Interpreter','latex','Fontsize',18);
-ylabel('$x_2$','Interpreter','latex','Fontsize',18);
-zlabel('$x_3$','Interpreter','latex','Fontsize',18);
-set(gca,'xtick',[-0.4,-0.2,0,0.2,0.4]);
-set(gca,'ytick',[-0.4,-0.2,0,0.2,0.4]);
-set(gca,'ztick',[0,0.2,0.4,0.6,0.8]);
+xlabel('$x_1$','Interpreter','latex','Fontsize',21);
+ylabel('$x_2$','Interpreter','latex','Fontsize',21);
+zlabel('$x_3$','Interpreter','latex','Fontsize',21);
+set(gca,'xtick',[-0.3,-0.2,-0.1,0]);
+set(gca,'ytick',[-0.3,-0.2,-0.1,0]);
+set(gca,'ztick',[0,0.05,0.1,0.15]);
 set(gca,'Box','on');
 ax = gca;
 ax.LineWidth = 1.2;
-xlim([-0.5 0.1]); ylim([-0.5 0.1]); zlim([-0.1 1]);hold on;
-set(gca,'FontSize',18,'Fontname','Times');
+xlim([-0.3 0]); ylim([-0.3 0]); zlim([-0 0.12]);hold on;
+set(gca,'FontSize',21,'Fontname','Times');
+
+% magnify

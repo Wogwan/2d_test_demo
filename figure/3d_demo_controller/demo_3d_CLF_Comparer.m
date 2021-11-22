@@ -47,3 +47,4 @@ set(gca,'ytick',[-dom,-dom/2,0,dom/2,dom]);
 set(gca,'ztick',[-dom,-dom/2,0,dom/2,dom]);
 set(gca,'FontSize',24,'Fontname','Times');
 set(gca,'Box','on');view(310,10);axis equal;
+set(gca,'LooseInset',get(gca,'TightInset'))

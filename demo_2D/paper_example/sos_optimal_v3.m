@@ -4,11 +4,17 @@ kk = 1;
 domain = [-dom dom -dom dom];
 pvar x1 x2 cc;
 x = [x1;x2];
-
-[L1,L1_Q] = polydecvar('L1_w',monomials(x,0:k_l));
-[L2,L2_Q] = polydecvar('L2_w',monomials(x,0:k_l)); 
-[L3,L3_Q] = polydecvar('L3_w',monomials(x,0:k_l)); 
-[L4,L4_Q] = polydecvar('L4_w',monomials(x,0:k_l));
+%%
+% [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:k_l));
+% [L2,L2_Q] = polydecvar('L2_w',monomials(x,0:k_l)); 
+% [L3,L3_Q] = polydecvar('L3_w',monomials(x,0:k_l)); 
+% [L4,L4_Q] = polydecvar('L4_w',monomials(x,0:k_l));
+%%
+[L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:k_l/2));
+[L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:k_l/2)); 
+[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k_l/2)); 
+[L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:k_l/2));
+%%
 [u1,uc1] = polydecvar('u_w1',monomials(x,0:k)); 
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k));
 % Vdot = jacobian(V, x1)*f(1) + jacobian(V, x2)*(f(2)+gg(2)*u1);

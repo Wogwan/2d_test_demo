@@ -5,8 +5,10 @@ pvar x1 x2 vtol;
 x = [x1;x2];
 [u1,uc1] = polydecvar('u_w1',monomials(x,0:k)); 
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k)); 
-% [L,L_Q] = sosdecvar('L_w',monomials(x,0:k_l/2));
-[L,L_Q] = polydecvar('L_w',monomials(x,0:k_l));
+%%
+[L,L_Q] = sosdecvar('L_w',monomials(x,0:k_l/2));
+% [L,L_Q] = polydecvar('L_w',monomials(x,0:k_l));
+%%
 % Vdot = jacobian(V, x1)*f(1)+ jacobian(V, x2)*(f(2)+gg(2)*u1);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
 
@@ -25,7 +27,8 @@ pconstr = [pconstr_1; pconstr_2];
 opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
-% [info,dopt] = sosopt(pconstr,x,obj,opts);
+% opts.solver = 'sedumi';
+% opts.solver = 'sdpam'; opts.solveropts.epsilonStar = 1e-9;
 [info,dopt] = sosopt(pconstr,x,opts);
 
 % Create output

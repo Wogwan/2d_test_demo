@@ -4,10 +4,17 @@ domain = [-dom dom -dom dom -dom dom];
 pvar x1 x2 x3;
 x = [x1;x2;x3];
 [h,hc] = polydecvar('h_w',monomials(x,0:k)); 
-[L3,L3_Q] = polydecvar('L3_w',monomials(x,0:L_us));
-[L4,L4_Q] = polydecvar('L4_w',monomials(x,0:L_us)); 
-[L5,L5_Q] = polydecvar('L5_w',monomials(x,0:L_us)); 
-[L6,L6_Q] = polydecvar('L6_w',monomials(x,0:L_us)); 
+%%
+% [L3,L3_Q] = polydecvar('L3_w',monomials(x,0:L_us));
+% [L4,L4_Q] = polydecvar('L4_w',monomials(x,0:L_us)); 
+% [L5,L5_Q] = polydecvar('L5_w',monomials(x,0:L_us)); 
+% [L6,L6_Q] = polydecvar('L6_w',monomials(x,0:L_us)); 
+%%
+[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:L_us/2));
+[L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:L_us/2)); 
+[L5,L5_Q] = sosdecvar('L5_w',monomials(x,0:L_us/2)); 
+[L6,L6_Q] = sosdecvar('L6_w',monomials(x,0:L_us/2)); 
+%%
 hdot = jacobian(h, x1)*(f(1)+gg(1)*SOLu1)+jacobian(h, x2)*(f(2)+gg(2)*SOLu2)+jacobian(h, x3)*(f(3)+gg(3)*SOLu3);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*SOLu1)+jacobian(V, x2)*(f(2)+gg(2)*SOLu2)+jacobian(V, x3)*(f(3)+gg(3)*SOLu3);
 %% Constraint:
@@ -20,8 +27,9 @@ pconstr_44 = L6 >= 0;
 pconstr_31 = -h+C(1)*L3 >= 0;
 pconstr_32 = -h+C(2)*L4 >= 0;
 pconstr_33 = -h+C(3)*L5 >= 0;
-pconstr_34 = -h+C(4)*L6 >= 0;
-pconstr = [pconstr_41;pconstr_42;pconstr_43;pconstr_44;pconstr_1;pconstr_2;pconstr_31;pconstr_32;pconstr_33;pconstr_34];
+% pconstr_34 = -h+C(4)*L6 >= 0;
+% pconstr = [pconstr_41;pconstr_42;pconstr_43;pconstr_44;pconstr_1;pconstr_2;pconstr_31;pconstr_32;pconstr_33;pconstr_34];
+pconstr = [pconstr_41;pconstr_42;pconstr_43;pconstr_1;pconstr_2;pconstr_31;pconstr_32;pconstr_33];
 
 %% Set objection
 if k==2

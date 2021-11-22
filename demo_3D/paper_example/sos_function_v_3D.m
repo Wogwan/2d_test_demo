@@ -5,7 +5,10 @@ x = [x1;x2;x3];
 [u1,uc1] = polydecvar('u_w1',monomials(x,0:k_u)); 
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k_u)); 
 [u3,uc3] = polydecvar('u_w3',monomials(x,0:k_u)); 
-[L3,L3_Q] = polydecvar('L3_w',monomials(x,0:k_L));
+%%
+% [L3,L3_Q] = polydecvar('L3_w',monomials(x,0:k_L));
+[L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k_L/2));
+%%
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2)+jacobian(V, x3)*(f(3)+gg(3)*u3);
 
 %% Constraint:

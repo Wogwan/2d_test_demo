@@ -4,10 +4,17 @@ kk = 1;
 domain = [-dom dom -dom dom -dom dom];
 pvar x1 x2 x3 cc;
 x = [x1;x2;x3];
-[L3,L3_Q] = polydecvar('L1_w',monomials(x,0:k_L));
-[L4,L4_Q] = polydecvar('L1_w',monomials(x,0:k_L)); 
-[L5,L5_Q] = polydecvar('L1_w',monomials(x,0:k_L)); 
-[L6,L6_Q] = polydecvar('L1_w',monomials(x,0:k_L));
+%%
+% [L3,L3_Q] = polydecvar('L1_w',monomials(x,0:k_L));
+% [L4,L4_Q] = polydecvar('L1_w',monomials(x,0:k_L)); 
+% [L5,L5_Q] = polydecvar('L1_w',monomials(x,0:k_L)); 
+% [L6,L6_Q] = polydecvar('L1_w',monomials(x,0:k_L));
+%%
+[L3,L3_Q] = sosdecvar('L1_w',monomials(x,0:k_L/2));
+[L4,L4_Q] = sosdecvar('L1_w',monomials(x,0:k_L/2)); 
+[L5,L5_Q] = sosdecvar('L1_w',monomials(x,0:k_L/2)); 
+[L6,L6_Q] = sosdecvar('L1_w',monomials(x,0:k_L/2));
+%%
 [u1,uc1] = polydecvar('u_w1',monomials(x,0:k_u)); 
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k_u)); 
 [u3,uc3] = polydecvar('u_w3',monomials(x,0:k_u)); 
@@ -23,9 +30,11 @@ pconstr_1 = -Vdot-solL*(cc-V) >= 0;
 pconstr_31 = -(cc-V)+C(1)*L3 >= 0;
 pconstr_32 = -(cc-V)+C(2)*L4 >= 0;
 pconstr_33 = -(cc-V)+C(3)*L5 >= 0;
-pconstr_34 = -(cc-V)+C(4)*L6 >= 0;
+% pconstr_34 = -(cc-V)+C(4)*L6 >= 0;
 pconstr_4 = cc >= 0;
-pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_24;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_34;pconstr_4];
+% pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_24;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_34;pconstr_4];
+pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_4];
+
 %% Input limits
 % input_con = [uc1;uc2];
 % for i=1:length(input_con) 
@@ -40,7 +49,7 @@ opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,x,obj,opts);
-figure(figure_id);clf;hold on;
+figure(figure_id);hold on;
 % Create output
 if info.feas
     cc = subs(cc,dopt);
