@@ -1,4 +1,4 @@
-clear; load BC_test_Lya;close all;
+clear; load BC_test_Lya;
 pvar x1 x2 x3 u1 u2 u3 htol epsi;
 format long
 x = [x1;x2;x3];
@@ -63,7 +63,6 @@ for i = 1:length(A)
     C0 = ccc; cc = ccc+1;solU = []; v_c = []; iter = 0;
     %%
     figure(figure_id);hold on;
-    phV1= patch(pcontour3(V,double(cc),domain,'G')); set(phV1,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'r' );
     %%
     while double(cc)-double(C0) >= epsi
         iter = iter + 1;

@@ -23,7 +23,7 @@ k_u = 4; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
 %%
 % V_us = 4; V_au = 6; V_degree = 4; k_u_V = 4; k_l_au = 6; gamma = 0;
 %%
-for i = 9:length(B)
+for i = 11:length(B)
     figure(figure_id);clf;hold on;
     V = B(i,1);
     C0 = B(i,2);
