@@ -13,19 +13,19 @@ for i = 1:length(A)
     gg = [1; 1];
     sys = [f(1)+gg(1)*u1; f(2)+gg(2)*u2];
     %%
-    C1 = (x1+4)^2+(x2-6)^2-4;
-    C2 = (x1+3)^2+(x2+4)^2-4;
-    C3 = (x1-6)^2+(x2-0)^2-5;
+    C1 = (x1+5)^2+(x2-8)^2-6;
+    C2 = (x1+7)^2+(x2+7)^2-6;
+    C3 = (x1-6)^2+(x2-0)^2-6;
     C = [C1;C2;C3];
-    V0 = 1*x1^4+2*x2^4+2*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
-    % C0 = 1.0e+02*1.237395136955980;
-    C0 = 1.0e+02*1.237395136880424;
+    V0 = 1*x1^4+1*x2^4+1*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
+    C0 = 1.0e+02*1.714593951979031;
     %% Start to compute the control barrier function
     u1 = A(i,1);
     u2 = A(i,2);
     B = A(i,3);
     %%
-    c0 = 1; cc = 1.1; epsi = 1e-9; figure_id = 111; dom = 10; domain = [-dom dom -dom dom];
+    c0 = 1; cc = 1.1; epsi = 1e-9; figure_id = 111; 
+    dom = 30; domain = [-dom dom -dom dom];
     %%
     figure(figure_id);clf;hold on;
     [~,~]=pcontour(C(1),0,domain,'r');
@@ -38,10 +38,11 @@ for i = 1:length(A)
     else
         fprintf('The constraint number does not match.======\n');
     end
-    hold on; [~,~]=pcontour(B,0,domain,'g');
+    hold on; 
+    [~,~]=pcontour(B,0,domain,'g');
     [~,~]=pcontour(V0,C0,domain,'m');
     %% Hyperparameters of the SOSP @ CBF -> V
-    V_us = 4; V_au = 4; V_degree = 4; gamma = 0; k_u_V = 4; k_l_au = 4;
+    V_us = 4; V_au = 6; V_degree = 4; gamma = 0; k_u_V = 4; k_l_au = 4;
     % V_us = 6; V_au = 6; V_degree = 6; gamma = 0; k_u_V = 6; k_l_au = 6;
     % V_us = 8; V_au = 8; V_degree = 8; gamma = 0; k_u_V = 8; k_l_au = 8;
     %%
@@ -54,50 +55,6 @@ for i = 1:length(A)
     end
     
     %%
-    figure(figure_id);hold on;
     [~,~]=pcontour(V,0,domain,'r');
-   
+    
 end
-
-%%
-%     i_count_1 = min(length(Control),length(Barrier));
-%     if i_count_1 ~= 0
-%         u1 = Control(i_count_1,1);
-%         u2 = Control(i_count_1,2);
-%         B = Barrier(i_count_1);
-%     else
-%         if isempty(Control)
-%             u1 = 1;
-%             u2 = 1;
-%         else
-%             u1 = Control(i_count_1,1);
-%             u2 = Control(i_count_1,2);
-%         end
-%         B = 0;
-%         fprintf('Barrier function can not find.======\n');
-%     end
-
-%     figure(figure_id+2);clf;
-%     hold on;
-%     cc = [1,2,3];
-%     for i = 0:16
-%         k_u_V = ['r','g','b','m','c','k','y'];
-%         if mod(i,7) == 0
-%             [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(7)); hold on;
-%             [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(7)); hold on;
-%             [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(7)); hold on;
-%         else
-%             [~,~]=pcontour(V,cc(1)*i,domain_2,k_u_V(mod(i,7))); hold on;
-%             [~,~]=pcontour(V,cc(2)*i,domain_2,k_u_V(mod(i,7))); hold on;
-%             [~,~]=pcontour(V,cc(3)*i,domain_2,k_u_V(mod(i,7))); hold on;
-%         end
-%     end
-%     Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
-%     for i = 0:16
-%         k_u_V = ['r','g','b','m','c','k','y'];
-%         if mod(i,7) == 0
-%             [~,~]=pcontour(Vdot,0,domain_2,k_u_V(7)); hold on;             % Plot the original Lyapunov sublevel set
-%         else
-%             [~,~]=pcontour(Vdot,0,domain_2,k_u_V(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
-%         end
-%     end

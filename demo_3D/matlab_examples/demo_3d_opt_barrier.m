@@ -27,7 +27,7 @@ mm = 0; kk = 1; i = 0;
 sol_B = C0 - V;
 solh = sol_B;
 %%
-% k_u = 4; k_h = 4; L_us = 4; L_au = 4;
+% k_u = 4; k_h = 4; L_us = 4; L_au = 6;
 k_u = 4; k_h = 4; L_us = 4; L_au = 4;
 gamma = 0;
 %%
@@ -41,6 +41,10 @@ ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor
 ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
 xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
 
+%%
+V_us = 4; V_au = 6; V_degree = 4; k_u_V = 4; k_l_au = 4; gamma = 0;
+
+%%
 TRACE = []; Barrier = []; Control = [];
 %%
 while 1
@@ -59,6 +63,16 @@ while 1
     end
     TRACE = [TRACE; double(trace_Q)];
     Barrier = [Barrier; solh];
+    %% Optimal the set
+%     kk = 1; OO = 0;
+%     [solh, kk] = sos_optimal_V1_3D(f,gg,solh,SOLu1,SOLu2,SOLu3,V_au,V_us,V_degree,C,gamma);
+%     figure(figure_id);hold on;
+%     phsol_B= patch(pcontour3(solh,0,domain,'r')); 
+%     set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
+%     %%
+%     if kk == 0
+%         fprintf('Advanced Barrier Function can not find.======\n');
+%     end
 end
 
 A = [];

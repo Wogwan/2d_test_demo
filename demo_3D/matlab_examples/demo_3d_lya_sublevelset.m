@@ -33,9 +33,9 @@ kk = 1; solU = []; v_c = []; iter = 1;
 figure_id = 21;
 figure(figure_id);clf;hold on;
 % ph1= patch(pcontour3(C1,0,domain,'c')); set(ph1, 'FaceColor', 'none', 'EdgeColor', 'r' );
-ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'y' );
-ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'b' );
-ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'g' );
+ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
+ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
+ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
 xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(10,20)
 phV0= patch(pcontour3(V,double(C0),domain,'c')); set(phV0, 'FaceColor', 'none', 'EdgeColor', 'b' );
 

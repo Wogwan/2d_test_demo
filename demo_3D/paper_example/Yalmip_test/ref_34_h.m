@@ -2,10 +2,11 @@ clc
 clear
 close all
 
-sdpvar x1 x2
-f = [-0.84*x1-1.44*x2-0.3*x1*x2;
-    0.54*x1+0.34*x2+0.3*x1*x2+u];
-v = x1^2+x1*x2+x2^2;
+sdpvar x1 x2 x3 u1 u2
+f = [x2-x3^2;
+    x3-1*x1^2+u1;
+    -x1-2*x2-x3+x3^2+u2];
+v = 5*x1^2+10*x1*x2+2*x1*x3+10*x2^2+6*x2*x3+4*x3^2;
 c = 3;
 
 gamma = 1;
