@@ -23,13 +23,11 @@ for i = 3:length(A)
     %%
     V0 = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2;
     C0 = 9.681159889041236;
-    
     %% Start to compute the control barrier function 24
     u1 = A(i,1);
     u2 = A(i,2);
     u3 = A(i,3);
     B = A(i,4);
-    
     %%
     figure(figure_id);clf;hold on;
     dom = 10; domain = [-dom dom -dom dom -dom dom];
