@@ -1,4 +1,4 @@
-function [V, kk] = sos_optimal_V1_update(f,gg,B,u1,u2,l_au,l_us,V_degree,C,gamma)
+function [V, kk] = sos_optimal_V1_2D(f,gg,B,u1,u2,l_au,l_us,V_degree,C,gamma)
 
 pvar x1 x2 Vtol2 cc1 cc2 cc3;
 x = [x1;x2];

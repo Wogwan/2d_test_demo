@@ -1,4 +1,4 @@
-function [V, kk] = sos_optimal_V1_update(f,gg,B,u1,u2,l_au,l_us,V_degree,C,gamma)
+function [V, kk] = sos_optimal_V1_2d_update(f,gg,B,u1,u2,l_au,l_us,V_degree,C,gamma)
 
 pvar x1 x2 Vtol2 cc1 cc2 cc3;
 x = [x1;x2];
@@ -13,6 +13,7 @@ x = [x1;x2];
 [L5,L5_Q] = sosdecvar('L5_w',monomials(x,0:l_us/2)); 
 % [L6,L6_Q] = sosdecvar('L6_w',monomials(x,0:l_us/2)); 
 %%
+% hdot = jacobian(B, x1)*(f(1)+gg(1)*u1)+ jacobian(B, x2)*(f(2)+gg(2)*u2);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
 %% Constraint
 pcr_11 = L1 >= 0;
@@ -37,12 +38,16 @@ else
 end  
 
 %%
+% obj = Vtol2+cc1+cc2+cc3;
+% obj = -(Vtol2+cc1+cc2+cc3);
+% obj = -Vtol2;
 obj = Vtol2;
 %%
 opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,x,obj,opts);
+% [info,dopt] = sosopt(pconstr,x,opts);
 if info.feas
     kk = 1;
     V = subs(V,dopt)

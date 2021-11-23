@@ -1,4 +1,4 @@
-function [cc,kk,solu1,solu2]=sos_optimal_v3(f,gg,k,k_l,V,C,dom,solL,ccc,figure_id)
+function [cc,kk,solu1,solu2]=sos_optimal_v3_origin(f,gg,k,k_l,V,C,dom,solL,ccc,figure_id)
 
 kk = 1;
 domain = [-dom dom -dom dom];
@@ -33,30 +33,38 @@ elseif length(C) == 3
     pconstr_23 = L3 >= 0;
     pconstr_33 = -(cc-V)+C(3)*L3 >= 0;
     pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_4];
+elseif length(C) == 4
+    pconstr_23 = L3 >= 0;
+    pconstr_33 = -(cc-V)+C(3)*L3 >= 0;
+    pconstr_24 = L4 >= 0;
+    pconstr_34 = -(cc-V)+C(4)*L4 >= 0;
+    pconstr = [pconstr_21;pconstr_22;pconstr_23;pconstr_24;pconstr_1;pconstr_31;pconstr_32;pconstr_33;pconstr_34;pconstr_4];
 else
     fprintf('More than 3 constraints.======\n');
 end
+
 %% Set objection
-obj = cc;
+obj = -cc;
+
 %% Solve feasibility problem
 opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
 [info,dopt] = sosopt(pconstr,[x1;x2],obj,opts);
 %%
+figure(figure_id);hold on;
 if info.feas
     cc = subs(cc,dopt);
     solu1 = subs(u1,dopt);
     solu2 = subs(u2,dopt);
-%     figure(figure_id);hold on;
-%     [~,~]=pcontour(V,double(cc),domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
-%     refreshdata; drawnow;
+    [~,~]=pcontour(V,double(cc),domain,'r'); hold on;             % Plot the original Lyapunov sublevel set
+    refreshdata; drawnow;
 else
     kk = 0;
     cc = 0;
     solu1 = 0;
     solu2 = 0;
-    fprintf('sos_optimal_v3 Suitable sublevel set can not find.======\n');
+    fprintf('Suitable sublevel set can not find.======\n');
     return;
 end
 end
