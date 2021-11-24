@@ -2,14 +2,15 @@ function [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,k,L_au,solh,V,gamma,gg)
 pvar x1 x2 htol epsi;
 x = [x1;x2];
 %% Create corresponding decision variable
-[u1,u1_Q] = polydecvar('u1_w',monomials(x,0:k)); 
-[u2,u2_Q] = polydecvar('u2_w',monomials(x,0:k)); 
+%%
+% [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:L_au));
+% [L2,L2_Q] = polydecvar('L2_w',monomials(x,0:L_au));
 %%
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_au/2));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_au/2));
 %%
-% [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:L_au));
-% [L2,L2_Q] = polydecvar('L2_w',monomials(x,0:L_au));
+[u1,u1_Q] = polydecvar('u1_w',monomials(x,0:k)); 
+[u2,u2_Q] = polydecvar('u2_w',monomials(x,0:k)); 
 %% CLBF
 hdot = jacobian(solh, x1)*(f(1)+gg(1)*u1)+jacobian(solh, x2)*(f(2)+gg(2)*u2);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+jacobian(V, x2)*(f(2)+gg(2)*u2);
@@ -17,7 +18,7 @@ Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+jacobian(V, x2)*(f(2)+gg(2)*u2);
 sosconstr_1 = L1 >= 0;
 sosconstr_2 = L2 >= 0;
 sosconstr_3 = -Vdot>= L1*solh;
-sosconstr_4 = hdot+gamma*solh >= L2*solh+htol;
+sosconstr_4 = hdot+gamma*solh-L2*solh-htol >= 0;
 sosconstr_5 = htol>=0;
 sosconstr = [sosconstr_1;sosconstr_2;sosconstr_3;sosconstr_4;sosconstr_5];
 %% Set objection
@@ -26,8 +27,6 @@ obj = -htol;
 opts = sosoptions;
 opts.form = 'kernel';
 opts.solver = 'mosek';
-% opts.solver = 'sedumi';
-% opts.solver = 'sdpam'; opts.solveropts.epsilonStar = 1e-9;
 [info,dopt] = sosopt(sosconstr,x,obj,opts);
 %% Create output
 if info.feas

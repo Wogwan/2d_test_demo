@@ -6,6 +6,13 @@ x = [x1;x2];
 % [V,vc] = polydecvar('v_w',[x1^4; x2^4; x1^2*x2^2;x1^2;x2^2;x1*x2]);
 [V,vc] = polydecvar('v_w',monomials(x,0:V_degree));
 %%
+% [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:l_au));
+% [L2,L2_Q] = polydecvar('L2_w',monomials(x,0:l_au)); 
+% [L3,L3_Q] = polydecvar('L3_w',monomials(x,0:l_us)); 
+% [L4,L4_Q] = polydecvar('L4_w',monomials(x,0:l_us)); 
+% [L5,L5_Q] = polydecvar('L5_w',monomials(x,0:l_us)); 
+% % [L6,L6_Q] = sosdecvar('L6_w',monomials(x,0:l_us/2)); 
+%%
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:l_au/2));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:l_au/2)); 
 [L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:l_us/2)); 
@@ -38,6 +45,7 @@ end
 
 %%
 obj = Vtol2;
+% obj = -Vtol2;
 %%
 opts = sosoptions;
 opts.form = 'kernel';

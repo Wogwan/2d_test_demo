@@ -56,7 +56,7 @@ opts.solver = 'mosek';
 % [info,dopt] = sosopt(pconstr,x,opts);
 if info.feas
     kk = 1;
-    V = subs(V,dopt)
+    V = subs(V,dopt);
 else
     kk = 0;
     V  = 0;

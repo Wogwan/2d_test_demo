@@ -3,7 +3,8 @@ load BC_test_2D;
 pvar x1 x2 u1 u2 htol epsi;
 format long
 x = [x1;x2];
-for i = 80:length(A)
+% for i = 1:length(A)
+for i = 1:10
     %%
     u1 = A(i,1);
     u2 = A(i,2);

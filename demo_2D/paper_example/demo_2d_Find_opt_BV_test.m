@@ -1,17 +1,20 @@
-close all;
-clear;tic;load Opt_Ly_2_BROA;load BC_test_2D;
+clear;tic;
+% load Opt_Ly_2_BROA;
+% load BC_test_2D;
+load Opt_Ly_2_BROA2;
+load BC_test_2D2;
 pvar x1 x2 u htol epsi;
 x = [x1;x2];
 dom = 30;
 
-for j = 1:length(C0_Sel)
+for j = 80:length(C0_Sel)
     %% Optimize with vtol2
     % V = 0.04791793554535747*x1^4+0.005751975855669967*x1^3*x2-0.01465931654811854*x1^2*x2^2+0.1264746534640889*x1*x2^3+0.1435738234375542*x2^4-0.02475700871808066*x1^3-0.01677068421056823*x1^2*x2-0.07592877484460123*x1*x2^2-0.06910059119814008*x2^3+1.002549245831866*x1^2-0.02331031823434397*x1*x2+1.530088835906439*x2^2+0.0001997984676651864*x1+0.0002674429123316613*x2+7.669980250359338;
     % C0 = 28.430098121975416;
     V = V_Sel(j);
     C0 = C0_Sel(j);
     %%
-    k_u = 4; k_h = 4; L_us = 6; L_au = 4; gamma = 0;
+    k_u = 4; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
     
     %%
     sol_B = C0 - V; solh = sol_B;

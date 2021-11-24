@@ -4,7 +4,7 @@ domain = [-dom dom -dom dom];
 pvar x1 x2 htol epsi;
 x = [x1;x2];
 %%
-[h,hc] = polydecvar('h_w',monomials(x,0:k)); % L1 sos decision variables
+[h,hc] = polydecvar('h_w',monomials(x,0:k)); 
 %%
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_us/2));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_us/2));
