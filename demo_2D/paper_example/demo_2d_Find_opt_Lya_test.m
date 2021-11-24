@@ -2,14 +2,16 @@ clear;
 % load BC_test_2D;
 % load BC_test_2D2;
 % load R_Change1_BC_test_2D;
-load R_Change1_BC_test_2D2;
+% load R_Change1_BC_test_2D2;
 % load R_Change1_BC_test_2D3;
+% load R_Change1_BC_test_2D4;
+load R_Change1_BC_test_2D5;
 pvar x1 x2 u1 u2 htol epsi;
 format long
 x = [x1;x2];
 %%
 k = ['r','g','b','m','c','k','y'];
-dom = 50; domain = [-dom dom -dom dom];
+dom = 10; domain = [-dom dom -dom dom];
 V_Sel = []; C0_Sel = []; N_Lya = [];
 figure_id = 111;
 %%
@@ -24,13 +26,19 @@ for i = 1:length(A(:,1))
     %     C1 = (x1+5)^2+(x2-8)^2-6;
     %     C2 = (x1+7)^2+(x2+7)^2-6;
     %     C3 = (x1-6)^2+(x2-0)^2-6;
-    C1 = (x1+5)^2+(x2-8)^2-6;
-    C2 = (x1+7)^2+(x2+7)^2-6;
-    C3 = (x1-6)^2+(x2+2)^2-6;
+    %     C1 = (x1+5)^2+(x2-8)^2-6;
+    %     C2 = (x1+7)^2+(x2+7)^2-6;
+    %     C3 = (x1-6)^2+(x2+2)^2-6;
+    %%
+    C1 = (x1-6)^2+(x2+4)^2-1;
+    C2 = (x1+4)^2+(x2+6)^2-6;
+    C3 = (x1+5)^2+(x2-5)^2-1;
     C = [C1;C2;C3];
     V0 = 1*x1^4+1*x2^4+1*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
     %     C0 = 1.0e+02*1.714593951979031;
-    C0 = 1.0e+2*2.121924848371969;
+    %     C0 = 1.0e+2*2.121924848371969;
+    %     C0 = 1.0e+2*5.088319461057698;
+    C0 = 1.0e+2*4.350147942826879;
     %% Start to compute the control barrier function
     u1 = A(i,1);
     u2 = A(i,2);
@@ -58,8 +66,8 @@ for i = 1:length(A(:,1))
     %%
     kk = 1; OO = 0;
     %%
-    %     [V, kk] = sos_optimal_V1_2D_V(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
-    [V, kk] = sos_optimal_V1(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
+    [V, kk] = sos_optimal_V1_2D_V(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
+    %     [V, kk] = sos_optimal_V1(f,gg,B,u1,u2,V_au,V_us,V_degree,C,gamma);
     %%
     if kk == 0
         fprintf('53 Suitable Lyapunov function can not find.======\n');

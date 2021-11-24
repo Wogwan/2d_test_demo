@@ -5,6 +5,7 @@ pvar x1 x2 htol epsi;
 x = [x1;x2];
 %%
 [h,hc] = polydecvar('h_w',monomials(x,0:k)); 
+% [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); 
 %%
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_us/2));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_us/2));
@@ -58,6 +59,7 @@ elseif k==14
 else
     fprintf('Pleaes enter suitable order of Barrier certificate.====== ');
 end
+% obj = -trace(hc);
 
 %% Solve feasibility problem
 opts = sosoptions;
