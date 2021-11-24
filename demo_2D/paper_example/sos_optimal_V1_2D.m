@@ -36,7 +36,7 @@ pconstr_1 = h-L1*B-Vtol2 >= 0;
 pconstr_2 = -hdot-L2*B-gamma*B+Vtol2 <= 0;
 % pconstr_2 = Vdot-hdot-L2*B-gamma*B+Vtol2 <= 0;
 pconstr_3 = Vtol2 >= 0;
-% pconstr_4 = -Vdot-L6*h >= 0;
+pconstr_4 = -hdot-L6*Vdot >= 0;
 %%
 pcr_21 = h-C(1)*L3 <= 0;
 pcr_22 = h-C(2)*L4 <= 0;
@@ -46,7 +46,8 @@ elseif length(C) == 3
     pcr_23 = h-C(3)*L5 <= 0;
 %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
 %     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23];
-    pconstr = [pcr_11;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
+%     pconstr = [pcr_11;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
+    pconstr = [pcr_11;pcr_13;pcr_14;pcr_15;pcr_16;pconstr_1;pconstr_2;pconstr_3;pconstr_4;pcr_21;pcr_22;pcr_23];
 
 else
     fprintf('Constraints vector does not match.======\n');
