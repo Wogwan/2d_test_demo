@@ -27,12 +27,11 @@ mm = 0; kk = 1; i = 24;
 sol_B = C0 - V;
 solh = sol_B;
 %%
-% k_u = 4; k_h = 4; L_us = 4; L_au = 6;
+% k_u = 4; k_h = 4; L_us = 6; L_au = 6;
 k_u = 4; k_h = 4; L_us = 4; L_au = 4;
-gamma = 0;
 %%
+% V_us = 6; V_au = 6; V_degree = 4; gamma = 0;
 V_us = 4; V_au = 6; V_degree = 4; k_u_V = 4; k_l_au = 4; gamma = 0;
-
 %%
 TRACE = []; Barrier = []; Control = []; Barrier_plus = [];
 %%
@@ -65,11 +64,11 @@ while 1
     Barrier = [Barrier; solh];
     %% Optimal the set
     kk = 1; OO = 0;
-    [solh1, kk] = sos_optimal_V1_3D(f,gg,solh,SOLu1,SOLu2,SOLu3,V_au,V_us,V_degree,C,gamma);
+    [solh1, kk] = sos_optimal_V1_3D(f,gg,solh,SOLu1,SOLu2,SOLu3,V_au,V_us,V_degree,C,gamma,V);
     figure(figure_id);hold on;
     phsol_B= patch(pcontour3(solh1,0,domain,'r'));
     set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
-    Barrier_plus = [Barrier_plus solh1];
+    Barrier_plus = [Barrier_plus;solh1];
     %%
     if kk == 0
         fprintf('Advanced Barrier Function can not find.======\n');

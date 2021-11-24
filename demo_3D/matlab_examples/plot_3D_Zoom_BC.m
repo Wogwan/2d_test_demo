@@ -1,27 +1,21 @@
-clear                  
-close all;            
-im1 = imread('controller_3D_Barrier.jpg');
-im2 = imread('controller_3D_Barrier_Zoomin.jpg');
+clear;close all;clc;
+% load BC_test_Lya;
+load BC_test_Lya2;
+dom = 10; domain = [-dom dom -dom dom -dom dom];
 
-figure(1)
-imshow(im1)
-figure(2)
-h_im2 = imshow(im2)
+k = ['r','g','b','m','c','k','y'];
+for iter = 1:length(A)
+    B = A(iter,5);
+    figure(iter);clf;hold on;
+    phB= patch(pcontour3(B,0,domain,'B'));
+    
+    if mod(iter,7) == 0
+        set(phB,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', k(7),'LineStyle','-','LineWidth',1);
+    else
+        set(phB,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', k(mod(iter,7)),'LineStyle','-','LineWidth',1);
+    end
+    
+    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
+    pause
+end
 
-infoIm1 = imfinfo('controller_3D_Barrier.jpg')
-infoIm2 = imfinfo('controller_3D_Barrier.jpg')
-
-% 小尺寸彩色照片在风景图当中的居中处理
-[m1,n1,l1] = size(im1);
-[m2,n2,l2] = size(im2);
-t = zeros(m1,n1,l1); 
-t = uint8(t);
-t((m1/2-m2/2+1):(m1/2+m2/2),(n1/2-n2/2+1):(n1/2+n2/2),:) = im2 ;%做居中处理
-C = imadd(1*t,im1);%乘以0.5对中间小照片做透明处理
-
-C((m1/2-m2/2+1):(m1/2+m2/2),(n1/2-n2/2+1):(n1/2+n2/2),:) =... 
-C((m1/2-m2/2+1):(m1/2+m2/2),(n1/2-n2/2+1):(n1/2+n2/2),:)-...
-im1((m1/2-m2/2+1):(m1/2+m2/2),(n1/2-n2/2+1):(n1/2+n2/2),:);  %对pic_1乘以0.5做补偿处理
-
-figure(3)
-imshow(C);
