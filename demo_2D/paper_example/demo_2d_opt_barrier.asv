@@ -9,12 +9,16 @@ f = [x2-x1
 gg = [1;1];
 %%
 V = 1*x1^4+1*x2^4+1*x1^2*x2^2+1*x1^2+1*x2^2+1*x1*x2;
-% C0 = 1.0e+02*1.714593951979031;
-% C0 = 1.0e+2*2.121924848371969;
-% C0 = 2.471510177870618;
-% C0 = 1.928684656838563;
-% C0 = 1.0e+2*5.088319461057698;
-C0 = 1.0e+2*4.350147942826879;
+C0 = 1.0e+2*4.350147944335401;
+% % C0 = 1.0e+02*1.714593951979031;
+% % C0 = 1.0e+2*2.121924848371969;
+% % C0 = 2.471510177870618;
+% % C0 = 1.928684656838563;
+% % C0 = 1.0e+2*5.088319461057698;
+% % C0 = 1.0e+2*4.350147942826879;
+%%
+% V = 1*x1^2+1*x2^2+1*x1*x2;
+% C0 = 15.812025369842623;
 %%
 % C1 = (x1+5)^2+(x2-8)^2-6;
 % C2 = (x1+7)^2+(x2+7)^2-6;
@@ -24,9 +28,9 @@ C0 = 1.0e+2*4.350147942826879;
 % C2 = (x1+7)^2+(x2+7)^2-4;
 % C3 = (x1-3)^2+(x2+1)^2-4;
 %%
-C1 = (x1-6)^2+(x2+4)^2-1;
+C1 = (x1-6)^2+(x2+4)^2-3;
 C2 = (x1+4)^2+(x2+6)^2-6;
-C3 = (x1+5)^2+(x2-5)^2-1;
+C3 = (x1+5)^2+(x2-5)^2-2;
 %%
 C = [C1;C2;C3];
 trace_Q1 = 1; trace_Q = 0; mm = 0; kk = 1; iter = 0;
@@ -37,21 +41,24 @@ solh = sol_B;
 %%
 % k_u = 4; k_h = 4; % L_us = 4; L_au = 2; gamma = 0;
 %% Test
-% k_u = 4; k_h = 4; L_us = 8; L_au = 8;
-% k_u = 4; k_h = 4; L_us = 6; L_au = 6;
-% k_u = 4; k_h = 4; L_us = 4; L_au = 6;
 % k_u = 4; k_h = 4; L_us = 4; L_au = 4;
-
+% k_u = 6; k_h = 6; L_us = 6; L_au = 6;
+% % k_u = 4; k_h = 4; L_us = 8; L_au = 8;
+k_u = 6; k_h = 4; L_us = 6; L_au = 6;
+% % k_u = 4; k_h = 4; L_us = 4; L_au = 6;
+% % k_u = 4; k_h = 4; L_us = 8; L_au = 4;
 %%
-% V_us = 8; V_au = 8; V_degree = 2;
-% V_us = 6; V_au = 6; V_degree = 4;
-V_us = 4; V_au = 6; V_degree = 4;
-% V_us = 6; V_au = 4; V_degree = 4;
 % V_us = 4; V_au = 4; V_degree = 4;
+% V_us = 8; V_au = 8; V_degree = 6;
+% % V_us = 8; V_au = 8; V_degree = 2;
+% % V_us = 6; V_au = 6; V_degree = 4;
+V_us = 6; V_au = 6; V_degree = 6;
+% % V_us = 4; V_au = 4; V_degree = 4;
 %%
-gamma = 0;
+gamma = 1;
 %%
 figure_id = 12;
+figure(figure_id+1);clf;hold on;
 figure(figure_id);clf;hold on;
 domain = [-dom dom -dom dom];
 xlim([-dom dom]); ylim([-dom dom]); hold on;
@@ -83,20 +90,22 @@ while 1
     Barrier = [Barrier; solh];
     %% Optimal the set
     kk = 1; OO = 0;
-    [solh1, kk] = sos_optimal_V1_2D(f,gg,solh,SOLu1,SOLu2,V_au,V_us,V_degree,C,gamma);
-    figure(figure_id+1);clf;hold on;
+    [solh1, kk] = sos_optimal_V1_2D(f,gg,solh,SOLu1,SOLu2,V_au,V_us,V_degree,C,gamma,V);
+    figure(figure_id+1);
+    %     clf;
+    hold on;
     [~,~]=pcontour(V,C0,domain,'b'); hold on;
     [~,~]=pcontour(C1,0,domain,'k'); hold on;
     [~,~]=pcontour(C2,0,domain,'k'); hold on;
     [~,~]=pcontour(C(3),0,domain,'k');
-    [~,~]=pcontour(solh,0,domain,'r'); hold on;
+    %     [~,~]=pcontour(solh,0,domain,'r'); hold on;
     if mod(iter,7) == 0
         [~,~]=pcontour(solh1,0,domain,k(7)); hold on;             % Plot the original Lyapunov sublevel set
     else
         [~,~]=pcontour(solh1,0,domain,k(mod(iter,7))); hold on;             % Plot the original Lyapunov sublevel set
     end
     refreshdata; drawnow;
-%     solh = solh1;
+    %     solh = solh1;
     Barrier_plus = [Barrier_plus;solh1];
     %%
     if kk == 0

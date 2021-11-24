@@ -33,8 +33,8 @@ pcr_16 = L6 >= 0;
 %%
 pconstr_1 = h-L1*B-Vtol2 >= 0;
 % pconstr_1 = -V+L1*B+Vtol2 <= 0;
-% pconstr_2 = -hdot-L2*B-gamma*B+Vtol2 <= 0;
-pconstr_2 = Vdot-hdot-L2*B-gamma*B+Vtol2 <= 0;
+pconstr_2 = -hdot-L2*B-gamma*B+Vtol2 <= 0;
+% pconstr_2 = Vdot-hdot-L2*B-gamma*B+Vtol2 <= 0;
 pconstr_3 = Vtol2 >= 0;
 % pconstr_4 = -Vdot-L6*h >= 0;
 %%
