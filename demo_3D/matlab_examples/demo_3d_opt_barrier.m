@@ -7,51 +7,43 @@ f = [-0.16211179709695037165964324641892*x1^4+0.49031898059485488031675707268867
     1.876321954439673866943394386908*x1^4-1.8803947547684580765547934788628*x1^3-x1^2*x3-0.3521313244010295662178577913437*x1^2-0.58570314276461321600919518459705*x1+0.0008606977977094753011130801034767*x2^4-0.0047246616639717428295930368165045*x2^3+0.0073970075005580443808228530144788*x2^2-0.39277632595769917944750204696902*x2-0.63399852647351906398398568853736*x3^4-2.3526877462367330462456038731034*x3^3-0.18912599086086179234200699283974*x3^2-1.2624646738177363047839207865763*x3+1.2361363889678920191528277428006
     ];
 gg = [1;1;1];
-% input = [gg(1)*u1;gg(2)*u2;gg(3)*u3];
 %%
 % V = 10*x1^4+1*x2^4+20*x3^4+2*x1^2*x2^2-4*x3^2*x2^2+3*x1^2*x3^2;
 % C0 = 96.811595465770495;
 %%
 V = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2;
-% C0 = 9.681159889041236;
-% C0 = 1.000000005232452;
-C0 = 1.0e+02*2.035941874477182;
+C0 = 6.323809779487249;
 %%
-C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-4;
-C2 = (x1-4)^2+(x2+4)^2+(x3+4)^2-4;
-C3 = (x1+4)^2+(x2-6)^2+(x3+2)^2-4;
-C4 = (x1+4)^2+(x2-3)^2+(x3-4)^2-5;
-% C = [C1;C2;C3;C4];
+C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-2;
+C2 = (x1-0)^2+(x2+3)^2+(x3+0)^2-2;
+C3 = (x1-3)^2+(x2-2)^2+(x3-2)^2-2;
+C4 = (x1+3)^2+(x2-3)^2+(x3+2)^2-2;
 C = [C2;C3;C4];
 trace_Q1 = 1; trace_Q = 0;
-mm = 0; kk = 1; i = 24;
+mm = 0; kk = 1; i = 0;
 %%
 sol_B = C0 - V;
 solh = sol_B;
 %%
-% k_u = 4; k_h = 4; L_us = 4; L_au = 4;
-k_u = 4; k_h = 4; L_us = 6; L_au = 6;
+k_u = 4; k_h = 4; L_us = 4; L_au = 4;
+gamma = 0;
 %%
-% V_us = 6; V_au = 8; V_degree = 6; gamma = 0;
-% V_us = 4; V_au = 6; V_degree = 4; gamma = 0;
-V_us = 6; V_au = 6; V_degree = 4; gamma = 0;
+figure_id = 22;
+figure(figure_id);clf;hold on;
+dom = 10; domain = [-dom dom -dom dom -dom dom];
 %%
-TRACE = []; Barrier = []; Control = []; Barrier_plus = [];
+TRACE = []; Barrier = []; Control = [];
 %%
 while 1
     i = i+1
-    %%
-    figure_id = i;
-    figure(figure_id);clf;hold on;
-    dom = 10; domain = [-dom dom -dom dom -dom dom];
+    record_Q = trace_Q
     phV0= patch(pcontour3(V,double(C0),domain,'c')); set(phV0,'EdgeAlpha',0.1, 'FaceColor', 'none', 'EdgeColor', 'b' );
     % ph1= patch(pcontour3(C1,0,domain,'c')); set(ph1, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-48,5);
-    %%
-    record_Q = trace_Q
+    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-57,28);
+    
     %%
     [SOLu1,SOLu2,SOLu3,SOL1,SOL2,kk] = sos_function_1_3D(f,k_u,L_au,solh,V,gamma,gg);
     if kk == 0
@@ -65,21 +57,13 @@ while 1
     end
     TRACE = [TRACE; double(trace_Q)];
     Barrier = [Barrier; solh];
-    %% Optimal the set
-    kk = 1; OO = 0;
-    [solh1, kk] = sos_optimal_V1_3D(f,gg,solh,SOLu1,SOLu2,SOLu3,V_au,V_us,V_degree,C,gamma,V);
-    figure(figure_id);hold on;
-    phsol_B= patch(pcontour3(solh1,0,domain,'r'));
-    set(phsol_B,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
-    Barrier_plus = [Barrier_plus;solh1];
-    %%
-    if kk == 0
-        fprintf('Advanced Barrier Function can not find.======\n');
-    end
-    view(-48,5);
+    figure_id = figure_id+1;
+    figure(figure_id);clf;
 end
-toc
+
 A = [];
-for i = 1:length(Barrier)
-    A = [A; [Control(i,:) Barrier(i)] Barrier_plus(i)];
+% for iter = 1:length(Barrier_plus)
+for iter = 1:length(Barrier)
+    %     A = [A; [Control(iter,:) Barrier(iter)] Barrier_plus(iter)];
+    A = [A; [Control(iter,:) Barrier(iter)]];
 end
