@@ -13,12 +13,14 @@ gg = [1;1;1];
 % C0 = 96.811595465770495;
 %%
 V = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2;
-C0 = 9.681159889041236;
+% C0 = 9.681159889041236;
+% C0 = 1.000000005232452;
+C0 = 1.0e+02*2.035941874477182;
 %%
-C1 = (x1+4)^2+(x2-6)^2+(x3+2)^2-4;
-C2 = (x1+3)^2+(x2+4)^2+(x3+4)^2-4;
-C3 = (x1-4)^2+(x2-0)^2+(x3-0)^2-5;
-C4 = (x1+4)^2+(x2-2)^2+(x3-4)^2-5;
+C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-4;
+C2 = (x1-4)^2+(x2+4)^2+(x3+4)^2-4;
+C3 = (x1+4)^2+(x2-6)^2+(x3+2)^2-4;
+C4 = (x1+4)^2+(x2-3)^2+(x3-4)^2-5;
 % C = [C1;C2;C3;C4];
 C = [C2;C3;C4];
 trace_Q1 = 1; trace_Q = 0;
@@ -27,11 +29,12 @@ mm = 0; kk = 1; i = 24;
 sol_B = C0 - V;
 solh = sol_B;
 %%
-% k_u = 4; k_h = 4; L_us = 6; L_au = 6;
-k_u = 4; k_h = 4; L_us = 4; L_au = 4;
+% k_u = 4; k_h = 4; L_us = 4; L_au = 4;
+k_u = 4; k_h = 4; L_us = 6; L_au = 6;
 %%
-% V_us = 6; V_au = 6; V_degree = 4; gamma = 0;
-V_us = 4; V_au = 6; V_degree = 4; k_u_V = 4; k_l_au = 4; gamma = 0;
+% V_us = 6; V_au = 8; V_degree = 6; gamma = 0;
+% V_us = 4; V_au = 6; V_degree = 4; gamma = 0;
+V_us = 6; V_au = 6; V_degree = 4; gamma = 0;
 %%
 TRACE = []; Barrier = []; Control = []; Barrier_plus = [];
 %%
@@ -46,7 +49,7 @@ while 1
     ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
+    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-48,5);
     %%
     record_Q = trace_Q
     %%
@@ -54,7 +57,7 @@ while 1
     if kk == 0
         break
     end
-    Control = [Control; [SOLu1 SOLu2 SOLu3]]
+    Control = [Control; [SOLu1 SOLu2 SOLu3]];
     %%
     [solh,trace_Q,kk] = sos_function_2_3D(i,f,k_h,SOLu1,SOLu2,SOLu3,SOL1,SOL2,gamma,V,C,dom,gg,L_us,figure_id);
     if kk == 0
@@ -73,8 +76,9 @@ while 1
     if kk == 0
         fprintf('Advanced Barrier Function can not find.======\n');
     end
+    view(-48,5);
 end
-
+toc
 A = [];
 for i = 1:length(Barrier)
     A = [A; [Control(i,:) Barrier(i)] Barrier_plus(i)];

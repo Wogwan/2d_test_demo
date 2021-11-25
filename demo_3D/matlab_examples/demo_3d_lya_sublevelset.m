@@ -22,10 +22,10 @@ k_l = 4;
 dom = 10;
 domain = [-dom dom -dom dom -dom dom];
 %%
-C1 = (x1+4)^2+(x2-6)^2+(x3+2)^2-4;
-C2 = (x1+3)^2+(x2+4)^2+(x3+4)^2-4;
-C3 = (x1-4)^2+(x2-0)^2+(x3-0)^2-5;
-C4 = (x1+4)^2+(x2-2)^2+(x3-4)^2-5;
+C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-4;
+C2 = (x1-4)^2+(x2+4)^2+(x3+4)^2-4;
+C3 = (x1+4)^2+(x2-6)^2+(x3+2)^2-4;
+C4 = (x1+4)^2+(x2-3)^2+(x3-4)^2-5;
 % C = [C1;C2;C3;C4];
 C = [C2;C3;C4];
 kk = 1; solU = []; v_c = []; iter = 1;
@@ -33,10 +33,10 @@ kk = 1; solU = []; v_c = []; iter = 1;
 figure_id = 21;
 figure(figure_id);clf;hold on;
 % ph1= patch(pcontour3(C1,0,domain,'c')); set(ph1, 'FaceColor', 'none', 'EdgeColor', 'r' );
-ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
-ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
-ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
-xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(10,20)
+ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'r' );
+ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'g' );
+ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'b' );
+xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(111,16);
 phV0= patch(pcontour3(V,double(C0),domain,'c')); set(phV0, 'FaceColor', 'none', 'EdgeColor', 'b' );
 
 %%

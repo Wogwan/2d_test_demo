@@ -1,6 +1,7 @@
 clear; 
 % load BC_test_Lya;
-load BC_test_Lya2;
+% load BC_test_Lya2;
+load BC_test_Lya3;
 pvar x1 x2 x3 u1 u2 u3 htol epsi;
 format long
 x = [x1;x2;x3];
