@@ -2,8 +2,8 @@ clear;tic;
 pvar x1 x2 x3 u htol epsi;
 x = [x1;x2;x3];
 load test_1125_3_3D_opt_Lya;
-dom = 7; domain = [-dom dom -dom dom -dom dom];
-figure_id = 311;
+
+figure_id = 313;
 %%
 C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-2;
 C2 = (x1-0)^2+(x2+3)^2+(x3+0)^2-2;
@@ -13,10 +13,7 @@ C = [C2;C3;C4];
 V00 = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2;
 CC0 = 6.323809779487249;
 %%
-Compute = {};
-%%
-% for i = [12;14;15;18;22;24;25;26;27;28;29;30;31]
-for i = 30
+for i = 1:length(A)
     %%
     f = [-0.16211179709695037165964324641892*x1^4+0.49031898059485488031675707268867*x1^3-0.80741059860165544525334054266171*x1^2-0.67918469453797989758096302163419*x1-0.000031796033448678815965058458425929*x2^4+0.00049811603934539429219124917480599*x2^3-0.017884574789259536503616132563366*x2^2+0.059003602596920091960530641017613*x2+0.14736298331076760903535216584714*x3^4-0.22234685217253638556123007674614*x3^3+0.14008297734444075111071015271591*x3^2+0.34076230832989312657943514750514*x3-1.4865840251194628709408125437986
         -x2*x1^3-x2
@@ -27,59 +24,16 @@ for i = 30
     trace_Q1 = 1; trace_Q = 0;
     mm = 0; kk = 1;
     %%
-    k_u = 4; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
+    k_u = 4; k_h = 4; L_us = 6; L_au = 4; gamma = 0;
     %%
-    %     for j = 1:14
-    %         if j == 1
-    %             % Get
-    %             k_u = 4; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 2
-    %             k_u = 4; k_h = 4; L_us = 6; L_au = 8; gamma = 0;
-    %             figure_id = figure_id + 10;
-    %         elseif j == 3
-    %             k_u = 4; k_h = 4; L_us = 8; L_au = 6; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 4
-    %             k_u = 4; k_h = 4; L_us = 8; L_au = 8; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 5
-    %             k_u = 4; k_h = 4; L_us = 6; L_au = 6; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 6
-    %             k_u = 4; k_h = 4; L_us = 4; L_au = 6; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 7
-    %             % Get
-    %             k_u = 4; k_h = 4; L_us = 6; L_au = 4; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 8
-    %             k_u = 6; k_h =4; L_us = 6; L_au = 4; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 9
-    %             k_u = 6; k_h = 6; L_us = 6; L_au = 6; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 10
-    %             k_u = 6; k_h = 6; L_us = 8; L_au = 6; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 11
-    %             k_u = 6; k_h = 6; L_us = 6; L_au = 8; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         elseif j == 12
-    %             k_u = 6; k_h = 6; L_us = 8; L_au = 8; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         else
-    %             k_u = 8; k_h = 8; L_us = 8; L_au = 8; gamma = 0;
-    %             figure_id = figure_id + 100;
-    %         end
-    %%
+    sol_B = CC0 - V00; solh = sol_B;
     figure(figure_id);clf;hold on;
+    dom = 10; domain = [-dom dom -dom dom -dom dom];
     %%
     xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-30,20);
     B_controller = A(i,4);
     V = A_V(i);
     C0 = A_C0(i);
-    sol_B = C0 - V; solh = sol_B;
     %%
     ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
@@ -108,6 +62,4 @@ for i = 30
     end
     figure_id = figure_id+1;
     figure(figure_id);clf;
-    Compute{j} = {Barrier};
-    %     end
 end
