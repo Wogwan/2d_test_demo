@@ -2,10 +2,6 @@ function [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,k,L_au,solh,V,gamma,gg)
 pvar x1 x2 htol epsi;
 x = [x1;x2];
 %% Create corresponding decision variable
-%%
-% [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:L_au));
-% [L2,L2_Q] = polydecvar('L2_w',monomials(x,0:L_au));
-%%
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_au/2));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_au/2));
 %%

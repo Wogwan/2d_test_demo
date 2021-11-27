@@ -5,17 +5,11 @@ pvar x1 x2 htol epsi;
 x = [x1;x2];
 %%
 [h,hc] = polydecvar('h_w',monomials(x,0:k)); 
-% [h,hc] = sosdecvar('h_w',monomials(x,0:k/2)); 
 %%
 [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:L_us/2));
 [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:L_us/2));
 [L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:L_us/2));
 [L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:L_us/2)); 
-%%
-% [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:L_us));
-% [L2,L2_Q] = polydecvar('L2_w',monomials(x,0:L_us));
-% [L3,L3_Q] = polydecvar('L3_w',monomials(x,0:L_us));
-% [L4,L4_Q] = polydecvar('L4_w',monomials(x,0:L_us)); 
 %%
 hdot = jacobian(h, x1)*(f(1)+gg(1)*SOLu1)+jacobian(h, x2)*(f(2)+gg(2)*SOLu2);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*SOLu1)+jacobian(V, x2)*(f(2)+gg(2)*SOLu2);
@@ -59,8 +53,6 @@ elseif k==14
 else
     fprintf('Pleaes enter suitable order of Barrier certificate.====== ');
 end
-% obj = -trace(hc);
-
 %% Solve feasibility problem
 opts = sosoptions;
 opts.form = 'kernel';
@@ -76,9 +68,9 @@ if info.feas
     trace_Q = subs(-obj,dopt);
     k = ['r','g','b','m','c','k','y'];
     if mod(iter,7) == 0
-        [~,~]=pcontour(solh,0,domain,k(7)); hold on;             % Plot the original Lyapunov sublevel set
+        [~,~]=pcontour(solh,0,domain,k(7)); hold on;           
     else
-        [~,~]=pcontour(solh,0,domain,k(mod(iter,7))); hold on;             % Plot the original Lyapunov sublevel set
+        [~,~]=pcontour(solh,0,domain,k(mod(iter,7))); hold on;          
     end
     refreshdata; drawnow;
 else

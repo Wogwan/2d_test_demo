@@ -33,7 +33,6 @@ C0 = 10.296886492629705;
 sol_B = C0 - V; solh = sol_B;
 TRACE = []; Barrier = []; Control = []; iter = 0;
 %%
-% for i = 1:15
 while 1
     figure_id = figure_id+1;
     figure(figure_id);clf;
@@ -63,4 +62,5 @@ while 1
 end
 view(-121,-10);
 %%
-fprintf('Optimal $B(x)$ is \n%s \n\n',char(vpa(p2s(Barrier(end)))));
+fprintf('Optimal $B(x)$ is \n%s \n\n',char(vpa(p2s(Barrier(end-1)))));
+toc

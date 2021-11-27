@@ -42,7 +42,7 @@ k_u_V = 4; k_l_au = 4;
 %%
 kk = 1; OO = 0;
 %%
-[V, kk] = sos_optimalA_V1_3D_V(f,gg,B,u1,u2,u3,V_au,V_us,V_degree,C,gamma);
+[V, kk] = sos_optimal_V1_3D_V(f,gg,B,u1,u2,u3,V_au,V_us,V_degree,C,gamma);
 %%
 if kk == 0
     fprintf('Suitable Lyapunov function can not find.======\n');
@@ -65,13 +65,10 @@ while double(cc)-double(C0) >= epsi
         break
     end
     [cc,kk,solu1,solu2,solu3] = sos_optimal_v3_3D(f,gg,k_u_V,k_l_au,V,C,dom,solL,ccc,figure_id);
-    v_c = [v_c; double(cc)];
+    v_c = [v_c; double(cc)]
     solU = [solU;[solu1,solu2,solu3]];
 end
 %% Start to compute the control barrier function
 c_b = max(double(v_c));
 V = N_Lya(end); A_V = [A_V;V]; A_C0 = [A_C0; double(c_b)]; sol_B = c_b - N_Lya(end);
 hold on; phsol_B = patch(pcontour3(sol_B,0,domain,'B')); set(phsol_B,'EdgeAlpha',0.8,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
-%%
-fprintf('Optimal $V^*(x)$ is \n%s \n\n',char(vpa(p2s(V))));
-fprintf('Sublevel set of $V^*(x)$ is \n%.14f \n\n',max(v_c));

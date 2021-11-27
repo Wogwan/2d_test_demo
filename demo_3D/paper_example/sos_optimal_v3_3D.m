@@ -6,19 +6,13 @@ pvar x1 x2 x3 cc;
 x = [x1;x2;x3];
 %%
 [L1,L1_Q] = polydecvar('L1_w',monomials(x,0:k_l));
-[L2,L2_Q] = polydecvar('L2_w',monomials(x,0:k_l)); 
-[L3,L3_Q] = polydecvar('L3_w',monomials(x,0:k_l)); 
+[L2,L2_Q] = polydecvar('L2_w',monomials(x,0:k_l));
+[L3,L3_Q] = polydecvar('L3_w',monomials(x,0:k_l));
 [L4,L4_Q] = polydecvar('L4_w',monomials(x,0:k_l));
 %%
-% [L1,L1_Q] = sosdecvar('L1_w',monomials(x,0:k_l/2));
-% [L2,L2_Q] = sosdecvar('L2_w',monomials(x,0:k_l/2)); 
-% [L3,L3_Q] = sosdecvar('L3_w',monomials(x,0:k_l/2)); 
-% [L4,L4_Q] = sosdecvar('L4_w',monomials(x,0:k_l/2));
-%%
-[u1,uc1] = polydecvar('u_w1',monomials(x,0:k)); 
+[u1,uc1] = polydecvar('u_w1',monomials(x,0:k));
 [u2,uc2] = polydecvar('u_w2',monomials(x,0:k));
 [u3,uc3] = polydecvar('u_w3',monomials(x,0:k));
-% Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+ jacobian(V, x2)*(f(2)+gg(2)*u2);
 Vdot = jacobian(V, x1)*(f(1)+gg(1)*u1)+jacobian(V, x2)*(f(2)+gg(2)*u2)+jacobian(V, x3)*(f(3)+gg(3)*u3);
 %% Constraint:
 pconstr_21 = L1 >= 0;
@@ -27,7 +21,6 @@ pconstr_1 = -Vdot-solL*(cc-V) >= 0;
 pconstr_31 = -(cc-V)+C(1)*L1 >= 0;
 pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
 pconstr_4 = cc >= ccc;
-% pconstr_4 = cc >= 0;
 if length(C) == 2
     pconstr = [pconstr_21;pconstr_22;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
 elseif length(C) == 3
@@ -56,10 +49,6 @@ if info.feas
     solu1 = subs(u1,dopt);
     solu2 = subs(u2,dopt);
     solu3 = subs(u3,dopt);
-%     figure(figure_id);hold on;
-%     phv= patch(pcontour3(V,double(cc),domain,'B')); 
-%     set(phv,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
-%     refreshdata; drawnow;
 else
     kk = 0;
     cc = 0;
