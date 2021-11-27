@@ -1,5 +1,6 @@
 clear;
-load test_1125_3_3D;
+% load test_1126_2_3D;
+load test_1127_opt_barrier_4424_result_output;
 pvar x1 x2 x3 u1 u2 u3 htol epsi;
 format long
 x = [x1;x2;x3];
@@ -13,12 +14,12 @@ sys = [f(1)+gg(1)*u1; f(2)+gg(2)*u2; f(3)+gg(3)*u3];
 %%
 dom = 10; domain = [-dom dom -dom dom -dom dom];
 C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-2;
-C2 = (x1-0)^2+(x2+3)^2+(x3+0)^2-2;
-C3 = (x1-3)^2+(x2-2)^2+(x3-2)^2-2;
-C4 = (x1+3)^2+(x2-3)^2+(x3+2)^2-2;
+C2 = (x1+3)^2+(x2+3)^2+(x3-3)^2-3;
+C3 = (x1-0)^2+(x2-3)^2+(x3+0)^2-3;
+C4 = (x1-3)^2+(x2-0)^2+(x3+3)^2-3;
 C = [C2;C3;C4];
 V0 = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2;
-CC0 = 6.323809779487249;
+CC0 = 2.584683714740699;
 figure_id = 211;
 A_V = [];
 A_C0 = [];
@@ -36,11 +37,12 @@ for iter = 1:length(A)
     ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    phV0= patch(pcontour3(V0,double(CC0),domain,'G')); set(phV0,'EdgeAlpha',0.1, 'FaceColor', 'none', 'EdgeColor', 'b' );
+    phV0= patch(pcontour3(V0,double(CC0),domain,'G')); set(phV0,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'g' );
     phB= patch(pcontour3(B,0,domain,'B')); set(phB,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',1);
-    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-57,28);
+    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-100,0);
     %% Hyperparameters of the SOSP @ CBF -> V
-    V_us = 4; V_au = 4; V_degree = 4; gamma = 0; k_u_V = 4; k_l_au = 4;
+    V_us = 4; V_au = 4; V_degree = 4; gamma = 0; 
+    k_u_V = 4; k_l_au = 4;
     % V_us = 6; V_au = 6; V_degree = 6; gamma = 0; k_u_V = 6; k_l_au = 6;
     % V_us = 8; V_au = 8; V_degree = 8; gamma = 0; k_u_V = 8; k_l_au = 8;
     %%
@@ -59,7 +61,7 @@ for iter = 1:length(A)
     C0 = ccc; cc = ccc+1;solU = []; v_c = []; iter = 0;
     %%
     figure(figure_id);hold on;
-    phV1= patch(pcontour3(V,double(cc),domain,'G')); set(phV1,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'r' );
+    %     phV1= patch(pcontour3(V,double(cc),domain,'G')); set(phV1,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'r' );
     %%
     while double(cc)-double(C0) >= epsi
         iter = iter + 1;
