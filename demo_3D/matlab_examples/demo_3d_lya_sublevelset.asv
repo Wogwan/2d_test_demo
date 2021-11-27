@@ -56,6 +56,5 @@ figure(figure_id);hold on;
 inV = patch(pcontour3(V,double(v_c(end)),domain,'k')); 
 set(inV, 'EdgeAlpha',0.1,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',0.2 ); hold on;
 refreshdata; drawnow;
-%%
-fprintf('Sublevel set of $V_0(x)$ is %.14f. \n',v_c(end));
+fprintf('Sublevel set of $V_0(x)$ is %.14fe\n',max(v_c));
 toc

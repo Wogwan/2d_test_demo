@@ -8,43 +8,35 @@ f = [-0.16211179709695037165964324641892*x1^4+0.49031898059485488031675707268867
     ];
 gg = [1;1;1];
 %%
-% V = 10*x1^4+1*x2^4+20*x3^4+2*x1^2*x2^2-4*x3^2*x2^2+3*x1^2*x3^2;
-% C0 = 96.811595465770495;
-%%
 V = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2;
 C0 = 2.584683714740699;
 %%
-C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-2;
 C2 = (x1+3)^2+(x2+3)^2+(x3-3)^2-3;
 C3 = (x1-0)^2+(x2-3)^2+(x3+0)^2-3;
 C4 = (x1-3)^2+(x2-0)^2+(x3+3)^2-3;
 C = [C2;C3;C4];
 trace_Q1 = 1; trace_Q = 0;
-mm = 0; kk = 1; i = 0;
+mm = 0; kk = 1;
 %%
 sol_B = C0 - V;
 solh = sol_B;
 %%
-% k_u = 4; k_h = 4; L_us = 4; L_au = 4;
 k_u = 4; k_h = 4; L_us = 2; L_au = 4;
 gamma = 0;
 %%
-figure_id = 10;
+figure_id = 1;
 figure(figure_id);clf;hold on;
 dom = 10; domain = [-dom dom -dom dom -dom dom];
 %%
 TRACE = []; Barrier = []; Control = [];
 %%
-while 1
-    i = i+1
+for i = 1:15
     record_Q = trace_Q
     phV0= patch(pcontour3(V,double(C0),domain,'c')); set(phV0,'EdgeAlpha',0.1, 'FaceColor', 'none', 'EdgeColor', 'b' );
-    % ph1= patch(pcontour3(C1,0,domain,'c')); set(ph1, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
     ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-57,28);
-    
+    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(45,8);
     %%
     [SOLu1,SOLu2,SOLu3,SOL1,SOL2,kk] = sos_function_1_3D(f,k_u,L_au,solh,V,gamma,gg);
     if kk == 0
@@ -58,13 +50,18 @@ while 1
     end
     TRACE = [TRACE; double(trace_Q)];
     Barrier = [Barrier; solh];
-    figure_id = figure_id+1;
-    figure(figure_id);clf;
+    if i ~= 15
+        figure_id = figure_id+1;
+        figure(figure_id);clf;
+    end
 end
 
 A = [];
-% for iter = 1:length(Barrier_plus)
 for iter = 1:length(Barrier)
-    %     A = [A; [Control(iter,:) Barrier(iter)] Barrier_plus(iter)];
     A = [A; [Control(iter,:) Barrier(iter)]];
 end
+%%
+fprintf('Permissive $B(x)$ is \n%s \n\n',char(vpa(p2s(Barrier(end)))));
+fprintf('Control Input $u_1(x)$ is \n%s \n\n',char(vpa(p2s(Control(end,1)))));
+fprintf('Control Input $u_2(x)$ is \n%s \n\n',char(vpa(p2s(Control(end,2)))));
+fprintf('Control Input $u_3(x)$ is \n%s \n\n',char(vpa(p2s(Control(end,3)))));

@@ -1,6 +1,4 @@
 clear;
-% load test_1126_2_3D;
-load test_1127_opt_barrier_4424_result_output;
 pvar x1 x2 x3 u1 u2 u3 htol epsi;
 format long
 x = [x1;x2;x3];
@@ -23,68 +21,57 @@ CC0 = 2.584683714740699;
 figure_id = 211;
 A_V = [];
 A_C0 = [];
-for iter = 1:length(A)
-    %% Start to compute the control barrier function
-    u1 = A(iter,1);
-    u2 = A(iter,2);
-    u3 = A(iter,3);
-    B = A(iter,4);
-    %%
-    c0 = 1; cc = 1.1; epsi = 1e-6; N_Lya = [];
-    %%
-    figure(figure_id);clf;hold on;
-    %     ph1= patch(pcontour3(C1,0,domain,'c')); set(ph1, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
-    phV0= patch(pcontour3(V0,double(CC0),domain,'G')); set(phV0,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'g' );
-    phB= patch(pcontour3(B,0,domain,'B')); set(phB,'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',1);
-    xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-100,0);
-    %% Hyperparameters of the SOSP @ CBF -> V
-    V_us = 4; V_au = 4; V_degree = 4; gamma = 0; 
-    k_u_V = 4; k_l_au = 4;
-    % V_us = 6; V_au = 6; V_degree = 6; gamma = 0; k_u_V = 6; k_l_au = 6;
-    % V_us = 8; V_au = 8; V_degree = 8; gamma = 0; k_u_V = 8; k_l_au = 8;
-    %%
-    kk = 1; OO = 0;
-    %%
-    % [V, kk] = sos_optimal_V1_3D(f,gg,B,u1,u2,u3,V_au,V_us,V_degree,C,gamma);
-    [V, kk] = sos_optimal_V1_3D_V(f,gg,B,u1,u2,u3,V_au,V_us,V_degree,C,gamma);
-    %%
-    if kk == 0
-        fprintf('Suitable Lyapunov function can not find.======\n');
-    end
-    N_Lya = [N_Lya;V];
-    %% TEST FOR Sublevel Set
-    [a1,b1] = coeffs(p2s(V));
-    ccc = double(vpa(a1(end)));
-    C0 = ccc; cc = ccc+1;solU = []; v_c = []; iter = 0;
-    %%
-    figure(figure_id);hold on;
-    %     phV1= patch(pcontour3(V,double(cc),domain,'G')); set(phV1,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'r' );
-    %%
-    while double(cc)-double(C0) >= epsi
-        iter = iter + 1;
-        if iter ~= 0
-            C0 = cc;
-        end
-        [solL,kk]= sos_optimal_v2_3D(f,gg,k_u_V,k_l_au,V,cc);
-        if kk == 0
-            break
-        end
-        [cc,kk,solu1,solu2,solu3] = sos_optimal_v3_3D(f,gg,k_u_V,k_l_au,V,C,dom,solL,ccc,figure_id);
-        v_c = [v_c; double(cc)]
-        solU = [solU;[solu1,solu2,solu3]];
-    end
-    %% Start to compute the control barrier function
-    c_b = max(double(v_c));
-    V = N_Lya(end);
-    A_V = [A_V;V];
-    A_C0 = [A_C0; double(c_b)];
-    sol_B = c_b - N_Lya(end);
-    hold on;
-    phsol_B= patch(pcontour3(sol_B,0,domain,'B')); set(phsol_B,'EdgeAlpha',0.7,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
-    
-    figure_id = figure_id + 1;
-    figure(figure_id);clf;
+%% Start to compute the control barrier function
+u1 = 0.1630270005458074*x1^4+1.350403449580213*x1^3*x2+0.06023901932898509*x1^3*x3-1.57395067953058*x1^2*x2^2+0.23074977283966*x1^2*x2*x3-0.07853220382047178*x1^2*x3^2-1.423938337284921*x1*x2^3+0.1902793310750747*x1*x2^2*x3-0.155072075164804*x1*x2*x3^2-0.04034581050850122*x1*x3^3+1.532593331870587*x2^4-0.2143065019656625*x2^3*x3-0.1258523222543836*x2^2*x3^2+0.2267924867752135*x2*x3^3-0.1240366572049758*x3^4-1.126551899650285*x1^3+3.565471031910737*x1^2*x2+0.1658429682960096*x1^2*x3-50.19372366190139*x1*x2^2-6.39860814122964*x1*x2*x3+0.7973641413558107*x1*x3^2+3.760319123458043*x2^3-6.928835695022093*x2^2*x3+1.265713534678958*x2*x3^2+0.3697215972497397*x3^3+0.8826386681548267*x1^2-3.215774720167755*x1*x2+0.1732900148981309*x1*x3-3.523562332468467*x2^2+6.696112838364733*x2*x3-0.3532976911878395*x3^2-4.235255519567531*x1-0.1262175783594923*x2-0.3051726926494326*x3+1.486132041868946;
+u2 = 1.379671043484654*x1^4-0.6040355869892481*x1^3*x2+0.1855528857338671*x1^3*x3-1.403639820200137*x1^2*x2^2+0.2000493752132583*x1^2*x2*x3-0.1642249502146869*x1^2*x3^2+1.505000289198871*x1*x2^3-0.1528639956632684*x1*x2^2*x3-0.1202534034243676*x1*x2*x3^2+0.2086708425065534*x1*x3^3+0.00268402956328079*x2^4+0.06506620041089235*x2^3*x3-0.09449220996828966*x2^2*x3^2-0.05871728804202701*x2*x3^3+0.05418382481011182*x3^4+3.7493799512197*x1^3-49.87757511199551*x1^2*x2-6.704129104655459*x1^2*x3+3.558635378343125*x1*x2^2-6.673087818444481*x1*x2*x3+1.248124837436509*x1*x3^2-0.654268479416607*x2^3+0.1406978100886461*x2^2*x3+0.474828056679829*x2*x3^2+0.2215371023550948*x3^3-3.109901676972674*x1^2-3.650484314059224*x1*x2+6.690503278868354*x1*x3+0.07926613848968447*x2^2+0.1444150838097964*x2*x3-0.1990494383115241*x3^2-0.05828476675028905*x1-3.908985838000037*x2-0.02699368766748602*x3-0.002129684865755593;
+u3 = -0.7062703823899499*x1^4-0.1876508139078507*x1^3*x2-0.6635065181692048*x1^3*x3-2.649050895746964*x1^2*x2^2+1.307530839315534*x1^2*x2*x3-0.01282083047035216*x1^2*x3^2-0.09233913617545028*x1*x2^3+0.9268477203147072*x1*x2^2*x3+0.2507704586733213*x1*x2*x3^2-0.2218826172810907*x1*x3^3+1.335862262745261*x2^4-0.9990626812345447*x2^3*x3+0.1036892065357383*x2^2*x3^2-0.2722998189053561*x2*x3^3+0.6498060393086085*x3^4-1.514972748309763*x1^3-6.378341483064192*x1^2*x2-17.79384981500498*x1^2*x3-3.845688864656426*x1*x2^2+12.17666072914621*x1*x2*x3-1.251988466204406*x1*x3^2-4.716357923162581*x2^3-14.97797193649798*x2^2*x3+1.223829662115105*x2*x3^2-5.375063621010333*x3^3-3.128129031010304*x1^2-3.992160833153938*x1*x2+2.800686559902224*x1*x3-3.779184531413875*x2^2+3.272763184474191*x2*x3-0.1774543742824415*x3^2+2.79477481709748*x1+5.261041262991135*x2-28.15644652612102*x3-1.225613630665185;
+B = -33.09799065631322*x1^4-0.1723940535235186*x1^3*x2+0.143773053054076*x1^3*x3+64.97440396738463*x1^2*x2^2+0.5857519399089953*x1^2*x2*x3+0.7853770480884856*x1^2*x3^2-0.1464069860009552*x1*x2^3+0.6329928141778013*x1*x2^2*x3-0.473659248816281*x1*x2*x3^2-0.002587119356487314*x1*x3^3-33.13600573019499*x2^4+0.2011955362302861*x2^3*x3+0.8363351627078721*x2^2*x3^2-0.008256353299219281*x2*x3^3-1.210752988753422*x3^4+0.03300523248034432*x1^3+0.2919835081240157*x1^2*x2-0.3520772263533318*x1^2*x3+0.2881701361665453*x1*x2^2-0.6594226500297575*x1*x2*x3+0.3477597557977948*x1*x3^2-0.01061756528631267*x2^3-0.2735051471964477*x2^2*x3+0.3933491595576186*x2*x3^2-0.04673337103910956*x3^3-0.1235693086447572*x1^2-0.1032576701015931*x1*x2+0.1100941857098174*x1*x3-0.07054903680735992*x2^2+0.1186658561714403*x2*x3-0.1787005411543669*x3^2-0.0001237346321703398*x1-0.0001309891038417597*x2+0.0001719599364048977*x3+75.32430532143852;
+%%
+c0 = 1; cc = 1.1; epsi = 1e-6; N_Lya = [];
+%%
+figure(figure_id);clf;hold on;
+ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
+ph3= patch(pcontour3(C3,0,domain,'c')); set(ph3, 'FaceColor', 'none', 'EdgeColor', 'k' );
+ph4= patch(pcontour3(C4,0,domain,'c')); set(ph4, 'FaceColor', 'none', 'EdgeColor', 'k' );
+phV0= patch(pcontour3(V0,double(CC0),domain,'G')); set(phV0,'EdgeAlpha',1, 'FaceColor', 'none', 'EdgeColor', 'g' );
+phB= patch(pcontour3(B,0,domain,'B')); set(phB,'EdgeAlpha',0.3,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','-','LineWidth',1);
+xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]); view(-100,0);
+%% Hyperparameters of the SOSP @ CBF -> V
+V_us = 4; V_au = 4; V_degree = 4; gamma = 0;
+k_u_V = 4; k_l_au = 4;
+%%
+kk = 1; OO = 0;
+%%
+[V, kk] = sos_optimalA_V1_3D_V(f,gg,B,u1,u2,u3,V_au,V_us,V_degree,C,gamma);
+%%
+if kk == 0
+    fprintf('Suitable Lyapunov function can not find.======\n');
 end
+N_Lya = [N_Lya;V];
+%% TEST FOR Sublevel Set
+[a1,b1] = coeffs(p2s(V));
+ccc = double(vpa(a1(end)));
+C0 = ccc; cc = ccc+1;solU = []; v_c = []; iter = 0;
+%%
+figure(figure_id);hold on;
+%%
+while double(cc)-double(C0) >= epsi
+    iter = iter + 1;
+    if iter ~= 0
+        C0 = cc;
+    end
+    [solL,kk]= sos_optimal_v2_3D(f,gg,k_u_V,k_l_au,V,cc);
+    if kk == 0
+        break
+    end
+    [cc,kk,solu1,solu2,solu3] = sos_optimal_v3_3D(f,gg,k_u_V,k_l_au,V,C,dom,solL,ccc,figure_id);
+    v_c = [v_c; double(cc)];
+    solU = [solU;[solu1,solu2,solu3]];
+end
+%% Start to compute the control barrier function
+c_b = max(double(v_c));
+V = N_Lya(end); A_V = [A_V;V]; A_C0 = [A_C0; double(c_b)]; sol_B = c_b - N_Lya(end);
+hold on; phsol_B = patch(pcontour3(sol_B,0,domain,'B')); set(phsol_B,'EdgeAlpha',0.8,'FaceColor', 'none', 'EdgeColor', 'r','LineStyle','-','LineWidth',1);
+%%
+fprintf('Optimal $V^*(x)$ is \n%s \n\n',char(vpa(p2s(V))));
+fprintf('Sublevel set of $V^*(x)$ is \n%.14f \n\n',max(v_c));
