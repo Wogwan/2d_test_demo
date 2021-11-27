@@ -32,7 +32,8 @@ B_controller_1 = 9.5200727248137635427838176838122*x1^2*x2^2-0.00190674157150538
 [~,h31]=pcontour(B_controller_1,0,domain,'m'); hold on; h31.LineStyle = '-'; h31.LineWidth = 1.4;
 axis(domain); TRACE = []; Barrier = []; Control = [];
 %%
-for j = 1:56
+for j = 1:60
+% while 1
     i = i+1
     record_Q = trace_Q
     %%
@@ -47,6 +48,7 @@ for j = 1:56
         break
     end
     figure(figure_id+1);clf;hold on;
+    [~,h31]=pcontour(B_controller_1,0,domain,'m'); hold on; h31.LineStyle = '-'; h31.LineWidth = 1.4;
     [~,~]=pcontour(V,C0,domain,'r'); hold on;
     [~,~]=pcontour(C1,0,domain,'k'); hold on;
     [~,~]=pcontour(C2,0,domain,'k'); hold on;

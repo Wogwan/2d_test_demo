@@ -1,7 +1,7 @@
 %%
-figure(13);clf;hold on;
+figure(10000);clf;hold on;
 pvar x1 x2 x3;
-dom = 10;
+dom = 6;
 domain = [-dom dom -dom dom -dom dom];
 %%
 C1 = (x1-3)^2+(x2-0)^2+(x3-0)^2-2;
@@ -34,7 +34,7 @@ us4 = patch(pcontour3(V1,C1,domain,'r'));            % Plot the original Lyapuno
 set(us4, 'EdgeAlpha',0.6,'FaceColor', 'none', 'EdgeColor', 'b','LineStyle','--','LineWidth',1 ); hold on;
 
 %%
-legend([inV,inV1,us4],{'$V(x)\leq c_0$','$V(x)\leq c^*$','$V^*(x)\leq c^*$'}, 'Interpreter','latex','location','northwest');
+legend([inV,inV1,us4],{'$V(x)\leq c_0$','$V(x)\leq c_1^*$','$V^*(x)\leq c_2^*$'}, 'Interpreter','latex','location','northwest');
 title('');
 xlabel('$x_1$','Interpreter','latex','Fontsize',18);
 ylabel('$x_2$','Interpreter','latex','Fontsize',18);
@@ -42,6 +42,6 @@ zlabel('$x_3$','Interpreter','latex','Fontsize',18);
 set(gca,'xtick',[-dom,-dom/2,0,dom/2,dom]);
 set(gca,'ytick',[-dom,-dom/2,0,dom/2,dom]);
 set(gca,'ztick',[-dom,-dom/2,0,dom/2,dom]);
-set(gca,'FontSize',24,'Fontname','Times');
-set(gca,'Box','on');view(310,10);axis equal;
+set(gca,'Box','on');view(200,10);
+set(gca,'FontSize',22,'Fontname','Times','LineWidth',2);
 set(gca,'LooseInset',get(gca,'TightInset'))

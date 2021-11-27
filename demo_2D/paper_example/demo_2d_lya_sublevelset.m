@@ -60,5 +60,5 @@ figure(figure_id);hold on;
 [~,~]=pcontour(V,v_c(end),domain,'b');
 %%
 %%
-fprintf('Sublevel set of $V_0(x)$ is %.14f. \n',v_c(end));
+fprintf('Sublevel set of V0(x) is %.14f. \n',v_c(end));
 toc

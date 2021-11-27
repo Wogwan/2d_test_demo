@@ -82,4 +82,4 @@ sol_B = c_b - N_Lya(end);
 hold on;[~,~]=pcontour(sol_B,0,domain,'k');
 V = N_Lya(end);
 %%
-fprintf('Sublevel set of $V^*(x)$ is %.14f. \n',v_c(end));
+fprintf('Sublevel set of V∗(x) is %.14f. \n',v_c(end));

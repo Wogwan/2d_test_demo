@@ -81,6 +81,6 @@ for iter = 1:length(Barrier)
     A = [A; [Control(iter,:) Barrier(iter)]];
 end
 %%
-fprintf('Permissive $B(x)$ is \n%s \n\n',char(vpa(p2s(A(end,3)))));
-fprintf('Control Input $u_1(x)$ is \n%s \n\n',char(vpa(p2s(A(end,1)))));
-fprintf('Control Input $u_2(x)$ is \n%s \n\n',char(vpa(p2s(A(end,2)))));
+fprintf('Permissive B(x) is \n%s \n\n',char(vpa(p2s(A(end,3)))));
+fprintf('Control Input u1(x) is \n%s \n\n',char(vpa(p2s(A(end,1)))));
+fprintf('Control Input u2(x) is \n%s \n\n',char(vpa(p2s(A(end,2)))));

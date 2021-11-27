@@ -10,11 +10,11 @@ C3 = (x1-0)^2+(x2-3)^2+(x3+0)^2-3;
 C4 = (x1-3)^2+(x2-0)^2+(x3+3)^2-3;
 C = [C2;C3;C4];
 us2 = patch(pcontour3(C2,0,domain,'r'));          
-set(us2, 'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','--','LineWidth',1 ); hold on;
+set(us2, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','--','LineWidth',1 ); hold on;
 us3 = patch(pcontour3(C3,0,domain,'r'));           
-set(us3, 'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','--','LineWidth',1 ); hold on;
+set(us3, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','--','LineWidth',1 ); hold on;
 us4 = patch(pcontour3(C4,0,domain,'r'));           
-set(us4, 'EdgeAlpha',1,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','--','LineWidth',1 ); hold on;
+set(us4, 'EdgeAlpha',0.05,'FaceColor', 'none', 'EdgeColor', 'k','LineStyle','--','LineWidth',1 ); hold on;
 %%
 %% Iter = 15 Permissive Barrier
 B = -33.09799065631322*x1^4-0.1723940535235186*x1^3*x2+0.143773053054076*x1^3*x3+64.97440396738463*x1^2*x2^2+0.5857519399089953*x1^2*x2*x3+0.7853770480884856*x1^2*x3^2-0.1464069860009552*x1*x2^3+0.6329928141778013*x1*x2^2*x3-0.473659248816281*x1*x2*x3^2-0.002587119356487314*x1*x3^3-33.13600573019499*x2^4+0.2011955362302861*x2^3*x3+0.8363351627078721*x2^2*x3^2-0.008256353299219281*x2*x3^3-1.210752988753422*x3^4+0.03300523248034432*x1^3+0.2919835081240157*x1^2*x2-0.3520772263533318*x1^2*x3+0.2881701361665453*x1*x2^2-0.6594226500297575*x1*x2*x3+0.3477597557977948*x1*x3^2-0.01061756528631267*x2^3-0.2735051471964477*x2^2*x3+0.3933491595576186*x2*x3^2-0.04673337103910956*x3^3-0.1235693086447572*x1^2-0.1032576701015931*x1*x2+0.1100941857098174*x1*x3-0.07054903680735992*x2^2+0.1186658561714403*x2*x3-0.1787005411543669*x3^2-0.0001237346321703398*x1-0.0001309891038417597*x2+0.0001719599364048977*x3+75.32430532143852;
@@ -28,8 +28,7 @@ set(B1,'EdgeAlpha',0.4,'FaceColor', 'none', 'EdgeColor', 'g','LineStyle',':','Li
 xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);view(-200, 10);hold on;
 %%
 legend([inV,B1],{'$B(x)\geq 0$','$B^*(x)\geq 0$'}, 'Interpreter','latex','location','northwest');
-title('');
-xlabel('$x_1$','Interpreter','latex','Fontsize',18);
+title('');xlabel('$x_1$','Interpreter','latex','Fontsize',18);
 ylabel('$x_2$','Interpreter','latex','Fontsize',18);
 zlabel('$x_3$','Interpreter','latex','Fontsize',18);
 set(gca,'xtick',[-dom,-dom/2,0,dom/2,dom]);
@@ -38,3 +37,4 @@ set(gca,'ztick',[-dom,-dom/2,0,dom/2,dom]);
 set(gca,'Box','on');view(200,10);
 set(gca,'FontSize',22,'Fontname','Times','LineWidth',2);
 set(gca,'LooseInset',get(gca,'TightInset'))
+
