@@ -8,17 +8,19 @@ f = [-0.16211179709695037165964324641892*x1^4+0.49031898059485488031675707268867
     ];
 gg = [1;1;1];
 %%
-C2 = (x1+3)^2+(x2+3)^2+(x3-3)^2-3;
+C2 = (x1+2)^2+(x2+3)^2+(x3-3)^2-3;
 C3 = (x1-0)^2+(x2-3)^2+(x3+0)^2-3;
-C4 = (x1-3)^2+(x2-0)^2+(x3+3)^2-3;
+C4 = (x1-3)^2+(x2-0)^2+(x3+3)^2-4;
 C = [C2;C3;C4];
 trace_Q1 = 1; trace_Q = 0;
 mm = 0; kk = 1;
 %%
-V = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2; C0 = 2.584683714740699;
-sol_B = C0 - V; solh = sol_B;
+V = 1*x1^4+1*x2^4+1*x3^4+1*x1^2*x2^2+1*x3^2*x2^2+1*x1^2*x3^2; 
+C0 = 2.58468371013691;
+sol_B = C0 - V; solh = sol_B; i= 0;
 %%
-k_u = 4; k_h = 4; L_us = 2; L_au = 4; gamma = 0;
+k_u = 2; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
+% k_u = 4; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
 %%
 figure_id = 1;
 figure(figure_id);clf;hold on;
@@ -26,7 +28,9 @@ dom = 10; domain = [-dom dom -dom dom -dom dom];
 %%
 TRACE = []; Barrier = []; Control = [];
 %%
-for i = 1:15
+% for i = 1:15
+while 1
+    i = i + 1;
     record_Q = trace_Q
     phV0= patch(pcontour3(V,double(C0),domain,'c')); set(phV0,'EdgeAlpha',0.1, 'FaceColor', 'none', 'EdgeColor', 'b' );
     ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
@@ -57,7 +61,7 @@ for iter = 1:length(Barrier)
     A = [A; [Control(iter,:) Barrier(iter)]];
 end
 %%
-fprintf('Permissive $B(x)$ is \n%s \n\n',char(vpa(p2s(Barrier(end)))));
-fprintf('Control Input $u_1(x)$ is \n%s \n\n',char(vpa(p2s(Control(end,1)))));
-fprintf('Control Input $u_2(x)$ is \n%s \n\n',char(vpa(p2s(Control(end,2)))));
-fprintf('Control Input $u_3(x)$ is \n%s \n\n',char(vpa(p2s(Control(end,3)))));
+fprintf('Permissive B(x) is \n%s \n\n',char(vpa(p2s(A(end,4)))));
+fprintf('Control Input u1(x) is \n%s \n\n',char(vpa(p2s(A(end,1)))));
+fprintf('Control Input u2(x) is \n%s \n\n',char(vpa(p2s(A(end,2)))));
+fprintf('Control Input u3(x) is \n%s \n\n',char(vpa(p2s(A(end,3)))));
