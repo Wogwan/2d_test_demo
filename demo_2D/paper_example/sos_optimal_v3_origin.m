@@ -19,8 +19,8 @@ pconstr_22 = L2 >= 0;
 pconstr_1 = -Vdot-solL*(cc-V) >= 0;
 pconstr_31 = -(cc-V)+C(1)*L1 >= 0;
 pconstr_32 = -(cc-V)+C(2)*L2 >= 0;
-pconstr_4 = cc >= ccc;
-% pconstr_4 = cc >= 0;
+% pconstr_4 = cc >= ccc;
+pconstr_4 = cc >= 0;
 if length(C) == 2
     pconstr = [pconstr_21;pconstr_22;pconstr_1;pconstr_31;pconstr_32;pconstr_4];
 elseif length(C) == 3

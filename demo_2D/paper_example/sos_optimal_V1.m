@@ -29,7 +29,6 @@ pcr_22 = V-C(2)*L4 >= 0;
 if length(C) == 2
     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22];
 elseif length(C) == 3
-    pcr_15 = L5 >= 0;
     pcr_23 = V-C(3)*L5 >= 0;
     pconstr = [pcr_11;pcr_12;pcr_13;pcr_14;pcr_15;pconstr_1;pconstr_2;pconstr_3;pcr_21;pcr_22;pcr_23];
 else
