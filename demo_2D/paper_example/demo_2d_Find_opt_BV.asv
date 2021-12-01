@@ -1,0 +1,65 @@
+clear;tic;
+pvar x1 x2 u htol epsi;
+x = [x1;x2];
+dom = 15;
+%%
+V = 2.6956787038204343964764575503068*x1 + 2.4744521858387473756124563806225*x2 + 0.2096224907462799214030724215263*x1^2*x2^2 - 0.32267055507215436360723970210529*x1*x2 - 0.082021596385071490753482237323624*x1*x2^2 - 0.1079247740191071058823979456065*x1^2*x2 + 0.17385029105500382495819167161244*x1*x2^3 + 0.13662631844392117419495491503767*x1^3*x2 + 3.0240026272167677134916630166117*x1^2 - 0.025737631683101218349474237356844*x1^3 + 2.7471657151301043242597188509535*x2^2 + 0.11207391066710929716787603638295*x1^4 - 0.054349866126164401991527341806432*x2^3 + 0.12175938649898074284116944454581*x2^4 + 21.036753666558297481969930231571;
+C0 = 49.60417301687880;
+%%
+k_u = 4; k_h = 4; L_us = 4; L_au = 6; gamma = 0;
+k = ['r','g','b','m','c','k','y'];
+%%
+sol_B = C0 - V; solh = sol_B;
+f = [x2-x1
+    -0.23606416828637188828796009029584*x1^4+0.24650838581310801777701368775053*x1^3+x1^2*x2-0.7173309565565305634393666878168*x1^2+0.26453823849708858750862106035129*x1+0.03729676680157056195552556232542*x2^4+0.01893812978180069162004173222158*x2^3+0.13680422363948308017711497086566*x2^2+0.043563863537901807709840085180986*x2+0.23883336887991710173473336453753
+    ];
+gg = [1;1];
+C1 = (x1+4)^2+(x2-6)^2-4;
+C2 = (x1+0)^2+(x2+5)^2-4;
+C3 = (x1-5)^2+(x2-0)^2-4;
+C = [C1;C2;C3];
+trace_Q1 = 1; trace_Q = 0; mm = 0; kk = 1; i = 0;
+%%
+figure_id = 12; figure(figure_id);clf;hold on;
+domain = [-dom dom -dom dom]; xlim([-dom dom]); ylim([-dom dom]); hold on;
+[~,~]=pcontour(V,C0,domain,'b'); hold on;
+[~,~]=pcontour(C1,0,domain,'k'); hold on;
+[~,~]=pcontour(C2,0,domain,'k'); hold on;
+if length(C) == 3
+    [~,~]=pcontour(C(3),0,domain,'r');            % Plot the original Lyapunov sublevel set
+end
+B_1 = 1.3584118910723108619720278511522*x1*x2 - 4.3339573493899798961592750856653*x2 - 3.127518600298431206141458460479*x1^2*x2^2 - 1.1888408564744026296722267943551*x1 + 2.1048448713801066745077150699217*x1*x2^2 + 2.8636551458441070749927348515484*x1^2*x2 - 3.1436281680618143319350110687083*x1*x2^3 - 3.1426385237927361160359396308195*x1^3*x2 + 1.644956481087265887097714767151*x1^2 - 1.5711050783861746360514644038631*x1^3 + 0.33975292999632777934948535403237*x2^2 - 3.146397043637472634713958541397*x1^4 + 2.1765712833833568140562420012429*x2^3 - 3.1464947131806413338495076459367*x2^4 + 278.04739036990019940276397392154;
+[~,h31]=pcontour(B_1,0,domain,'m'); hold on; h31.LineStyle = '-'; h31.LineWidth = 1.4;
+axis(domain); TRACE = []; Barrier = []; Control = [];
+%%
+% for j = 1:60
+while 1
+    i = i+1
+    record_Q = trace_Q
+    %%
+    [SOLu1,SOLu2,SOL1,SOL2,kk] = sos_function_1(f,k_u,L_au,solh,V,gamma,gg);
+    if kk == 0
+        break
+    end
+    Control = [Control; [SOLu1 SOLu2]];
+    %%
+    [solh,trace_Q,kk] = sos_function_2(i,f,k_h,SOLu1,SOLu2,SOL1,SOL2,gamma,V,C,dom,gg,L_us,figure_id);
+    if kk == 0
+        break
+    end
+    figure(figure_id+1);clf;hold on;
+    [~,h31]=pcontour(B_1,0,domain,'m'); hold on; h31.LineStyle = '-'; h31.LineWidth = 1.4;
+    [~,~]=pcontour(V,C0,domain,'r'); hold on;
+    [~,~]=pcontour(C1,0,domain,'k'); hold on;
+    [~,~]=pcontour(C2,0,domain,'k'); hold on;
+    [~,~]=pcontour(C3,0,domain,'k');
+    if mod(i,7) == 0
+        [~,~]=pcontour(solh,0,domain,k(7)); hold on;             % Plot the original Lyapunov sublevel set
+    else
+        [~,~]=pcontour(solh,0,domain,k(mod(i,7))); hold on;             % Plot the original Lyapunov sublevel set
+    end
+    refreshdata; drawnow;
+    TRACE = [TRACE; double(trace_Q)];
+    Barrier = [Barrier; solh];
+end
+fprintf('Optimal B(x) is \n%s \n\n',char(vpa(p2s(Barrier(end)))));
