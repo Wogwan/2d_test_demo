@@ -23,7 +23,8 @@ gg = [1;1;1];
 trace_Q1 = 1; trace_Q = 0;
 mm = 0; kk = 1;
 %%
-k_u = 6; k_h = 6; L_us = 6; L_au = 2; gamma = 0;
+% k_u = 6; k_h = 6; L_us = 6; L_au = 2; gamma = 0;
+k_u = 4; k_h = 6; L_us = 6; L_au = 6; gamma = 0;
 %%
 figure(figure_id);clf;hold on;xlim([-dom dom]); ylim([-dom dom]); zlim([-dom dom]);
 %%
