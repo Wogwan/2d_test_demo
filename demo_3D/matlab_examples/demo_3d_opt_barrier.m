@@ -22,16 +22,16 @@ C0 = 24.92234264283737;
 %%
 sol_B = C0 - V; solh = sol_B;
 %%
-% k_u = 4; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
-k_u = 6; k_h = 6; L_us = 6; L_au = 4; gamma = 0;
+k_u = 4; k_h = 4; L_us = 4; L_au = 4; gamma = 0;
 %%
 figure_id = 1;
 figure(figure_id);clf;hold on;
 dom = 10; domain = [-dom dom -dom dom -dom dom];
 %%
-TRACE = []; Barrier = []; Control = [];
+TRACE = []; Barrier = []; Control = []; i = 1;
 %%
-for i = 1:10
+% for i = 1:10
+while 1
     record_Q = trace_Q
     phV0= patch(pcontour3(V,double(C0),domain,'c')); set(phV0,'EdgeAlpha',0.1, 'FaceColor', 'none', 'EdgeColor', 'b' );
     ph2= patch(pcontour3(C2,0,domain,'c')); set(ph2, 'FaceColor', 'none', 'EdgeColor', 'k' );
