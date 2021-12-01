@@ -43,8 +43,13 @@ ax.BoxStyle = 'full';
 ax.LineWidth = 1.7;
 xlabel('$x_1$','Interpreter','latex','Fontsize',18,'Fontname','Times');
 ylabel('$x_2$','Interpreter','latex','Fontsize',18,'Fontname','Times');
+<<<<<<< HEAD
 xlim([-dom1+1 dom1+3]); ylim([-dom1 dom1+2]); hold on;
 set(gca,'LooseInset',get(gca,'TightInset'))
+=======
+xlim([-dom1+2 dom1+3]); ylim([-dom1 dom1+7.5]); hold on;
+
+>>>>>>> 4c7f0ecb8a2f24b865afd7b40c7f24b87f92ad16
 %  Green [54 185 132]/255
 %  Red [247 77 77]/255
 %  Blue [35 145 213]/255
