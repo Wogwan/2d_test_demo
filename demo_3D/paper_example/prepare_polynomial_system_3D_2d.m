@@ -43,7 +43,6 @@ x_change = x3/sz;
 f3_appro_data = subs(f3_mid,x1,x_change);
 f3_appro = f3_appro_data + f3_p;
 %% Chebyshev remainder item
-[Cheb_Pn1, Cheb_Pn3] = sos_cheb(deg,sz);                  % Provide the non-polynomial function in sos_cheb.m
 [M1,x_num1] = cheb_max_3D(f1_np,sz);                          % Check the maximum value in the given region of the approximated function
 [M3,x_num2] = cheb_max_3D(f3_np,sz);                         % Check the maximum value in the given region of the approximated function
 hold on; plot(x_num1,M1,'ko'); plot(x_num2,M3,'ko');
