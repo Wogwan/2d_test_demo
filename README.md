@@ -14,13 +14,15 @@ In this repo, we use
 Note that, please run *sosaddpath.m* at the beginning and Do not forget to install the Mosek Solver in advance.
 
 The final ROA with polynomial controller of the 2D system is:
+
 $$
 \begin{eqnarray}
 \begin{aligned}
-\begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \end{bmatrix} = 
-\begin{bmatrix}
--x_{1}+x_{2}+u_1\\	x_{1}^{2}x_{2}+1-\sqrt{\vert\exp(x_1)\cos(x_1)\vert}+u_2+d(x)
-\end{bmatrix},
+\begin{bmatrix} 
+  \dot{x}_1 \\ \dot{x}_2 \end{bmatrix} = 
+  \begin{bmatrix}
+    -x_{1}+x_{2}+u_1\\	x_{1}^{2}x_{2}+1-\sqrt{\vert\exp(x_1)\cos(x_1)\vert}+u_2+d(x)
+  \end{bmatrix},
 \end{aligned}
 \end{eqnarray}
 $$
