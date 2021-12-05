@@ -13,34 +13,17 @@ In this repo, we use
 
 Note that, please run *sosaddpath.m* at the beginning and Do not forget to install the Mosek Solver in advance.
 
-The final ROA with polynomial controller of the 2D system is:
-$$
-\begin{eqnarray}
-\begin{aligned}
-\begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \end{bmatrix} = 
-\begin{bmatrix}
--x_{1}+x_{2}+u_1\\	x_{1}^{2}x_{2}+1-\sqrt{\vert\exp(x_1)\cos(x_1)\vert}+u_2+d(x)
-\end{bmatrix},
-\end{aligned}
-\end{eqnarray}
-$$
+The final ROA with polynomial controller of the 2D system is
+
+![](./figure/Formula2.PNG)
 
 
 ![](./figure/demo_2D.jpg)
 
 The final ROA of the 3D demo:
-$$
-\begin{eqnarray}
-\begin{aligned}
-\begin{bmatrix} \dot{x}_1 \\ \dot{x}_2\\\dot{x}_3 \end{bmatrix} = 
-\begin{bmatrix}
--x_{1}^2-\cos{(x_{1}^2)}\sin{(x_{1})}+u_1(x)+d_1(x)\\	
--x_{2}-x_{1}^3x_{2}+u_2(x)\\
--x_{1}^2x_{3}+1-\sqrt{|\exp{(x_{1})}\cos{(x_{1})}}+u_3(x)+d_3(x)
-\end{bmatrix}.
-\end{aligned}   
-\end{eqnarray}
-$$
+
+![](./figure/Formula3.PNG)
+
 ![](./figure/demo_3D.jpg)
 
 The related files are concluded in the figure below
