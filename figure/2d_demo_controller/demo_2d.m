@@ -27,10 +27,14 @@ optimal_Lya = 0.27761530973907616592910585495702*x1 + 0.289169238729547584121348
 optimal_Lya_sub_level_with_controller = 16.18343934060665;
 B_controller_2 = 2.2792150898493392929822221049108*x1^2*x2^2 - 0.41437457553024537038055541415815*x2 - 0.592460004295849884670133178588*x1 - 0.72878550175106160402549448917853*x1*x2 + 0.32657438184821629967302669683704*x1*x2^2 - 0.12311335926509317517663077978796*x1^2*x2 + 0.38857703926226566659707373219135*x1*x2^3 + 0.065531224604085058782487749340362*x1^3*x2 - 0.27274445501183336437733828461205*x1^2 + 0.051676281625681295961438621588968*x1^3 + 0.064540293159253261934260592624923*x2^2 - 1.2575947826822169162142017739825*x1^4 + 0.051976655580885905427734883232915*x2^3 - 1.5100706411638649129258737957571*x2^4 + 104.6280122206704561449441825971;
 %%
+[~,h30]=pcontour(V1,double(sub_level_with_controller),domain1,'m'); hold on; h30.LineStyle = '-.'; h30.LineWidth = 1.4;
+[~,h32]=pcontour(V1,double(sublevel_C0),domain1,'m'); hold on; h32.LineStyle = '--'; h32.LineWidth = 1.4;
+[~,h33]=pcontour(optimal_Lya,optimal_Lya_sub_level_with_controller,domain1,'m'); h33.LineStyle = '-'; h33.LineWidth = 1.8;
+%%
 [~,h31]=pcontour(B_controller_1,0,domain1,'g'); hold on; h31.LineStyle = '-.'; h31.LineWidth = 2.5;
 [~,h34]=pcontour(B_controller_2,0,domain1,'b'); h34.LineStyle = '-'; h34.LineWidth = 2.5;
 %%
-h = legend([h22,h31,h34],{'Unsafe Regions','CBF','Optimal CBF'}, 'Interpreter','latex','location','northeast','Fontsize',12);
+h = legend([h22,h30,h32,h33,h31,h34],{'Unsafe Regions','CLF $c_0$','CLF $c^*$','Optimal CLF','CBF','Optimal CBF'}, 'Interpreter','latex','location','northeast','Fontsize',12);
 set(h,'FontName','Times New Roman','FontSize',14,'FontWeight','normal');hold on;
 set(gca,'ytick',[-10,-5,0,5,10]);
 set(gca,'xtick',[-10,-5,0,5,10]);
