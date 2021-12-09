@@ -32,7 +32,7 @@ if cm(1) == 'M' ||  cm(1)=='G'
     addpath([pwd '/utils'])
     
     % Add updates
-    addpath([pwd '/updates'])
+    %     addpath([pwd '/updates'])
     
     % Add demo_2D
     addpath([pwd '/demo_2D'])
@@ -44,7 +44,7 @@ if cm(1) == 'M' ||  cm(1)=='G'
     
 elseif cm(1) == 'P'
     set(0,'DefaultFigureWindowStyle','docked')
-%     set(0,'DefaultFigureWindowStyle','normal')
+    %     set(0,'DefaultFigureWindowStyle','normal')
     % Add chebfun-master
     addpath([pwd '/toolbox/chebfun-master']);
     
@@ -70,7 +70,7 @@ elseif cm(1) == 'P'
     addpath([pwd '/utils'])
     
     % Add updates
-    addpath([pwd '/updates'])
+    %     addpath([pwd '/updates'])
     
     % Add demo_2D
     addpath([pwd '/demo_2D'])
