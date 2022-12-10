@@ -2,6 +2,7 @@
 clear;
 dbstop if error
 format long
+rng(1)
 
 %%
 syms x1 x2
@@ -14,36 +15,38 @@ sn = noise*[0 1]';                                        % Observation noise (d
 tic
 sz = 2;
 deg = 4;
-poly_deg = 4;
+poly_deg = 6;
 it = 800;
+g = 10;
+l = 10;
+E = 2;
 
 %% The first dimension
-f1_p = -x1+x2;
+f1_p = x2;
 f1_np = 0;
 f1 = f1_p + f1_np;
-f1_appro = f1;
+
 %% The second dimension
-f2_p = x1^2*x2;
-f2_np = 1-sqrt(sqrt((exp(x1)*cos(x1))^2));
+f2_p = 0;
+f2_np = -g/l*sin(x1);
 f2 = f2_p + f2_np;
 %%
-f2_appro_data = sos_cheb_controller(deg,sz);
-[coe_cheb,fac_cheb] = coeffs(f2_appro_data);
-f2_appro = f2_appro_data + f2_p;
-rho = 1.9;                                                % Obtain rho value of 4-th order from cheb_rho.m
-[M,x_num] = cheb_max(f2_np,sz);   
-d = 4*M*rho.^(-deg)/(rho-1.0);                            % Upper bound
-%% 
-f_input = [f1;f2_appro]+[0;d];  
-% the hyper-parameters in f_input is passing in dyn_controller_paper_1d.m
+% f2_appro_data = sos_cheb_controller(deg,sz);
+% [coe_cheb,fac_cheb] = coeffs(f2_appro_data);
+% f2_appro = f2_appro_data + f2_p;
+% % rho = 1.9;                                                % Obtain rho value of 4-th order from cheb_rho.m
+% % [M,x_num] = cheb_max(f2_np,sz);   
+% % d = 4*M*rho.^(-deg)/(rho-1.0);                            % Upper bound
+% f_input = [f1;f2_appro];   % the hyper-parameters in f_input is passing in dyn_controller_paper_1d.m
 
 %% Set parameters
 dXtr_0 = [];                                              % Collecting training model for learning the difference in real and approximated dynamic systems
 Xtr_0 = [];                                               % Collecting the Xtr_1 = [x1 x2] data by ode45 with setting
 x0tr = [-0.05 -0.05; 0.05 -0.05];
 ntr = floor(Ttr/dttr);
-E = 2;                                                    % Dimensions of the state space
-dynt = @(t,x) dyn_controller_paper_1d(0,x,coe_cheb);                                 % dynamical system to be learned
+% dynt = @(t,x) dyn_controller_paper_1d(0,x,coe_cheb);                                 % dynamical system to be learned
+
+dynt = @(t,x) dyn_controller_paper_1d(0,x);                                 % dynamical system to be learned
 dyn = @(x) dynt(0,x);                                     % time independent handle to dynamics
 
 % Generate Training data
@@ -53,18 +56,18 @@ for i = 1:length(x0tr(1,:))
         x_initial = xtr(:,1:end-1)';
         dtr_initial = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)'; 
-        noise_over_measurement = 0;
+        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)'; 
+%         noise_over_measurement = 0;
         real_dtr = dtr_initial + noise_over_measurement;
-        %         real_dtr = dtr;
     elseif i == 2
         [t,xtr] = ode45(dynt,0:dttr:Ttr,x0tr(:,i)'); xtr = xtr';
         xtest_initial = xtr(:,1:end-1)';
         dtr = (xtr(:,2:end)-xtr(:,1:end-1))/dttr;
         %%
-%         noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
-        noise_over_measurement = 0;
+        noise_over_measurement = mvnrnd(zeros(E,1),diag(sn.^2),ntr)';                                                 % Obtain the xdot not directly, but with approximated differential method
+
         real_dtr_test = dtr + noise_over_measurement;
+        %         noise_over_measurement = 0;
         %         real_dtr = dtr;
     end
 end
@@ -111,6 +114,7 @@ end
 %%
 figure(3);clf;hold on;
 % f2_learn = f2_appro + dxdt2 + d;
+% f2_learn = f2_appro + dxdt2 + d;
 f2_learn = dxdt2;
 syms x1 x2;
 y2_learn = double(subs(f2_learn,{x1,x2},{xtest_initial(:,1),xtest_initial(:,2)}));
@@ -133,7 +137,7 @@ set(gca,'ztick',[0,0.05,0.1,0.15]);
 set(gca,'Box','on');
 ax = gca;
 ax.LineWidth = 1.2;
-xlim([-0.3 0.3]); ylim([-0.3 0.3]); zlim([-0 0.12]);hold on;
+% xlim([-0.3 0]); ylim([-0.3 0]); zlim([-0 0.12]);hold on;
 set(gca,'FontSize',21,'Fontname','Times');
 
 % magnify
