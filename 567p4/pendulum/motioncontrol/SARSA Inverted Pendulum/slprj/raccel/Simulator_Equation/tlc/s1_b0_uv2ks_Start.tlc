@@ -1,0 +1,19 @@
+%implements s1_b0_uv2ks_Start "C"
+
+%function Start(block, system) Output
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%assign tlcSetupRuntimeResourcesFcnOfS1B1 = OpaqueTLCBlockFcn("SetupRuntimeResources", 1, 1, 0, 0, 0)
+%<tlcSetupRuntimeResourcesFcnOfS1B1>\
+%closefile cfgTxt
+%<cfgTxt>
+%endfunction
+%function StartFcnProtoType(block, system) Output
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Start(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 0, fcnProtoType)>
+%endfunction

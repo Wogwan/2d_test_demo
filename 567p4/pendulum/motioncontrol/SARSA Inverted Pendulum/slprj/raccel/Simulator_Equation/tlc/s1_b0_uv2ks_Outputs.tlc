@@ -1,0 +1,93 @@
+%implements s1_b0_uv2ks_Outputs "C"
+
+%function OutputsForTID(block, system, tid) Output
+%if tid == 0
+%assign ::GlobalCurrentTID = 0
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%assign tlcOutputsFcnOfS1B1_1 = OpaqueTLCBlockFcn("Outputs", 1, 1, 0, 2, 0)
+%assign tlcOutputsFcnOfS1B1 = OpaqueTLCBlockFcn("Outputs", 1, 1, 0, 2, 1)
+%assign tlcVarSampleHit_0 = LibIsSampleHit(0)
+%<SLibGetRootInportsFromFile(system, TLC_FALSE)>
+%<SLibGenerateExtModeOutput(system)>
+%if tlcVarSampleHit_0 != "1"
+if (%<tlcVarSampleHit_0>) {
+    rtB.kzz01cc0xb = rtX.fywosqbm4s;
+    rtB.itdxkh2qkz = rtX.kefvnhb5yt;
+    if (%<(SLibCGIRIsSampleHit(1, 1))>) {
+%<tlcOutputsFcnOfS1B1_1>\
+    }
+    rtB.e3ar2ampj0 = (-0.01 * rtB.itdxkh2qkz + 9.8 * muDoubleScalarSin(rtB.kzz01cc0xb)) + rtB.oy3ct2flg1;
+}
+%endif
+%if tlcVarSampleHit_0 == "1"
+rtB.kzz01cc0xb = rtX.fywosqbm4s;
+rtB.itdxkh2qkz = rtX.kefvnhb5yt;
+if (%<(SLibCGIRIsSampleHit(1, 1))>) {
+%<tlcOutputsFcnOfS1B1>\
+}
+rtB.e3ar2ampj0 = (-0.01 * rtB.itdxkh2qkz + 9.8 * muDoubleScalarSin(rtB.kzz01cc0xb)) + rtB.oy3ct2flg1;
+%endif
+%<SLibInsertSolverResetCode()>\
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedOutput0LocalVars", localVarDecl)>
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 2
+%assign ::GlobalCurrentTID = 2
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%assign tlcOutputsFcnOfS1B2 = OpaqueTLCBlockFcn("Outputs", 1, 2, 0, 3, 0)
+%<tlcOutputsFcnOfS1B2>\
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedOutput2LocalVars", localVarDecl)>
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 3
+%assign ::GlobalCurrentTID = 3
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+rtB.oy3ct2flg1 = rtP.SliderGain_gain * rtP.Constant_Value;
+%closefile cfgTxt
+%<cfgTxt>
+%<LibSetSystemField(system, "CachedOutput3LocalVars", localVarDecl)>
+%assign ::GlobalCurrentTID = []
+%endif
+%endfunction
+%function OutputsFcnProtoTypeForTID(block, system, tid) Output
+%if tid == 0
+%assign ::GlobalCurrentTID = 0
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Outputs0(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 2, fcnProtoType)>
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 2
+%assign ::GlobalCurrentTID = 2
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Outputs1(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 3, fcnProtoType)>
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 3
+%assign ::GlobalCurrentTID = 3
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Outputs2(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 4, fcnProtoType)>
+%assign ::GlobalCurrentTID = []
+%endif
+%endfunction

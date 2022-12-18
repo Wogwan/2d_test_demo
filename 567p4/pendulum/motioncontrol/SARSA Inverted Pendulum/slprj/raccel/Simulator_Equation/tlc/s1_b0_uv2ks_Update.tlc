@@ -1,0 +1,41 @@
+%implements s1_b0_uv2ks_Update "C"
+
+%function UpdateForTID(block, system, tid) Output
+%if tid == 0
+%assign ::GlobalCurrentTID = 0
+%assign cfgTxt = ""
+%openfile cfgTxt
+%assign localVarDecl = ""
+%closefile cfgTxt
+%<cfgTxt>
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 2
+%assign ::GlobalCurrentTID = 2
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 3
+%assign ::GlobalCurrentTID = 3
+%assign ::GlobalCurrentTID = []
+%endif
+%endfunction
+%function UpdateFcnProtoTypeForTID(block, system, tid) Output
+%if tid == 0
+%assign ::GlobalCurrentTID = 0
+%assign fcnProtoType = ""
+%openfile fcnProtoType
+static void Update0(\
+%assign comma = ""
+%closefile fcnProtoType
+%<SLibCG_SetFcnProtoType(0, 5, fcnProtoType)>
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 2
+%assign ::GlobalCurrentTID = 2
+%assign ::GlobalCurrentTID = []
+%endif
+%if tid == 3
+%assign ::GlobalCurrentTID = 3
+%assign ::GlobalCurrentTID = []
+%endif
+%endfunction
